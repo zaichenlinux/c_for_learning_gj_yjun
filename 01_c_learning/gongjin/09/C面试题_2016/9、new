@@ -1,0 +1,330 @@
+1、有以下程序
+struct ord { 
+	int x,y;
+} dt[2] = {1,2,3,4}; 
+
+int main(int argc, char *argv[])
+{
+	struct ord *p=dt; 
+	printf("%d,",++(p->x));  //(++p)->x
+	printf("%d\n",++(p->y)); 
+
+    return 0;
+} 
+程序运行后的输出结果是()
+A)1,2 
+B)4,1 
+C)3,4 
+D)2,3
+
+
+2、
+#include <stdlib.h>
+#include <stdio.h>
+int main(void)
+{
+    static int i = 5;
+    if(--i){
+         main();
+         printf("%d",i);
+    }
+    return 1;
+}
+
+输出结果：0000
+
+原因分析：该问题涉及到递归和静态变量。Static变量i在每次调用时，并不会进行重新赋值，存储在数据段，所有的调用共享同一个i. 
+
+
+
+3、
+#include <stdio.h>
+#include <stdlib.h>
+int main(void)
+{
+    int i = 0;
+    for(;i++;printf("%d",i));
+    printf ("i = %d\n",i);
+    return 0;
+}
+
+输出结果：i=1
+
+原因分析：在进入循环后，判断条件为i++时，这时候的i为0，不成立，所以不会执行printf("%d",i)，所以输出结果为i=1
+
+
+4、读程序段，回答问题
+（1）
+int main(int argc,char *argv[])
+{
+	int c=9,d=0;
+	c=c++%5+5; //c = (c%=5,c++,c+=5);
+	d=c;
+	printf("d=%d\n",d);
+	return 0;
+}
+a) 写出程序输出
+b) 在一个可移植的系统中这种表达式是否存在风险？why?
+
+（2）
+#include "stdio.h"
+int a=0;
+int b;
+static char c;
+int main(int argc,char *argv[])
+{
+	char d=4;
+	static short e;
+	a++;
+	b=100;
+	c=(char)++a;
+	e=(++d)++;
+	printf("a=%d, b=%d, c=%d, d= %d, e=%d",a,b,c,d,e);
+	return 0;
+}
+a) 写出程序输出
+b) 编译器如何安排各个变量(a,b,c,d)在内存中的布局(eg. stack,heap,data section,bss section),最好用图形方式描述。
+
+
+5、下面程序应该输出多少？
+char *c[] = { "ENTER", "NEW", "POINT", "FIRST" };   
+char **cp[] = { c+3, c+2, c+1, c };   
+char ***cpp = cp;   
+  
+int main(void)  
+{   
+    printf("%s", **++cpp);   
+    printf("%s", *--*++cpp+3);   
+    printf("%s", *cpp[-2]+3);   
+    printf("%s\n", cpp[-1][-1]+1);   
+    return 0;  
+}  
+
+
+
+6、
+题目：完成函数int print_all(int k)，返回小于该参数K的所有整数。要求整个程序不能用if、if-else、for、while、do-while、?:、goto、switch。
+
+既然不让用循环，那么初步考虑使用递归来实现循环。
+既然不让用条件，那么初步考虑用逻辑表达式的不完全执行来实现条件终止。
+
+试以C语言为例，代码如下：
+#include <stdio.h>
+int print_all(int k)
+{
+ 	printf("%d\n",k-1);    //输出k-1的值
+ 	return (k-1==0||print_all(k-1));    //当k-1==0时，逻辑表达式不完全执行，跳出递归
+}
+main()
+{
+	print_all(8);
+}
+
+
+7、单链表（非循环）倒数第4个元素？
+思路：让第一个元素先走四步，然后两个游标指针一起走。
+node *Get_Node(node *head)
+{
+	int i;
+	node *first = head;
+	node *back  = head;
+	
+	for(i=0; i<4; i++) {
+		if(first->next == NULL)
+			printf("Node less than four!\n");
+		first = first->next;
+	}
+	while(first != NULL) {
+		first = first->next;
+		back = back->next;
+	}
+	return back;
+}
+
+8、如何找出链表中间元素？
+思路：让前一个指针每次走两步，后一个指针每次走一步。
+node *Get_middle_node(node *head)
+{
+	node *first = head;
+	node *back = head;
+	
+	while(first != NULL) {
+		first = first->next->next;
+		back = back->next;
+	}
+	return back;
+}
+
+
+9、字符串循环左移
+//循环左移，库函数实现 
+char *str_rev1(char *str, int bit)
+{
+	int len = strlen(str);
+	int n = bit%len;
+	char temp[128] = "";
+	
+	strcpy(temp, str);
+	strncpy(str, str+n, len-n);
+	str[len-n] = '\0';
+	strncat(str, temp, n);
+	
+	return str;
+}
+
+
+//循环左移，不用库函数
+char *str_rev2(char *str, int bit)
+{
+	char temp_str[128];
+	int i,j;
+	int str_len = strlen(str);
+	bit = bit%str_len;
+	
+	for(i=0; i<bit; i++) {
+		*(temp_str+i) = *(str+i);
+	}
+	
+	
+	for(i=0; i<str_len-bit; i++) {
+		*(str+i) = *(str+bit+i);
+	}
+	
+	
+	for(j=0; j<bit; j++) {
+		*(str+i+j) = *(temp_str+j);
+	}
+	return str;
+}
+
+
+10、给定某个整数n(0-10000),求小于等于n的整数中与7有关的整数
+（被7整除或者数字中含有7，只要求求出个数，不用列出每一个数字）
+int fun(int data)
+{
+	int count=0;
+	int i;
+	int first,second,third,four;
+	
+	for(i=1; i<=data; i++) {
+		first  = i%10;
+		second = i/10%10;
+		third  = i/100%10;
+		four   = i/1000;
+		if ((i%7 == 0) || (first == 7) || (second == 7) || (third == 7) || (four == 7)) {
+			//printf("qian bai shi ge is:%d %d %d %d\n", four, third, second, first);
+			count++;
+		}
+	}
+	return count;
+}
+
+
+11、将字符串中每个单词的第一个字符变为大写？
+char *fun(char *str)
+{
+	int i, flag = -1;
+	int len = strlen(str);
+	
+	if(islower(str[0])){
+		str[0] = toupper(str[0]);
+	}
+	
+	for(i=1; i<len; i++){
+		if(str[i]==' ' && islower(str[i+1])){
+			str[i+1] = toupper(str[i+1]);
+		}
+	}
+	return str;
+}
+
+
+12、统计出具有n个元素的一维整数数组中大于等于所有元素平均值的元素个数。验证该函数？
+
+int fun(int a[], int size)
+{
+	int i=0;
+	float sum=0, aver=0;
+	int count=0; 
+	
+	for(i=0; i<size; i++)
+		sum +=a[i];
+	aver = sum/size;
+	
+	for(i=0; i<size; i++){
+	if(a[i] > aver)
+		count++;
+	}
+	printf("The aver is %f\n", aver);
+	
+	return count;
+}
+
+
+13、一个长度为n的数组a[0],a[1],...,a[n-1]。现在更新数组的名个元素，即a[0]变为a[1]到a[n-1]的积
+a[1]变为a[0]和a[2]到a[n-1]的积，...，a[n-1]为a[0]到a[n-2]的积。
+程序要求：要求具有线性复杂度，不能使用除法运算符。
+
+思路是思想跟这个一样，用两个数组b、c
+b[i] = a[0] *... * a[i - 1]，c[i] = a[i + 1] *...*a[n] ，时间复杂度为O（2n）
+最后a[i] = b[i]*c[i]，我在这里没用c数组，少用c【i】数组的话，程序写起来就不是太好理解，其实是一个道理。
+int main(void)  
+{  
+    int i, a[]={1,2,3,4};  
+    int temp, n=4;  
+    int *b = new int[n];  
+    b[0] = a[0];  
+  
+    for(i = 1; i < n-1; i++) {  
+        b[i]=b[i-1]*a[i];  
+    }  
+    b[n-1] = a[n-1];  
+    for(i = n-1; i >= 0; i--) {  
+        temp = a[i];  
+        if(i == n-1)  
+            a[i] = b[i-1];  
+        if(i>0 && i<n-1) {  
+            a[i] = b[i-1]*b[i+1];  
+            b[i] = temp*b[i+1];  
+        }  
+        if(i == 0)  
+            a[0] = b[1];  
+    }  
+  
+    //输出最后的a元素  
+    for(i = 0; i < n; i++) {  
+        printf("%d  ",a[i]);  
+    }  
+    return 0;  
+}  
+    
+    
+14、求1000！的未尾有几个0（用素数相乘的方法来做，如72=2*2*2*3*3）;
+
+求出1->1000里,能被5整除的数的个数n1,能被25整除的数的个数n2,能被125整除的数的个数n3, 能被625整除的数的个数n4.
+
+1000!末尾的零的个数=n1+n2+n3+n4;
+
+#define NUM 1000
+int find5(int num)
+{
+	int ret=0;
+	while(num%5==0){
+		num/=5;
+		ret++;
+	}
+	return ret;
+}
+
+int main()
+{
+	int result=0;
+	int i;
+	for(i=5;i<=NUM;i+=5){
+		result+=find5(i);
+	}
+	printf(" the total zero number is %d\n",result);
+	return 0;
+}
+
+

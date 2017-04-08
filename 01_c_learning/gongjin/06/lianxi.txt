@@ -1,0 +1,113 @@
+1.输出的结果
+#include <stdio.h>
+char *getMemory(void)
+{
+    char p[] = "hello world";
+    return p;
+}
+
+int main(void)
+{
+    char *str = NULL;
+    str = getMemory();
+    printf("%c\n", *str);
+    return 0;
+}
+
+
+2.下面代码有什么问题
+void test25(int *p) 
+{
+    p = (int *)malloc(10);
+}
+
+int main()
+{
+    int *p; 
+    test25(p);
+    *p = 10;  
+    printf("p = %d\n", *p);
+    return 0;
+}
+
+3.
+下面一道面试题，看一下指针与数组的区别。
+char ch[12]; 
+char *p1, *p2;
+char **pp;
+p1 = ch;
+pp = &ch;
+p2 = *pp;
+问p1和p2是否相同,找出其中的不妥之处。
+
+4.
+下面的程序运行时哪里会出现错误：32位下
+struct S
+{
+    int i;
+    int * p;
+};
+
+int main()
+{
+    struct S s;
+    int * p = &s.i;
+    p[0] = 4;
+    p[1] = 3;
+    s.p = p;
+    s.p[1] = 1;
+    s.p[0] = 2;
+
+    return 0;
+}
+
+5、要对绝对地址0x100000赋值0x1234,如何赋值？;那么要是想让程序跳转到绝对>地址是0x100000去执行，应该怎么做？
+
+
+6.
+    char str[20]="Good morning.Ye";
+    int* p=(int*)str;
+    p[0]=0x61626364; 
+    p[1]=0x31323334; 
+    p[2]=0x41424344;
+    printf("%s\n", str);
+ACSII码对应的值  97 = 'a'   49 = '1'  65 = 'A'
+
+
+7.
+int main()
+{
+    int a[3];
+    a[0] = 0;
+    a[1] = 1;
+    a[2] = 2;
+    int *p, *q;
+    p = a;
+    q = &a[2]; 
+    int c = a[q - p]; 
+    printf("value c = %d\n", c++);
+    printf("value c = %d\n", c);
+    return 0;
+}
+
+
+8.该函数定义一个通用类型的指针p，只能通过该指针p实现参数的打印。
+已知
+a = 0x7fff9e4a1b7c
+c = 0x7fff9e4a1b70
+b = 0x7fff9e4a1b78
+f = 0x7fff9e4a1b6c
+int test(int a, char *c, char b, float f)
+{
+    void *p = &a; 
+    printf("a = %d\n", [1]);
+    printf("c = %s\n", [2]);
+    printf("b = %c\n", [3]);
+    printf("f = %f\n", [4]);
+}
+int main()
+{
+    test(10, "hello", 'c', 1.2);
+}
+
+

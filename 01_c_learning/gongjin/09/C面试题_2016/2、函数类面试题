@@ -1,0 +1,520 @@
+
+1、函数调用语句 func((a1,a2,a3),(a4,a5)); 的参数个数是____。
+a. 2         
+b. 5             
+c. 1             
+d. 调用方式不合法
+
+
+2、下面的程序会有什么样的输出呢？
+#include <stdio.h>
+int main()
+{
+    int i=43;
+    printf("%d\n",printf("%d",printf("%d",i)));
+    return 0;
+}
+
+
+
+3、输出结果
+size_t a = 'B';
+static void test25()
+{
+	printf("a=%c\n", a);
+	size_t a = 10;
+	
+	{
+		char a = 'A';  
+		printf("%c\n", a);
+	}
+	
+	printf("%d\n", a);
+}
+
+
+4、输出结果
+static void foo_a(a, b)
+size_t a, b;
+{
+	printf("%d %d\n", a, b);
+}
+
+static void foo_b(a, b)
+size_t a;
+char *b;
+{
+	printf("%d %s\n", a, b);
+}
+
+static void test24()
+{
+	foo_a(10, 20);
+	foo_b(30, "hello");
+}
+
+
+5、下面两个函数是否具有相同的原型？
+int foobar(void);
+int foobar(); 
+下面这两段程序将会帮你找到上题的答案
+程序1
+#include <stdio.h>
+void foobar1(void)
+{
+    printf("In foobar1\n");
+}
+void foobar2()
+{
+    printf("In foobar2\n");
+}
+int main()
+{
+    char ch = 'a';
+    foobar1();
+    foobar2(33, ch);
+    return 0;
+}
+
+程序2
+#include <stdio.h>
+void foobar1(void)
+{
+    printf("In foobar1\n");
+}
+void foobar2()
+{
+    printf("In foobar2\n");
+}
+int main()
+{
+    char ch = 'a';
+    foobar1(33,ch);
+    foobar2();
+    return 0;
+}
+
+
+6、下面的两个文件可以编译通过吗？如果可以通过，结果是什么？
+
+file1.c
+	int arr[80];
+
+file2.c
+	extern int *arr;
+	int main()  
+	{      
+	    arr[1] = 100;
+	    printf("%d\n", arr[1]);
+	    return 0;  
+	}
+
+
+
+7、下面的程序并不见得会输出 hello-std-out，你知道为什么吗？
+
+#include <stdio.h>
+#include <unistd.h>
+int main()  
+{
+    while(1)
+    {
+        fprintf(stdout,"hello-std-out");
+        fprintf(stderr,"hello-std-err");
+        sleep(1);
+    }
+    return 0;
+}
+
+
+
+
+8、存储程序的heap区与stack区的差别。
+
+
+
+9、描述内存分配方式以及它们的区别?
+
+
+
+10、堆栈溢出一般是由什么原因导致的？
+ 
+
+
+11、内存泄露和内存溢出是什么？他们之间的区别是什么？（新浪公司 笔试题）
+
+
+        
+12、#include <filename.h> 和 #include “filename.h” 有什么区别？
+
+
+
+13、头文件中的 #ifndef/#define/#endif 做什么用？
+
+
+
+14、如何引用一个已经定义过的全局变量？
+
+
+
+15、对于一个频繁使用的短小函数,在C语言中应用什么实现,在C++中应用什么实现?
+
+
+16、表达式 strcmp( "3.14", "3.278" ) 的结果是什么？     
+
+
+17、不调用C++/C的字符串库函数,请编写一个标准strcpy函数。
+void strcpy( char *strDest, char *strSrc )
+{
+　 while( (*strDest++ = * strSrc++) != '\0' );
+}
+
+4分
+void strcpy( char *strDest, const char *strSrc ) 
+//将源字符串加const，表明其为输入参数，加2分 
+{
+　 while( (*strDest++ = * strSrc++) != '\0' );
+}
+　　
+7分
+void strcpy(char *strDest, const char *strSrc) 
+{
+　//对源地址和目的地址加非0断言，加3分 
+　assert( (strDest != NULL) && (strSrc != NULL) );
+　while( (*strDest++ = * strSrc++) != '\0' );
+}
+　　
+10分
+//为了实现链式操作，将目的地址返回，加3分！
+char * strcpy( char *strDest, const char *strSrc ) 
+{
+    assert( (strDest != NULL) && (strSrc != NULL) );
+    char *address = strDest; 
+    while(*strDest++ = *strSrc++); 
+        return address;
+}
+	
+
+
+18、写一个函数返回1+2+3+…+n的值（假定结果不会超过长整型变量的范围） 
+
+
+19、为什么标准头文件都有类似以下的结构？
+#ifndef __INCvxWorksh
+#define __INCvxWorksh
+#ifdef __cplusplus
+extern “C” {
+#endif
+/*
+	......
+*/
+#ifdef __cplusplus
+}
+#endif
+#endif /* __INCvxWorksh */
+
+        
+        
+20、实现多参函数
+大家对C语言中最熟悉的函数就是“printf”吧？这是在HelloWorld例子里就见过了。那么你真正了解它吗？请设计一个类似于printf的函数的多参函数int Add(…);这个函数的功能：
+例如
+Add(4, 5, 0); 返回9
+Add(4, 5, 6, 0);返回15…………
+可以输入大于0个参数(参数类型为整型)。
+va_list
+va_start
+va_arg
+va_end
+
+
+21、此题考查的是C的变长参数
+5   0101 & 0100 = 0100
+0100 & 0011 
+#include<stdarg.h>
+int ripple(int, ...);
+main() 
+{
+  int num = ripple(3,5,7);
+  printf(" %d", num);
+}
+int ripple(int n, ...) 
+{
+  int i, j, k; 
+  va_list p;
+  k = 0;
+  j = 1;
+  va_start(p, n);    
+  for (; j<n; ++j) { 
+    i =  va_arg(p, int); 
+    for (; i; i &= i-1) 
+      ++k;      
+  }  
+  va_end(p);                       
+  return k;                
+}                          
+                                      
+这段程序的输出是:
+(a) 7
+(b) 6
+(c) 5
+(d) 3
+
+
+
+
+22、请查看下几段代码,指出哪几段代码能输出”hxy” 
+a) char * func() 
+{
+ 	char *p=malloc(8);
+ 	strcpy(p,"hxy");
+	return p;
+}
+  int main()
+{
+  	char *buf=func();
+	printf("%s",buf);
+	free(buf);
+}
+
+b) void func(char * p)
+{
+  	p = malloc(8);
+    strcpy(p,"hxy");      
+}
+
+  int main()
+{
+	char * buf;
+	func(buf);
+	printf("%s",buf);
+	free(buf);
+}
+
+c) void func(char ** p)
+{
+  	*p = malloc(8);
+    strcpy(*p,"hxy");      
+}
+
+  int main()
+{
+	char * buf;
+	func(&buf);
+	printf("%s",buf);
+	free(buf);
+}
+
+d) void func(char * p)
+{
+  	if(p)
+       	strcpy(p,"hxy");      
+}
+
+  int main()
+{
+	char buf[8];
+	func(buf);
+	printf(“%s”,buf);
+}
+
+//char &p = buf; 
+e) void func(char &p)
+{
+  	if(p)
+       	strcpy(*p,”hxy”);      
+}
+
+  int main()
+{
+	char buf[8];
+	func(buf);
+	printf(“%s”,buf);
+}
+
+
+
+23、找错题
+
+　　试题1：
+void test1()
+{
+    char string[10];
+    char * str1 = "0123456789";
+    strcpy(string, str1);   　
+}
+
+
+　　试题2：
+void test2()
+{
+　	char string[10], str1[10];
+　	int i;
+	for(i=0; i<10; i++){
+         str1[i] = 'a';
+　	}
+　	strcpy( string, str1 );
+　	printf("%s", string);
+}
+
+
+　　试题3：
+void test3(char* str1)
+{
+　	char string[10];
+　	if( strlen( str1 ) <= 10 ) {
+　　		strcpy( string, str1 );
+　	}
+   
+}
+
+　　　　
+	试题4：
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void getmemory(char *p)
+{
+	p=(char *)malloc(100);
+	strcpy(p,"hello world");
+}
+
+int main( )
+{
+	char *str=NULL;
+	getmemory(str);
+	printf("%s\n",str);
+	free(str);
+	return 0;
+}	
+
+
+	试题5：请指出下列程序中的错误并且修改
+void GetMemory(char *p)
+{
+	p=(char *)malloc(100);
+}
+void Test( void ) 
+{
+	char *str = NULL;
+	GetMemory( str ); 
+	strcpy( str, "hello world" );
+	printf( "%s\n", str );
+}
+
+
+　　　
+　　试题6：下列程序执行后的结果是什么？【美国某著名计算机嵌入式公司2005年9月面试题】
+#include <stdio.h>
+char *getMemory(void)
+{
+	char p[] = "hello world";
+	return p;
+}
+
+int main(void)
+{
+	char *str = NULL;
+	str = getMemory();
+	printf("%s\n", str);
+	return 0;
+}
+
+	
+　　试题7：
+void GetMemory( char **p, int num )
+{
+	*p = (char *) malloc( num );
+}
+
+void Test( void )
+{
+	char *str = NULL;
+	GetMemory( &str, 100 );
+	strcpy( str, "hello" ); 
+	printf( "%s\n", str ); 
+}
+
+    
+	试题8：
+void Test( void )
+{
+	char *str = (char *)malloc( 100 );
+	strcpy( str, "hello" );
+	free( str ); 
+	
+	printf("%s\n", str);
+}
+
+　　
+	试题9: 请问运行Test函数会有什么样的结果？
+int Test( )
+{
+	char *str = (char *)malloc(100);
+	strcpy(str, "hello");
+	free(str);
+	if (str != NULL) {
+		strcpy(str, "world");
+		printf("%s\n", str);
+	}
+
+	return 0;
+}
+　
+　　
+	试题10: 分析下面的程序：
+void GetMemory(char **p,int num)
+{
+    *p=(char *)malloc(num); 
+}        
+int main()
+{
+    char *str=NULL;    
+    GetMemory(&str,100); 
+    strcpy(str,"hello");
+    free(str);
+    if(str!=NULL) {
+        strcpy(str,"world");
+    }    
+    printf("\n str is %s\n",str);
+}    
+问输出结果是什么？
+
+
+
+
+24、动态内存分配（Dynamic memory allocation） 
+尽管不像非嵌入式计算机那么常见，嵌入式系统还是有从堆（heap）中动态分配内存的过程的。那么嵌入式系统中，动态分配内存可能发生的问题是什么？这里，我期望应试者能提到内存碎片，碎片收集的问题，变量的持行时间等等。这个主题已经在ESP杂志中被广泛地讨论过了（主要是 P.J. Plauger, 他的解释远远超过我这里能提到的任何解释），所有回过头看一下这些杂志吧！让应试者进入一种虚假的安全感觉后，我拿出这么一个小节目：下面的代码片段的输出是什么，为什么？
+
+char *ptr;
+if ((ptr = (char *)malloc(0)) == NULL) 
+	puts("Got a null pointer");
+else
+	puts("Got a valid pointer");
+
+
+
+25、下面调用的三个函数有问题吗？如果有，是什么问题？
+static int *foo_1()
+{
+	int x = 10; 
+	return &x;
+}
+static int *foo_2()
+{
+	int *ptr;
+	*ptr = 10;
+	return ptr;
+}
+static int *foo_3()
+{
+	int *ptr = (int *)malloc(sizeof *ptr);
+	return ptr;
+}
+static void test26()
+{
+	foo_1();
+//	foo_2();
+//	foo_3();
+}
+
+

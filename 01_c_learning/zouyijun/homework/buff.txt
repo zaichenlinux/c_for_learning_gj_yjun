@@ -1,0 +1,5 @@
+/usr/include/_G_config.h:#define _G_BUFSIZ 8192
+/usr/include/libio.h:#define _IO_BUFSIZ _G_BUFSIZ
+/usr/include/stdio.h:#ifndef BUFSIZ
+/usr/include/stdio.h:# define BUFSIZ _IO_BUFSIZ
+/usr/include/stdio.h:   Else make it use buffer BUF, of size BUFSIZ.  */

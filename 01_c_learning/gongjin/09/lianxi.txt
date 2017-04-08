@@ -1,0 +1,97 @@
+1
+求下面函数的返回值，假定输入x = 9999。
+int func(x)
+{
+    int count = 0;
+    while(x) {
+        count++;
+        x = x&(x-1);//统计二进制中1的个数
+    }   
+    return count;    
+}  
+
+2.FiveTimes 把参数乘以5 ,代码有什么问题
+#include <stdio.h>
+#define PrintInt(expr) printf("%s : %d\n",#expr,(expr))
+int FiveTimes(int a)
+{
+    int t;
+    t = a << 2 + a;  //加的优先级高于位移运算符
+    return t;
+}
+int main()
+{
+    int a = 1, b = 2, c = 3;
+    PrintInt(FiveTimes(a));
+    PrintInt(FiveTimes(b));
+    PrintInt(FiveTimes(c));
+    return 0;
+}
+
+
+
+3.写一个函数判断
+如何判别一个数是unsigned。
+
+4、 下面的代码输出是什么，为什么？ （中国台湾某著名CPU生产公司2005年面试题）
+void foo(void)
+{
+    unsigned int a = 6;
+    int b = -20;//负数 最高位表示
+    (a+b > 6) ? printf("> 6") : printf("<= 6");
+}
+//
+
+5、下面这段程序的输出是什么
+#include <stdio.h>
+int main()
+{
+     int a=10;
+     switch(a)
+    {
+        case '1':
+            printf(”ONE\n”);
+            break;
+        case '2':
+            printf(”TWO\n”);
+            break;
+        defau1t://defau1t
+             printf("NONE\n");
+    ｝
+    return 0;
+}
+
+6.下面这个函数返回值是什么？//
+int x = 5;
+int f() 
+{
+    int x = 3;
+    {
+        extern int x;//先找外面的x
+        return x;
+    }   
+}
+
+7.
+有以下表达式：
+    int a=248, b=4;
+    int const c=21;
+    const int *d=&a;
+    int *const e=&b;
+    int const * const f = &a;
+请问下列表达式哪些会被编译器禁止？为什么？
+    *c = 32;
+    d = &b;
+    *d = 43;
+    e = 34;
+    e = &a;
+    f = 0x321f;
+
+
+8、下面的程序输出的结果是什么？为什么？//有可能是一个随机数
+int main(void)
+{
+    char aa[10];
+    printf("%d",strlen(aa));
+}
+

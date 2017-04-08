@@ -1,0 +1,899 @@
+
+
+1、不能做switch()的表达式的类型是：
+答：switch的表达式不能为实型。
+
+
+
+2、下列各个错误中，哪一个不属于编译错误
+A.改变 x 原值 3 为 5 ，写作“ x==5;”
+B.花括号不配对
+C.复合语句中的最后一条语句后未加分号
+D.变量有引用、无定义 //举例：extern a; //这里仅仅是一个声明，编译器不会为其开辟空间(a在任何文件中未定义)
+参考答案：AD
+
+
+
+3、下面是C语言中两种if语句判断方式。请问哪种写法更好？为什么？
+ int n;
+ if (n == 10) // 第一种判断方式
+ if (10 == n) // 第二种判断方式
+如果少了个=号,编译时就会报错,减少了出错的可能行,可以检测出是否少了=
+
+
+
+4、We have piece of code, which one do yo prefer, and tell why. （美国某著名计算机嵌入式公司2005年10月面试题）
+写法1： 
+for(i=0;i<8;i++) { 
+	x = i+Y+J*7; 
+	printf("%d",x); 
+} 
+写法2： 
+S=Y+J*7; 
+for(i=0;i<8;i++) { 
+	printf("%d",i+S); 
+}
+2更好一些，少了8次的运算
+
+
+5、下面两段程序有区别吗？运行结果一样吗？ //此题不是太好，对于栈内先后声明的多个变量，ubuntu下和redhat下安排顺序不太一致。 
+【1】
+main()
+{
+	int loop=1;
+	int arr[10];
+	int i = 0;
+	while(loop<5) {
+		for(;i<=10;i++){
+		   arr[i]=1;
+		}
+		loop++;
+	}
+}
+【2】
+main()
+{
+	int loop=1;
+	int arr[10];
+	int i = 0;
+	while(loop<5) {
+		for(i = 0;i<=10;i++) {
+		   arr[i]=1;
+		}
+		loop++;
+	}
+}
+多次循环
+
+
+6、设有语句int a=3;则执行语句a+=a*a；后，变量a的值是（C）。  
+A．3 B．9 C．12 D．18
+
+
+
+7、下列程序段运行后， x 的值是( )
+int a=1, b=2, x=0;
+if(!(--a)) x-- ;
+if(!b) x=7;
+else ++x;
+A.0
+B.3
+C.6
+D.7
+参考答案：A
+
+
+
+8、有如下代码段，
+	x=3.0;
+	y=4;
+	则	1/2*x + 20%3*(x=y)/16  的结果是什么？
+	
+解答：
+	= 0*x + 2*(4.0)/16 = 0 + 0.5 = 0.5
+
+
+
+9、逗号表达式
+main()
+{ 
+	int a, b,c, d; 
+	a=3; 
+	b=5; 
+	c=a,b; 
+	d=(a,b); 
+	printf("c=%d" ,c); //3
+	printf("d=%d" ,d); //5
+}
+这段程序的输出是:
+(a) c=3 d=3
+(b) c=5 d=3
+(c) c=3 d=5
+(d) c=5 d=5
+答案(c)
+逗号表达式的优先级是很低的，比赋值(=)的优先级低. 逗号表达式的值是最后一个元素的值
+逗号表达式还有一个作用就是分割函数的参数列表..
+E1, E2, ..., En
+上面这个表示式的作用是,E1, E2,... En的值被分别计算出来，En的结果赋给整个逗号表达式
+c=a,b;      / *yields c=a* /
+d=(a,b);    /* d=b */
+
+
+
+10、下面的程序看起来是正常的，使用了一个逗号表达式来做初始化。可惜这段程序是有问题的。你知道为什么吗？
+#include <stdio.h>
+int main()
+{
+    int a = 1,2; //int a = 1, int 2;
+    printf("a : %d\n",a);
+    return 0;
+}
+
+参考答案：这个程序会得到编译出错（语法出错），逗号表达式是没错，可是在初始化和变量声明时，逗号并不是逗号表达式的意义。这点要区分，要修改上面这个程序，你需要加上括号： int a = (1,2);
+
+
+
+11、如果有“int a=5, b=3”，则在执行“!a&&b++”后，a和b的值分别是多少？【中国某著名综合软件公司2005年面试题】
+答案： 
+	5和3.  这是逻辑短路问题。因为“!a”运算结束后，整个表达式的值已肯定为假，所以不必再去计算后面的式子了。
+//总结：（表达式1）&&（表达式2）  当表达式1为假时，表达式2不再执行
+//      （表达式1）||（表达式2）  当表达式1为真时，表达式2不再执行 
+
+
+
+12、下面的输出是什么？
+#include <stdio.h>
+int main()  
+{
+    int i = 6;
+    if( (++i < 7) && ( i++/6) || (++i <= 9))
+        ;
+
+    printf("%d\n",i);
+    return 0;
+}
+参考答案：本题并不简单的是考前缀++或反缀++，本题主要考的是&&和||的短路求值的问题。
+所谓短路求值：对于（条件1 && 条件2），如果“条件1”是false，那“条件2”的表达式会被忽略了。对于（条件1 || 条件2），如果“条件1”为true，而“条件2”的表达式则被忽略了。所以，我相信你会知道本题的答案是什么了。(8)
+
+
+
+
+13、What will be the output of the following C code? （中国台湾某著名CPU生产公司2005年面试题） 
+
+#include <stdio.h> 
+#define product(x) (x*x) 
+int main(void) 
+{ 
+	int i = 3, j, k; 
+	j = product(i++);   
+	k = product(++i); 
+	printf("j=%d,k=%d\n",j,k); 
+	return 0; 
+} 
+输出：j=12,k=49 
+解析： 
+经过预处理后的部分代码（gcc -E 6.c），其实是做了宏替换： 
+
+... //前面部分省略 
+
+int main(void) 
+{ 
+	int i = 3, j, k; 
+	j = (i++*i++); 
+	k = (++i*++i); 
+	printf("j=%d,k=%d\n",j,k); 
+	return 0; 
+} 
+
+.file "17.c" 
+.section .rodata 
+.LC0: 
+.string "j=%d,k=%d\n" 
+.text 
+.globl main 
+.type main, @function 
+main: 
+leal 4(%esp), %ecx 
+andl $-16, %esp 
+pushl -4(%ecx) 
+pushl %ebp 
+movl %esp, %ebp 
+pushl %ecx 
+subl $36, %esp 
+movl $3, -16(%ebp) 
+movl -16(%ebp), %eax 
+imull -16(%ebp), %eax #第一个乘法 
+movl %eax, -12(%ebp) 
+addl $1, -16(%ebp) #i加上了一个1（i=4） 
+addl $1, -16(%ebp) #i加上了一个1（i=5） 
+addl $1, -16(%ebp) #i加上了一个1（i=6） 
+addl $1, -16(%ebp) #i加上了一个1（i=7） 
+movl -16(%ebp), %eax 
+imull -16(%ebp), %eax #第二个乘法 
+movl %eax, -8(%ebp) 
+movl -8(%ebp), %eax 
+movl %eax, 8(%esp) 
+movl -12(%ebp), %eax 
+movl %eax, 4(%esp) 
+movl $.LC0, (%esp) 
+call printf 
+movl $0, %eax 
+addl $36, %esp 
+popl %ecx 
+popl %ebp 
+leal -4(%ecx), %esp 
+ret 
+.size main, .-main 
+.ident "GCC: (GNU) 4.1.2 (Ubuntu 4.1.2-0ubuntu4)" 
+.section .note.GNU-stack,"",@progbits 
+
+
+
+14、C语言同意一些令人震惊的结构,下面的结构是合法的吗,如果是,它做些什么？
+int a = 5, b = 7, c;
+c = a+++b;
+	不管你相不相信，上面的例子是完全合乎语法的。问题是编译器如何处理它？水平不高的作者可能会争论这个问题，根据贪吃原则，编译器完全可以合理处理该语法现象。
+	因此，上面的代码被处理成：c = a++ + b;
+	因此, 这段代码执行后a = 6, b = 7, c = 12。
+	如果你知道答案，或猜出正确答案，做得好。如果你不知道答案，我也不把这个当作问题。我发现这个问题的最大好处是这是一个关于代码编写风格，代码的可读性，代码的可修改性的好的话题。
+
+另补充题目： 
+int i = 0; 
+i = (i++)++;  //error，左值不能执行++操作，因为它作为左值，仅仅表示内存中的一个地址。左值能作为右值使用，是因为它表示的内存中必定有一个值，这个值使得左值可以被作为右值使用。
+i = (++i)++; //error，同上
+（1）
+	int i=4;
+	i=i++ + ++i;
+	j=i++ + ++i;
+	问：最终i=?, j=? //因编译器结果会有所不同。
+（2）
+	c= a++++b; //编译无法通过，编译器会理解为c = (a++)++ + b;
+	c= a+++++b;  怎么分解？ //无法通过编译 c = ((a++)++)+ b;
+	//c = a + (++(++b)); //同206行，无法编译通过
+
+
+15、 x=x+1, x+=1, x++,  哪个效率最高？为什么？
+答：
+	x=x+1最低，因为它的执行过程如下：
+（1）读取右x的地址；（2）x+1; (3)读取左x的地址；
+（4）将右值传给左边的x(编译器并不认为左右x的地址相同)
+
+	x+=1其次，其执行过程如下：
+（1）读取左x的地址；（2）x+1; 
+（3）将得到的值传给左边的x（因为x的地址已经读出）
+
+	x++效率最高，其执行过程如下：
+（1）读取左x的地址；（2）x自增1
+
+
+解析：
+以上解释表面上看似正确，但看过相应的汇编代码后，我们不难得到不同结论：三个语句的效率是相同的，因为他们的汇编代码是完全一样的，也就是说执行时的机器指令是完全一样的，最起码在gcc的编译器上是如此。 
+
+分析如下：
+(1) x = x+1 
+#include <stdio.h> 
+int main(int argc, char* argv[]) 
+{ 
+	int x = 0; 
+	x = x + 1; 
+	return 0; 
+} 
+
+.file "a.c" 
+.text 
+.globl main 
+.type main, @function 
+main: 
+leal 4(%esp), %ecx 
+andl $-16, %esp 
+pushl -4(%ecx) 
+pushl %ebp 
+movl %esp, %ebp 
+pushl %ecx 
+subl $16, %esp 
+movl $0, -8(%ebp) 
+addl $1, -8(%ebp) 
+movl $0, %eax 
+addl $16, %esp 
+popl %ecx 
+popl %ebp 
+leal -4(%ecx), %esp 
+ret 
+.size main, .-main 
+.ident "GCC: (GNU) 4.1.2 (Ubuntu 4.1.2-0ubuntu4)" 
+.section .note.GNU-stack,"",@progbits 
+
+
+(2) x += 1 
+#include <stdio.h> 
+int main(int argc, char* argv[]) 
+{ 
+	int x = 0; 
+	x+=1; 
+	return 0; 
+} 
+
+.file "b.c" 
+.text 
+.globl main 
+.type main, @function 
+main: 
+leal 4(%esp), %ecx 
+andl $-16, %esp 
+pushl -4(%ecx) 
+pushl %ebp 
+movl %esp, %ebp 
+pushl %ecx 
+subl $16, %esp 
+movl $0, -8(%ebp) 
+addl $1, -8(%ebp) 
+movl $0, %eax 
+addl $16, %esp 
+popl %ecx 
+popl %ebp 
+leal -4(%ecx), %esp 
+ret 
+.size main, .-main 
+.ident "GCC: (GNU) 4.1.2 (Ubuntu 4.1.2-0ubuntu4)" 
+.section .note.GNU-stack,"",@progbits 
+
+
+(3) x++ 
+#include <stdio.h> 
+int main(int argc, char* argv[]) 
+{ 
+	int x = 0; 
+	x++; 
+	return 0; 
+} 
+
+.file "c.c" 
+.text 
+.globl main 
+.type main, @function 
+main: 
+leal 4(%esp), %ecx 
+andl $-16, %esp 
+pushl -4(%ecx) 
+pushl %ebp 
+movl %esp, %ebp 
+pushl %ecx 
+subl $16, %esp 
+movl $0, -8(%ebp) 
+addl $1, -8(%ebp) 
+movl $0, %eax 
+addl $16, %esp 
+popl %ecx 
+popl %ebp 
+leal -4(%ecx), %esp 
+ret 
+.size main, .-main 
+.ident "GCC: (GNU) 4.1.2 (Ubuntu 4.1.2-0ubuntu4)" 
+.section .note.GNU-stack,"",@progbits 
+
+
+
+16、请说出下面的程序输出是多少？并解释为什么？（注意，该程序并不会输出 "b is 20"）
+
+#include <stdio.h>
+int main()  
+{      
+    int a=1;      
+    switch(a)      
+    {   
+        /*static*/ int b=20;          
+        case 1: 
+            printf("b is %d\n",b);
+            break;
+        default:
+            printf("b is %d\n",b);
+            break;
+    }
+    return 0;
+}
+
+参考答案：该程序在编译时，可能会出现一条warning: unreachable code at beginning of switch statement。我们以为进入switch后，变量b会被初始化，其实并不然，因为switch-case语句会把变量b的初始化直接就跳过了。所以，程序会输出一个随机的内存值。
+
+
+
+17、
+int func(int a)
+{
+    int b;
+    switch(a)
+    {
+        case 1: b=30;
+        case 2: b=20;
+        case 3: b=16;
+        default: b=0;
+    }
+    return b;
+}
+则func(1)=?
+答：func(1)=0，因为没有break语句，switch中会一直计算到b=0。
+
+
+
+	
+18、分别给出bool，int，float，指针变量 与“零值”(注意：不是0)比较的 if 语句（假设变量名为var）
+答案：
+    布尔型变量： 
+		正确的写法： if(var)  和   if(!var)
+   		或：	
+			if (var == true)   
+		    if (var == 1 ) 
+		或：  
+		    if (var == false) 
+		    if (var == 0)  
+
+
+ 	int型变量（用"=="或"!="直接与0比较）： 
+ 			if(var == 0)  和  if(var != 0)
+	也可写成：	
+		 	if (var)  和  if (!var)
+					　
+	float型变量：				　
+		千万要留意，无论是float还是double类型的变量，都有精度限制。
+		所以一定要避免将浮点变量用"==" 或"！="与数字比较，应该设法转化成">="或"<="形式。
+		if(var<=0.000001 && var>=-0.000001)
+	或者：
+		const float EPSINON = 0.000001;
+ 		if ((var >= - EPSINON) && (var <= EPSINON))
+
+	错误的写法： 
+		if(var == 0.0)  和   if(var != 0.0)	
+			
+					
+    指针变量
+    	指针变量的零值是"空"（记为NULL）。尽管NULL的值与0相同，但是两者意义不同。
+	正确的写法： 
+		if (var)   和   if (!var)  // linux下C语言常用此法
+    或:
+		if (var == NULL)  和  if (var != NULL) //var与NULL显式比较，强调var是指针变量	
+			
+	不建议的写法：
+		if (var == 0)  和  if (var != 0) // 容易让人误解var是整型变量
+
+　　剖析（不同平台可能有不同的说法，应根据平台的要求和习惯来选择）：
+　　考查对0值判断的"内功"，bool型变量的0判断完全可以写成if(var==0)，而int型变量也可以写成if(!var)，指针变量的判断也可以写成if(!var)，上述写法虽然程序都能正确运行，但是未能清晰地表达程序的意思。 
+一般的:
+	如果想让if判断一个变量的"真"、"假"，应直接使用if(var)、if(!var)，表明其为"逻辑"判断；
+	如果用if判断一个数值型变量(short、int、long等)，应该用if(var==0)，表明是与0进行"数值"上的比较;	 
+	而判断指针则适宜用if(var==NULL)或if(!var)，这是一种很好的编程习惯。
+
+　　浮点型变量并不精确，所以不可将float变量用"=="或"！="与数字比较，应该设法转化成">="或"<="形式。如果写成if (x == 0.0)，则判为错，得0分。
+http://c-faq.com/ptrs/index.html
+http://blog.sina.com.cn/s/blog_4c98b9600100bahs.html
+
+
+
+19、下面这段程序的输出是什么？
+#include <stdio.h>
+ 
+int main()
+{
+    float f= 0.0f;
+    int i;
+ 
+    for(i=0;i<10;i++)
+        f = f + 0.1f;
+ 
+    if(f == 1.0f)
+        printf("f is 1.0 \n");
+    else
+        printf("f is NOT 1.0\n");
+ 
+    return 0;
+}
+
+解答：
+你是否似曾相识？不错这个问题在酷壳之前的博文《你能做对下面这些JavaScript的题吗？》中曾今提到过，不要让两个浮点数相比较。所以本题的答案是”f is NOT 1.0″，如果你真想比较两个浮点数时，你应该按一定精度来比较，比如你一定要在本题中做比较那么你应该这么做if( (f - 1.0f)<0.1 )
+
+
+
+20、 求下列程序的输出结果。【美国某著名计算机公司面试题】
+#include <stdio.h>
+
+int main(void)
+{
+	printf("%f\n",5);
+	printf("%d\n",5.01);
+
+	return 0;
+}
+
+在linux平台下，我的机器上的运行结果如下：
+0.000000
+1889785610（一个很大的值）
+
+
+
+21、下面的程序会输出什么？
+#include <stdio.h>
+int main()  
+{
+    float a = 12.5;
+    printf("%d\n", a);
+    printf("%d\n", (int)a); // 12
+    printf("%d\n", *(int *)&a);
+    return 0;  
+}
+
+参考答案：该项程序输出如下所示， 0 12 1095237632 
+原因是：
+	浮点数是4个字节，12.5f 转成二进制是：01000001 01001000 00000000 00000000，十六进制是：0x41480000，十进制是：1095237632。所以，第二和第三个输出相信大家也知道是为什么了。而对于第一个，为什么会输出0，我们需要了解一下float和double 的内存布局，如下：
+
+    * float: 1位符号位(s)、8位指数(e)，23位尾数(m,共32位)
+    * double: 1位符号位(s)、11位指数(e)，52位尾数(m,共64位)
+
+然后，我们还需要了解一下printf由于类型不匹配，所以，会把float直接转成double，注意，12.5的float和double的内存二进制完全不一样。别忘了在x86芯片下使用是的反字节序，高位字节和低位字位要反过来。所以：
+
+    * float版：0x41480000 (在内存中是：00 00 48 41)
+    * double版：0x4029000000000000 (在内存中是：00 00 00 00 00 00 29 40)
+
+而我们的%d要求是一个4字节的int，对于double的内存布局，我们可以看到前四个字节是00，所以输出自然是0了。 这个示例向我们说明printf并不是类型安全的，这就是为什么C++要引如cout的原因了。
+
+
+
+22、 下面语句的输出是什么？
+char a=256;
+int d=a;
+printf("%d\n", d+1);
+
+答案:
+	打印出1。
+	char数值溢出问题。char类型的变量赋值范围是0～255.当256赋给a后，超出范围，此时a的实际值为0; 如果a的值是257，也同样超出范围，此时a的实际值为1。
+
+
+
+23、下面程序的运行结果是什么？
+int main()
+{
+	char chr = 127; //在x86+gcc平台下<==> signed char chr = 127
+	int sum = 200;
+	chr += 1;
+	printf("chr = %d\n", chr); //-128
+	sum +=chr;
+	printf("sum = %d\n",sum);
+	return(0);
+}
+A: 327     B:328    C:99    D:72
+//答案：D		//unsigned char 的范围0～255； signed char 范围是-128 ~ 127
+
+
+
+24、 下面的代码输出是什么，为什么？ （中国台湾某著名CPU生产公司2005年面试题）
+void foo(void)
+{
+	unsigned int a = 6;
+	int b = -20;
+	(a+b > 6) ? printf("> 6") : printf("<= 6");
+}
+	这个问题测试你是否懂得C语言中的整数自动转换原则。
+	混合运算时的数据类型转换次序：int –> unsigned –> long –> double。
+	另外，char和short必定转换为int，float必定转换为double。
+	不管如何，这无符号整型问题的答案是输出是 ">6"。原因是当表达式中存在有符号类型和无符号类型时所有的操作数都自动转换为无符号类型。 unsigned int类型的数据与int类型的数据相运算后，自动转化为unsigned int类型。因此-20变成了一个非常大的正整数，所以该表达式计算出的结果大于6，是一个unsignged int类型的数4294967282。这一点对于频繁用到无符号数据类型的嵌入式系统来说是非常重要的。因此需要弄明白“C语言中的自动类型转换的规则”。 
+
+
+
+25、SimCom的一道面试题, 问输出什么?
+int main(void)
+{
+	int a  =  -8;
+	unsigned int b = 8;
+
+	int c = a+b;
+
+	if ( c>0 ) {
+		printf(">\n");
+	} else {
+	   printf("<=\n");
+	}
+	return 0;
+}
+
+	咋一看很容易的, a类型升级变成 oxFFFFFFF8，所以应该是大于了，不过a+b还会溢出，所以其实a+b是等于0的!
+俺自以为是老鸟了，上来毫不犹豫选了个大于!  粗心犯错阿，心态决定状态!
+
+
+
+26、此段程序的作者希望输出数组中的所有元素，但是他却没有得到他想要的结果，是什么让程序员和计算机产生歧义？
+#include<stdio.h>
+#define TOTAL_ELEMENTS (sizeof(array) / sizeof(array[0]))
+int array[] = {23,34,12,17,204,99,16};
+int main()
+{
+    int d;
+ 
+    for(d=-1;d <= (TOTAL_ELEMENTS-2);d++)
+        printf("%d\n",array[d+1]);
+ 
+    return 0;
+}
+解答：
+运行上面的程序，结果是什么都没有输出，导致这个结果的原因是sizeof的返回值是一个 unsinged int，为此在比较int d 和TOTAL_ELEMENTS两个值都被转换成了unsigned int来进行比较，这样就导致-1被转换成一个非常大的值，以至于for循环不满足条件。因此，如果程序员不能理解sizeof操作符返回的是一个 unsigned int的话，就会产生类似如上的人机歧义。
+
+
+
+27、
+#define Max_CB 500
+void LmiQueryCSmd()
+{
+	unsigned char ucCmdNum;
+
+	for(ucCmdNum=0;ucCmdNum<Max_CB;ucCmdNum++)
+	{
+		printf("ok\n");
+	}
+}
+死循环,unsigned char的取值范围是0~255
+
+
+
+
+28、请问下面的程序的输出值是什么？
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZEOF(arr) (sizeof(arr)/sizeof(arr[0]))
+#define PrintInt(expr) printf("%s:%d\n",#expr,(expr))
+
+int main()
+{
+    /* The powers of 10 */
+    int pot[] = {
+                    0001,
+                    0010,
+                    0100,
+                    1000
+                };
+    int i;
+    for(i=0;i<SIZEOF(pot);i++)
+        PrintInt(pot[i]);
+        
+    return 0;
+}
+参考答案：好吧，如果你对于PrintInt这个宏有问题的话，你可以去看一看《语言的歧义》中的第四个示例。不过，本例的问题不在这里，本例的输出会是：1，8，64，1000，其实很简单了，以C/C++中，以0开头的数字都是八进制的。八进制转为十进制没问题吧？
+
+
+
+
+29、下列 while 语句表示字符串遍历,请写出用for 语句的等效代码(10分)
+ void test(char * str)
+{
+   char * p = str;
+   while(*p)
+   {
+     printf("%c",*p);
+     p++;
+     //contiune;
+     //p++;
+	}
+}
+
+for(char *p=str; *p; p++)  //C99标准
+{
+	printf("%c",*p);
+	//contiune;
+}
+
+for(p=str;*p;p++)  //C89标准 或者写成//for(p=str;*p!= NULL;p++)
+{
+	printf("%c",*p);
+}
+
+
+
+30、嵌入式系统中经常要用到无限循环，你怎么样用C编写死循环呢？
+这个问题用几个解决方案。我首选的方案是： 
+while(1)
+{
+}
+
+一些程序员更喜欢如下方案：
+for(;;)
+{
+}
+这个实现方式让我为难，因为这个语法没有确切表达到底怎么回事。如果一个应试者给出这个作为方案，我将用这个作为一个机会去探究他们这样做的基本原理。如果他们的基本答案是："我被教着这样做，但从没有想到过为什么。"这会给我留下一个坏印象。
+
+第三个方案是用 goto
+Loop:
+...
+goto Loop;
+应试者如给出上面的方案，这说明或者他是一个汇编语言程序员（这也许是好事）或者他是一个想进入新领域的BASIC/FORTRAN程序员。
+
+
+
+31、请列举一个软件中时间换空间或者空间换时间的例子。 
+void swap(int a,int b) 
+{ 
+	int c; c=a;a=b;b=a; //空间换时间
+} 
+
+void swap(int a,int b)  //时间换空间
+{ 
+	a=a+b;b=a-b;a=a-b; 
+} 
+
+
+32、编译器自动对齐的原因什么？
+为了提高程序的性能，数据结构（尤其是栈）应该尽可能地在自然边界上对齐。原因在于，为了访问未对齐的内存，处理器需要作两次内存访问；然而，对齐的内存访问仅需要一次访问。
+
+
+
+33、请问下面的程序输出什么？（假设：输入 Hello, World）
+#include <stdio.h>
+int main()  
+{ 
+    char dummy[80];
+    printf("Enter a string:\n");
+    scanf("%[^r]",dummy);
+    printf("%s\n",dummy);
+    return 0;
+}
+
+参考答案：本例的输出是“Hello, Wo”，scanf中的"%[^r]"是从中作梗的东西。意思是遇到字符r就结束了。
+
+
+
+34、看上去非常完美的程序，是什么导致了编译程序不通过？
+#include<stdio.h>
+void OS_Solaris_print(){
+    printf("Solaris - Sun Microsystems\n");}
+void OS_Windows_print(){
+    printf("Windows - Microsoft\n");}
+void OS_HP-UX_print(){
+    printf("HP-UX - Hewlett Packard\n");}
+ 
+int main()
+{
+    int num;
+    printf("Enter the number (1-3):\n");
+    scanf("%d",&num);
+    switch(num){
+    case 1:
+        OS_Solaris_print();break;
+    case 2:
+        OS_Windows_print();break;
+    case 3:
+        OS_HP-UX_print();break;
+    default:
+        printf("Hmm! only 1-3 :-)\n");break;
+    }
+ 
+    return 0;
+}
+
+解答：
+程序员要以计算机的语言进行思考，不然上面那段程序导致的结果不止是歧义这么简单，而直接的结果是，导致计算机”听不懂”你在说什么。导致计算机听不懂的原因是HP-UX中的’-'是减号？还是其他什么？
+
+
+
+
+35、下面这段程序的输出是什么
+#include <stdio.h>
+int main()
+{
+     int a=10;
+     switch(a)
+    {
+        case '1':
+            printf(”ONE\n”);
+            break;
+        case '2':
+            printf(”TWO\n”);
+            break;
+        defau1t:
+             printf(”NONE\n”);
+    ｝
+    return 0;
+}
+
+解答：
+本题我故意将语法敏感插件去掉，为了就是能得到更好的效果，这道题又是什么让歧义再次发生，如果不仔细你可能永远都找不到答案，如果真到的到了那个时候，你是否会因为对default语义的怀疑，而不敢再使用default？本题的歧义点就是 default，看好了是defau1t而不是default，不是关键字！为什么计算能”听懂”这样的defau1t，虽然它听懂了，但它的理解却是标号”defau1t”
+
+
+
+
+36、为什么下面的代码会返回0？
+	int x;
+    return x == (1 && x);
+    本题主要是关于C/C++中变量初始化的问题。
+
+
+
+37、为什么下面的代码会返回0而不是-1？
+	return ((1 - sizeof(int)) >> 32);
+    答案：sizeof 是一个unsigned的类型	
+	
+
+38、下面的这个函数返回值是什么？
+    unsigned long foo() {
+    	return (unsigned long) - 1 / 8;
+    }
+    如果是： ((unsigned long) - 1) / 8，那将是一个很大的数。(gcc编译器按此种方式解析)
+    如果是： (unsigned long) (- 1 / 8 ), 那将是 0 
+
+答案：取决于编译器是先处理unsigned long转型，还是负号。是的，这样使用C语言可能很奇怪，不过我们可以从另一方面了解C语言的很多我们不常注意的特性。C语言其实并不容易。
+
+
+39、如何判断一段程序是由C编译器编译的还是由C++ 编译器编译的？（美国某著名网络开发公司2005年面试题） 
+C++编译时定义了_cplusplus，而C编译时定义了_STDC_。 
+
+
+
+40、int a,b,c 请写函数实现c=a+b ,不可以改变数据类型,如将c改为long int,关键是如何处理溢出问题
+答案：
+bool add (int a, int b,int *c)
+{
+	*c=a+b;
+	return (a>0 && b>0 && (*c<a || *c<b) || (a<0 && b<0 && (*c>a || *c>b)));
+}
+
+
+41、有两个变量a和b，不用"if"、"?:"、"switch"或其他判断语句，找出两个数中比较大的。【美国某著名网络公司2005年面试题】
+答案：
+	第一种：
+	int max = ((a+b)+abs(a-b))/2;
+	第二种：
+	int max = (a>=b)*a + (a<b)*b;
+	第三种：
+	int str[2] = {a,b};
+	unsigned int m = a - b;
+	m = m >> (sizeof(int) * 8 - 1);
+   	return str[m];
+
+
+
+42、
+c语言不使用判断语句实现?:运算符
+
+	If you're familiar with the ? operator x ? y : z
+	you want to implement that in a function: 
+		int cond(int x, int y, int z); 
+	
+	using only ~, !, ^, &, +, |, <<, >> 
+	no if statements, or loops or anything else, just those operators, and the function should correctly return y or z based on the value of x. 
+	You may use constants, but only 8 bit constants. You can cast all you want. You're not supposed to use extra variables, but in the end, it won't really matter, using vars just makes things cleaner. You should be able to reduce your solution to a single line in the end though that requires no extra vars.
+
+int cond(int x, int y, int z)
+{
+	return (((!x)+(~0))&(y^z))^z;
+}
+
+
+
+43、有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这个火柴棍式的程序面试题吧。下面是一个C程序，其想要输出20个减号，不过，粗心的程序员把代码写错了，你需要把下面的代码修改正确，不过，你只能增加或是修改其中的一个字符，请你给出三种答案。	
+int n = 20;
+for(int i = 0; i < n; i--){
+    printf("-");
+}
+
+不要以为这题不是很难，我相信你并不那么容易能找到3种方法。我觉得，如果你能在10分钟内找出这三种方法，说明你真的很聪明，而且反应很快。当然，15分钟内也不赖。不过，你要是30分钟内找不到三种方法，当然，不说明你笨了，最多就是你的反应还不够快。嘿嘿。就当是玩玩吧。
+
+下面是我的答案：
+//第一种解法：在for循环中给n加一个负号
+for(int i = 0; i < -n; i--)
+//第二种解法：把 n 初始化成 -20
+int n = -20;
+//第三种解法：把for循环中的 i 初始化成40
+for(int i = 40; i < n; i--)
+不过，我要告诉你，以上这些答案都不对（我就知道你会偷看答案的），不过，顺着这些思路走很接近了。呵呵。
+
+//int n = 20;
+//for(int i = 0; i < n; i--)  //error
+
+下面是正确答案——
+//第一种解法：在for循环中给 i 加一个负号
+for(int i = 0; -i < n; i--)
+//第二种解法：在for循环中把 i-- 变成 n--
+for(int i = 0; i < n; n--)
+//第三种解法：把for循环中的 < 变成 +
+for(int i = 0; i + n; i--)
+
+其它相关的变种题如下：
+    1 	通过修改、增加一个字符，让其输出21个减号
+    2 	通过修改、增加一个字符，让其只输出1个减号
+    3 	通过修改、增加一个字符，让其不输出减号
+    
+
+

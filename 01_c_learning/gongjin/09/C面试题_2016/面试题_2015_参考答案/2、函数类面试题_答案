@@ -1,0 +1,758 @@
+
+1、函数调用语句 func((a1,a2,a3),(a4,a5)); 的参数个数是（a）。
+a. 2         
+b. 5             
+c. 1             
+d. 调用方式不合法
+
+
+2、下面的程序会有什么样的输出呢？
+#include <stdio.h>
+int main()
+{
+    int i=43;
+    printf("%d\n",printf("%d",printf("%d",i)));
+    return 0;
+}
+
+参考答案：程序会输出4321，你知道为什么吗？要知道为什么，你需要知道printf的返回值是什么。printf返回值是输出的字符个数。
+
+
+3、输出结果
+size_t a = 'B';
+static void test25()
+{
+	printf("a=%c\n", a);
+	size_t a = 10;
+	
+	{
+		char a = 'A';  
+		printf("%c\n", a);
+	}
+	
+	printf("%d\n", a);
+}
+
+
+4、输出结果
+static void foo_a(a, b)
+size_t a, b;
+{
+	printf("%d %d\n", a, b);
+}
+
+static void foo_b(a, b)
+size_t a;
+char *b;
+{
+	printf("%d %s\n", a, b);
+}
+
+static void test24()
+{
+	foo_a(10, 20);
+	foo_b(30, "hello");
+}
+
+
+5、下面两个函数是否具有相同的原型？
+int foobar(void);
+int foobar();
+下面这两段程序将会帮你找到上题的答案
+程序1
+#include <stdio.h>
+void foobar1(void)
+{
+    printf("In foobar1\n");
+}
+void foobar2()
+{
+    printf("In foobar2\n");
+}
+int main()
+{
+    char ch = 'a';
+    foobar1();
+    foobar2(33, ch);
+ 
+    return 0;
+}
+
+程序2
+#include <stdio.h>
+void foobar1(void)
+{
+    printf("In foobar1\n");
+}
+void foobar2()
+{
+    printf("In foobar2\n");
+}
+int main()
+{
+    char ch = 'a';
+    foobar1(33,ch);
+    foobar2();
+    return 0;
+}
+
+解答
+程序片段一，没有问题，程序片段二编译报错，这两个程序告诉我们，foobar1(void)和foobar2()是有不同原型的。我们可以在《ISO/IEC 9899》的C语言规范找到下面两段关于函数声明的描述
+
+    10.The special case of an unnamed parameter of type void as the only item in the list specifies that the function has no parameters
+
+    14.An identifier list declares only the identifiers of the parameters of the function. An empty list in a function declarator that is part of a definition of that function specifies that the function has no parameters. The empty list in a function declarator that is not part of a definition of that function specifies that no information about the number or types of the parameters is supplied.124)
+
+上面两段话的意思就是：foobar1(void)是没有参数，而foobar1()等于forbar1(…)等于参数类型和个数未知。
+
+
+
+6、下面的两个文件可以编译通过吗？如果可以通过，结果是什么？
+
+file1.c
+	int arr[80];
+
+file2.c
+	extern int *arr;
+	int main()  
+	{      
+	    arr[1] = 100;
+	    printf("%d\n", arr[1]);
+	    return 0;  
+	}
+
+参考答案：该程序可以编译通过，但运行时会出错。为什么呢？原因是，在另一个文件中用 extern int *arr来外部声明一个数组并不能得到实际的期望值，因为他们的类型并不匹配。所以导致指针实际并没有指向那个数组。注意：一个指向数组的指针，并不等于一个数组。修改：extern int arr[]。（参考：ISO C语言 6.5.4.2 节）
+
+
+
+7、下面的程序并不见得会输出 hello-std-out，你知道为什么吗？
+
+#include <stdio.h>
+#include <unistd.h>
+int main()  
+{
+    while(1)
+    {
+        fprintf(stdout,"hello-std-out");
+        fprintf(stderr,"hello-std-err");
+        sleep(1);
+    }
+    return 0;
+}
+
+参考答案：stdout和stderr是不同设备描述符。stdout是块设备，stderr则不是。对于块设备，只有当下面几种情况下才会被输入，1）遇到回车，2）缓冲区满，3）fflush被调用。而stderr则不会。
+
+
+
+8、heap与stack的差别。
+答:
+　　heap是堆，stack是栈。 
+　　stack的空间由操作系统自动分配/释放，Heap上的空间需要程序员手动分配/释放。 
+　　stack空间有限，heap是很大的自由存储区 
+　　C中的malloc函数分配的内存空间在堆上,C++中对应的是new操作符。 
+　　程序在编译期对变量和函数分配内存都在栈上进行,且程序运行过程中函数调用时参数的传递也在栈上进行。
+
+
+
+9、描述内存分配方式以及它们的区别?
+1） 从静态存储区域分配。内存在程序编译的时候就已经分配好，这块内存在程序的整个运行期间都存在。例如全局变量，static 变量。
+2） 在栈上创建。在执行函数时，函数内局部变量的存储单元都可以在栈上创建，函数执行结束时这些存储单元自动被释放。栈内存分配运算内置于处理器的指令集。
+3） 从堆上分配，亦称动态内存分配。程序在运行的时候用malloc 或 new 申请任意多少的内存，程序员自己负责在何时用free 或delete 释放内存。动态内存的生存期由程序员决定，使用非常灵活，但问题也最多。
+
+
+
+10、堆栈溢出一般是由什么原因导致的？
+答：
+	堆栈溢出就是不顾堆栈中分配的局部数据块大小，向该数据块写入了过多的数据，导致数据越界，结果覆盖了老的堆栈数据。 或者解释为 在长字符串中嵌入一段代码，并将过程的返回地址覆盖为这段代码的地址，这样当过程返回时，程序就转而开始执行这段自编的代码了。 
+	可能是以下几种原因造成的：
+	1、函数调用层次过深,每调用一次,函数的参数、局部变量等信息就压一次栈。
+	2、局部非静态变量体积太大，超过了堆栈空间大小
+	3、函数调用的返回地址被覆盖，被调用函数无地可返
+    
+
+
+11、内存泄露和内存溢出是什么？他们之间的区别是什么？（新浪公司 笔试题）
+答：
+	内存泄漏指由于疏忽或错误造成程序未能释放已经不再使用的内存的情况,是应用程序分配某段内存后，由于设计错误，失去了对该段内存的控制，因而造成了内存的浪费。一般我们常说的内存泄漏是指堆内存的泄漏。堆内存是指程序从堆中分配的，大小任意的（内存块的大小可以在程序运行期决定），使用完后必须显示释放的内存。应用程序一般使用malloc，realloc，new等函数从堆中分配到一块内存，使用完后，程序必须负责相应的调用free或delete释放该内存块，否则，这块内存就不能被再次使用，我们就说这块内存泄漏了。
+	内存溢出是指在一个域中输入的数据超过它的要求而且没有对此作出处理引发的数据溢出问题。
+
+
+        
+12、#include <filename.h> 和 #include “filename.h” 有什么区别？
+答：
+对于 #include <filename.h> ，编译器从标准库路径开始搜索 filename.h
+对于 #include "filename.h" ，编译器从用户的当前工作路径开始搜索，如果没找到，会接着去标准库中查找 filename.h
+
+
+13、头文件中的 #ifndef/#define/#endif 干什么用？
+答：防止该头文件被重复引用。（条件编译）
+
+
+
+14、如何引用一个已经定义过的全局变量？
+答：可以用引用头文件的方式，也可以用extern关键字，如果用引用头文件方式来引用某个在头文件中声明的全局变理，假定你将那个变量写错了，那么在编译期间会报错，如果你用extern方式引用时，假定你犯了同样的错误，那么在编译期间不会报错，而在链接期间报错。
+
+
+
+15、对于一个频繁使用的短小函数,在C语言中应用什么实现,在C++中应用什么实现?
+答：c用宏定义，c++用inline
+
+
+
+16、表达式 strcmp( "3.14", "3.278" ) 的结果是什么？  //-1, ascii码相减的值      
+
+
+
+17、不调用C++/C的字符串库函数,请编写一个标准strcpy函数。
+如果满分10分，下面给出几个不同得分的答案：
+2分
+void strcpy( char *strDest, char *strSrc )
+{
+　 while( (*strDest++ = * strSrc++) != '\0' );
+}
+
+4分
+void strcpy( char *strDest, const char *strSrc ) 
+//将源字符串加const，表明其为输入参数，加2分
+{
+　 while( (*strDest++ = * strSrc++) != '\0' );
+}
+　　
+7分
+void strcpy(char *strDest, const char *strSrc) 
+{
+　//对源地址和目的地址加非0断言，加3分
+　assert( (strDest != NULL) && (strSrc != NULL) );
+　while( (*strDest++ = * strSrc++) != '\0' );
+}
+　　
+10分
+//为了实现链式操作，将目的地址返回，加3分！
+char * strcpy( char *strDest, const char *strSrc ) 
+{
+	assert( (strDest != NULL) && (strSrc != NULL) );
+	char *address = strDest; 
+	while(*strDest++ = *strSrc++); 
+		return address;
+}
+　　
+从2分到10分的几个答案我们可以清楚的看到，小小的strcpy竟然暗藏着这么多玄机，真不是盖的！需要多么扎实的基本功才能写一个完美的strcpy啊！
+
+
+
+18、写一个函数返回1+2+3+…+n的值（假定结果不会超过长整型变量的范围） 
+解答：
+long long Sum( int n )
+{ 
+　return ( (long long)1 + n) * n / 2;　
+  //或return (1ll + n) * n / 2;
+}
+
+剖析：
+　　对于这个题，只能说，也许最简单的答案就是最好的答案。下面的解答，或者基于下面的解答思路去优化，不管怎么"折腾"，其效率也不可能与直接return ( 1ll + n ) * n / 2相比！ 
+
+int Sum( int n )
+{
+　long sum = 0;
+　for( int i=1; i<=n; i++ )
+　{
+　　sum += i;
+　}
+　return sum;
+} 
+　　所以程序员们需要敏感地将数学等知识用在程序设计中。
+
+
+
+
+19、为什么标准头文件都有类似以下的结构？
+#ifndef __INCvxWorksh
+#define __INCvxWorksh
+#ifdef __cplusplus
+extern “C” {
+#endif
+/*
+	......
+*/
+#ifdef __cplusplus
+}
+#endif
+#endif /* __INCvxWorksh */
+
+解答：
+头文件中的编译宏
+#ifndef　__INCvxWorksh
+#define　__INCvxWorksh
+#endif
+的作用是防止被重复引用。
+	作为一种面向对象的语言，C++支持函数重载，而过程式语言C则不支持。函数被C++编译后在symbol库中的名字与C语言的不同。例如，假设某个函数的原型为：
+void foo(int x, int y);
+	该函数被C编译器编译后在symbol库中的名字为_foo，而C++编译器则会产生像_foo_int_int之类的名字。_foo_int_int这样的名字包含了函数名和函数参数数量及类型信息，C++就是靠这种机制来实现函数重载的。
+	为了实现C和C++的混合编程，C++提供了C链接交换指定符号extern "C"来解决名字匹配问题，函数声明前加上extern "C"后，则编译器就会按照C语言的方式将该函数编译为_foo，这样C语言中就可以调用C++的函数了。
+
+	在编译源文件时，C编译器和C++编译器都会对符号(函数或变量)名作某些修正，但两者采用的修正方法不同，所以两者生成的目标文件不能互相链接。在 C++中使用extern “C”可以让C++符号获得C链接特性。由于C++编译器会自动定义__cplusplus宏，所以在C语言头文件中采用这种结构可以保证无论使用何种编译器，生成的目标文件都具有C链接特性，能够与标准C编译器所生成的目标文件相链接。
+        
+        
+        
+        
+20、实现多参函数
+大家对C语言中最熟悉的函数就是“printf”吧？这是在HelloWorld例子里就见过了。那么你真正了解它吗？请设计一个类似于printf的函数的多参函数int Add(…);这个函数的功能：
+例如
+Add(4, 5, 0); 返回9
+Add(4, 5, 6, 0);返回15…………
+可以输入大于0个参数(参数类型为整型)。
+
+答案：
+#include <stdarg.h>
+
+int Add(int a, ...)
+{
+   int sum = a;
+   int temp;
+   va_list arg_ptr;
+   va_start(arg_ptr, a);
+   while(temp = va_arg(arg_ptr, int))
+   {
+		sum += temp;
+   }
+   va_end(arg_ptr);
+
+   return sum;
+}
+
+需要注意的是，在调用实际参数可变的函数时，必须由调用者显式指定实际参数的个数，比如这里的Add就是指定最后一个参数为0来指定实际参数的结束，而printf是通过第一个参数中输出格式的定义来确定实际参数的个数。否则可变参数的函数将无法实现。大家可以试试看，如果传入的最后一个实参不是0，结果会是怎样？
+
+
+
+21、此题考查的是C的变长参数
+#include<stdarg.h>
+int ripple(int , ...);
+main(){
+  int num = ripple(3,5,7);
+  printf(" %d" , num);
+}
+int ripple(int n, ...) {
+  int i, j, k; 
+  va_list p;
+  k = 0;
+  j = 1;
+  va_start(p , n);    
+  for (; j<n; ++j) {
+    i =  va_arg(p, int);  
+    for (; i; i &= i-1)   
+      ++k;               
+  }                      
+  va_end(p);  
+  return k;                
+}                          
+                           
+                          
+这段程序的输出是:
+(a) 7
+(b) 6
+(c) 5
+(d) 3
+
+答案 (c)
+在C编译器通常提供了一系列处理可变参数的宏，以屏蔽不同的硬件平台造成的差异，增加程序的可移植性。这些宏包括va_start、 va_arg和va_end等。
+采用ANSI标准形式时，参数个数可变的函数的原型声明是：
+type funcname(type para1, type para2, ...)
+这种形式至少需要一个普通的形式参数，后面的省略号不表示省略，而是函数原型的一部分。type是函数返回值和形式参数的类型。
+不同的编译器，对这个可变长参数的实现不一样 ，gcc4.x中是内置函数.
+
+程序分析
+va_list p;  			 /*定义一个变量, 保存函数参数列表的指针*/
+va_start( p , n);        /*用va_start宏 初始化变量p, va_start宏的第2个参数n,是一个固定的参数,必须是我们自己
+						 定义的变长函数的最后一个入栈的参数也就是调用的时候参数列表里的第1个参数*/
+for (; j<n;  ++j)        /* j从1开始, 遍历所有可变参数 */
+{
+    i = va_arg(p, int);  /*va_arg取出当前的参数,并认为取出的参数是一个整数(int)  */
+    for(; i; i&=i-1)     /*判断取出的i是否为0*/
+      ++k;               /* 如果i不为0, k自加, i与i-1进行逻辑与运算, 直到i为0*/
+}
+
+当我们调用ripple函数时，传递给ripple函数的参数列表的第一个参数n的值是3 .
+va_start 初始化p使其指向第一个未命名的参数(n是有名字的参数) ,也就是 5 (第一个).
+每次对 va_arg的调用，都将返回一个参数，并且把 p 指向下一个参数.
+va_arg 用一个类型名来决定返回的参数是何种类型,以及在 var_arg的内部实现中决定移动多大的距离才到达下一个参数
+(; i; i&=i-1) k++        /* 计算i有多少bit被置1 */
+5用二进制表示是 (101) 2
+7用二进制表示 (111) 3
+所以 k 返回 5(2+3),也即本题应该选c
+举个例子，就很好理解了
+令    i = 9 = 1001
+     i-1  = 1000       
+    (i-1) +1 = i
+               1000
+                 +1
+              1 001
+
+因为i与i-1的最右边的那位(最低位) 肯定是不同，如果i最低位是1，i-1肯定是0，反之亦然.     
+i & i-1 这个运算，在二相补的数字系统中，将会消除最右边的1位
+
+对于可变参数的具体用法，可参照以下网址：
+var_start,var_arg,var_end用法
+http://blogold.chinaunix.net/u1/34739/showart_406092.html
+
+
+
+
+22、不考虑其它错误,请查看下几段代码,出哪几段代码能输出”hxy” (10分)
+a) char * func() 
+{
+ 	char * p=malloc(8);
+ 	strcpy(p,”hxy”),
+	return p;
+}
+  int main()
+{
+  	char * buf=func();
+	printf(“%s”,buf);
+	free(buf);
+}
+可以
+b) void func(char * p)
+{
+  	p = malloc(8);
+       strcpy(p,”hxy”);      
+}
+
+  int main()
+{
+	char * buf;
+	func(buf);
+	printf(“%s”,buf);
+	free(buf);
+}
+不可以
+c) void func(char ** p)
+{
+  	*p = malloc(8);
+       strcpy(*p,”hxy”);      
+}
+
+  int main()
+{
+	char * buf;
+	func(&buf);
+	printf(“%s”,buf);
+	free(buf);
+}
+可以
+d) void func(char * p)
+{
+  	if(p)
+       	strcpy(p,”hxy”);      
+}
+
+  int main()
+{
+	char buf[8];
+	func(buf);
+	printf(“%s”,buf);
+}
+可以
+e) void func(char &p)
+{
+  	If(p)
+       	strcpy(*p,”hxy”);      
+}
+
+  int main()
+{
+	char buf[8];
+	func(buf);
+	printf(“%s”,buf);
+}
+语法错误
+
+
+
+23、找错题
+
+　　试题1：
+void test1()
+{
+    char string[10];
+    char* str1 = "0123456789";
+    strcpy(string, str1);  　
+}
+解答：
+　　	字符串str1需要11个字节才能存放下（包括末尾的’\0’），而string只有10个字节的空间，strcpy会导致数组越界,覆盖别的内容
+
+
+　　试题2：
+void test2()
+{
+　	char string[10], str1[10];
+　	int i;
+	for(i=0; i<10; i++){
+         str1[i] = 'a';
+　	}
+　	strcpy( string, str1 );
+　	printf("%s", string);
+}
+解答：
+	由于str1末尾没有'\0'结束标志，所以strcpy不知道拷贝到何时结束, 因此；
+	strcpy( char *s1,char *s2)的工作原理是，扫描s2指向的内存，逐个字符复制到s1所指向的内存，直到碰到'\0',因为str1结尾没有'\0'，所以具有不确定性，不知道后面还会复制什么内容。 
+	printf函数，对于输出char* 类型，顺序打印字符串中的字符直到遇到空字符（'\0'）或已打印了由精度指定的字符数为止。
+	如果面试者指出字符数组str1不能在数组内结束可以给3分；如果面试者指出strcpy(string, str1)调用使得从str1内存起复制到string内存起所复制的字节数具有不确定性可以给7分，在此基础上指出库函数strcpy工作方式的给10分
+
+正确应如下:
+void test2() 
+{ 
+	char string[10], str1[10]; 
+	int i; 
+	for(i=0; i<9; i++) { 
+		str1[i] = 'a'+i; //把abcdefghi赋值给字符数组 
+	} 
+	str[i]='\0';//加上结束符 
+	strcpy( string, str1 ); 
+	printf("%s", string);
+} 
+
+
+　　试题3：
+void test3(char* str1)
+{
+　	char string[10];
+　	if( strlen( str1 ) <= 10 ) {
+　　		strcpy( string, str1 );
+　	}
+}
+答：if(strlen(str1) <= 10)应改为if(strlen(str1) < 10)
+	strcpy拷贝的结束标志是字符串中的'\0'（因为strlen的结果未统计'\0'所占用的1个字节）, 因此如果字符串中没有遇到'\0'的话, 会一直复制，直到遇到'\0'字符。将strlen改为sizeof也可以。
+
+　　　　
+//上面的123题都因此产生数组越界（溢出）的情况
+//建议使用 strncpy 和 memcpy
+剖析：
+　　考查对基本功的掌握：
+　　(1)字符串以'\0'结尾；
+　　(2)对数组越界把握的敏感度；
+　　(3)库函数strcpy的工作方式
+　　(4)对strlen的掌握，它没有包括字符串末尾的'\0'。　
+strlen函数完美的版本为： 
+int strlen( const char *str ) //输入参数const
+{
+　assert( strt != NULL ); //断言字符串地址非0
+　int len = 0;
+　while( (*str++) != '\0' ) { 
+　　len++; 
+　} 
+　return len;
+}　
+
+　　　　
+	试题4：
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void getmemory(char *p)
+{
+	p=(char *)malloc(100);
+	strcpy(p,"hello world");
+}
+//#define NULL (void *)0  //C
+//#define NULL 0  //C++
+int main( )
+{
+	char *str=NULL;
+	getmemory(str);
+	printf("%s\n",str);
+	free(str);
+	return 0;
+}	
+
+解答：
+	程序崩溃
+	getmemory中的malloc 不能返回动态内存， free（str）操作很危险
+	getmemory中p是形参，是一个指针变量，getmemory(str)调用后，传入的是指针变量保存的对象地址，p=(char *) malloc(100)实际上是把申请的动态内存空间的首地址赋给p指向的地址（即str指向的地址null），这显然是错误的。应该修改成指向指针的指针 void getmemory(char **p)，这样malloc返回的地址赋给*p（即str变量本身）。
+
+
+	试题5：请指出下列程序中的错误并且修改
+void GetMemory(char *p)
+{
+	p=(char *)malloc(100);
+}
+void Test( void ) 
+{
+	char *str = NULL;
+	GetMemory( str ); 
+	strcpy( str, "hello world" );
+	printf( "%s\n", str );
+}
+答：在GetMemory( char *p )函数内部修改形参并不能真正的改变传给形参的值（GetMemory并不能传递动态内存），Test函数中执行完GetMemory( str ); 后的str仍然为NULL。
+strcpy(str, "hello world");将使程序崩溃。
+修改如下:
+char *GetMemory()
+{
+	char *p=(char *)malloc(100);
+	return p;
+}
+void Test(void){
+	char *str=NULL;
+	str=GetMemory();
+	strcpy(str,"hello world");
+	printf( "%s\n", str );
+}
+方法二:void GetMemory2(char **p)变为二级指针.
+void GetMemory2(char **p, int num)
+{
+	*p = (char *)malloc(sizeof(char) * num);
+}
+
+　　　
+　　试题6：下列程序执行后的结果是什么？【美国某著名计算机嵌入式公司2005年9月面试题】
+#include <stdio.h>
+char *getMemory(void)
+{
+	char p[] = "hello world";
+	return p;
+}
+int main(void)
+{
+	char *str = NULL;
+	str = getMemory();
+	printf("%d\n", *str);
+	return 0;
+}
+
+答案：可能是乱码，也有可能正常输出。因为p[]数组为函数内的局部自动变量，getMemory返回的是指向“栈内存”的指针，该指针的地址不是NULL，在函数返回后，内存已经被释放，其原先的内容可能已经被清除，新内容不可知，可能是乱码。这是许多程序员常犯的错误，其根源在于不理解变量的生存期。
+
+	
+　　试题7：
+void GetMemory( char **p, int num )
+{
+	*p = (char *) malloc( num );
+}
+
+void Test( void )
+{
+	char *str = NULL;
+	GetMemory( &str, 100 );
+	strcpy( str, "hello" ); 
+	printf( "%s\n", str ); 
+}
+
+解答：
+	（1）能够输出hello；（2）内存泄漏
+　　试题7的GetMemory避免了试题5的问题，传入GetMemory的参数为字符串指针的指针，但是在GetMemory中执行申请内存及赋值
+语句*p = (char *) malloc( num );后未判断内存是否申请成功，应加上：
+	if ( *p == NULL ) {
+　		...//进行申请内存失败处理
+	}
+	Test函数中也未对malloc的内存进行释放。
+
+    
+　　	试题8：
+void Test( void )
+{
+	char *str = (char *)malloc( 100 );
+	strcpy( str, "hello" );
+	free( str ); 
+	printf("%s\n", str);
+}
+解答：
+	试题8结果是：（1）能够输出hello （2）未进行内存是否申请成功的判断（3）指针str变成野指针,应加上：str = NULL;
+
+　　
+	试题9: 请问运行Test 函数会有什么样的结果？
+int Test( )
+{
+	char *str = (char *)malloc(100);
+	strcpy(str, "hello");
+	free(str);
+	if (str != NULL) {
+		strcpy(str, "world");
+		printf("%s\n", str);
+	}
+
+	return 0;
+}
+答：篡改动态内存区的内容，后果难以预料，非常危险。
+因为free(str);之后，str 成为野指针，if(str != NULL)语句不起作用。
+　　
+　　
+	试题10: 分析下面的程序：
+void GetMemory(char **p,int num)
+{
+    *p=(char *)malloc(num);  //申请空间首地址赋给传入的被p指向的指针，即str
+}        
+int main()
+{
+    char *str=NULL;    
+    GetMemory(&str,100);  //传入指针变量本身的地址
+    strcpy(str,"hello");
+    free(str);
+    if(str!=NULL) {
+        strcpy(str,"world");
+    }    
+    printf("\n str is %s\n",str);
+}    
+问输出结果是什么？
+
+答案：输出str is world。
+	p，指向指针的指针，*p，p指向的指针(即str)，**p，最终的对象，str指向的单元.
+	free只是释放的str指向的内存空间,它本身的值还是存在的.所以free之后，有一个好的习惯就是将str=NULL.
+此时str指向空间的内存已被回收,如果输出语句之前还存在分配空间的操作的话,这段存储空间是可能被重新分配给其他变量的,尽管这段程序确实是存在大大的问题（上面各位已经说得很清楚了），但是通常会打印出world来。
+	这是因为，进程中的内存管理一般不是由操作系统完成的，而是由库函数自己完成的。当你malloc一块内存的时候，管理库向操作系统申请一块空间（可能会比你申请的大一些），然后在这块空间中记录一些管理信息（一般是在你申请的内存前面一点），并将可用内存的地址返回。但是释放内存的时候，管理库通常都不会将内存还给操作系统，因此你是可以继续访问这块地址的，只不过最好别这么干。　　
+　　
+　　
+　　剖析：
+　　试题4～10考查面试者对内存操作的理解程度，基本功扎实的面试者一般都能正确的回答其中50%~60%的错误。但是要完全解答正确，却也绝非易事。
+　　对内存操作的考查主要集中在：
+　　（1）指针的理解；
+　　（2）变量的生存期及作用范围；
+　　（3）良好的动态内存申请和释放习惯。
+
+
+
+24、动态内存分配（Dynamic memory allocation） 
+尽管不像非嵌入式计算机那么常见，嵌入式系统还是有从堆（heap）中动态分配内存的过程的。那么嵌入式系统中，动态分配内存可能发生的问题是什么？这里，我期望应试者能提到内存碎片，碎片收集的问题，变量的持行时间等等。这个主题已经在ESP杂志中被广泛地讨论过了（主要是 P.J. Plauger, 他的解释远远超过我这里能提到的任何解释），所有回过头看一下这些杂志吧！让应试者进入一种虚假的安全感觉后，我拿出这么一个小节目：下面的代码片段的输出是什么，为什么？
+
+char *ptr;
+if ((ptr = (char *)malloc(0)) == NULL) 
+	puts("Got a null pointer");
+else
+	puts("Got a valid pointer");
+
+这是一个有趣的问题。最近在我的一个同事不经意把0值传给了函数malloc，得到了一个合法的指针之后，我才想到这个问题。这就是上面的代码，该代码的输出是"Got a valid pointer"。我用这个来开始讨论这样的一问题，看看被面试者是否想到库例程这样做是正确（因为如果申请失败，则程序处理认为内存不足了，一般会终止程序，是很严重的问题？）。得到正确的答案固然重要，但解决问题的方法和你做决定的基本原理更重要些。
+
+返回一個空指針还是指向 0 字节的指针甚至指向一个可以操作的指针？
+（取决于系统平台的实现，C99及其他标准规定可以不同的）
+
+malloc(0) in glibc returns a valid pointer to something(!?!?) while in uClibc calling malloc(0) returns a NULL. The behavior of malloc(0) is listed as implementation-defined by SuSv3, so both libraries are equally correct. This difference also applies to realloc(NULL, 0). I personally feel glibc's behavior is not particularly safe. To enable glibc behavior, one has to explicitly enable the MALLOC_GLIBC_COMPAT option. 
+
+
+
+25、下面调用的三个函数有问题吗？如果有，是什么问题？
+static int *foo_1()
+{
+	int x = 10; 
+	return &x;
+}
+static int *foo_2()
+{
+	int *ptr; //野指针
+	//int *p = NULL; //空指针
+	*ptr = 10; //段错误
+	return ptr;
+}
+static int *foo_3()
+{
+	int *ptr = (int *)malloc(sizeof *ptr);
+	return ptr;
+}
+static void test26()
+{
+	foo_1();
+//	foo_2();
+//	foo_3();
+}
+答：
+f1显然有问题，它返回一个局部变量的指针，局部变量是保存在stack中的,退出函数后，局部变量就销毁了，保留其指针没有意义，因为其指向的stack空间可能被其他变量覆盖了
+f2也有问题, ptr是局部变量，未初始化，它的值是未知的，*ptr不知道指向哪里了，直接给*ptr赋值可能会覆盖重要的系统变量，这就是通常说的野指针的一种.
+
+
+

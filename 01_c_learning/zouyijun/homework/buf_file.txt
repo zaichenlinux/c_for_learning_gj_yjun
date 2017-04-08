@@ -1,0 +1,332 @@
+/usr/include/aio.h:  volatile void *aio_buf;	/* Location of buffer.  */
+/usr/include/aio.h:  volatile void *aio_buf;	/* Location of buffer.  */
+/usr/include/aliases.h:/* Get the next entry from the alias data base and put it in RESULT_BUF.  */
+/usr/include/aliases.h:extern int getaliasent_r (struct aliasent *__restrict __result_buf,
+/usr/include/aliases.h:			  char *__restrict __buffer, size_t __buflen,
+/usr/include/aliases.h:/* Get alias entry corresponding to NAME and put it in RESULT_BUF.  */
+/usr/include/aliases.h:			     struct aliasent *__restrict __result_buf,
+/usr/include/aliases.h:			     char *__restrict __buffer, size_t __buflen,
+/usr/include/argz.h:/* Append BUF, of length BUF_LEN to the argz vector in ARGZ & ARGZ_LEN.  */
+/usr/include/argz.h:			      const char *__restrict __buf, size_t __buf_len)
+/usr/include/argz.h:			    const char *__restrict __buf, size_t __buf_len)
+/usr/include/crypt.h:    char crypt_3_buf[14];
+/usr/include/dirent.h:/* Read directory entries from FD into BUF, reading at most NBYTES.
+/usr/include/dirent.h:extern __ssize_t getdirentries (int __fd, char *__restrict __buf,
+/usr/include/dirent.h:				 (int __fd, char *__restrict __buf,
+/usr/include/dirent.h:extern __ssize_t getdirentries64 (int __fd, char *__restrict __buf,
+/usr/include/dlfcn.h:       entries to indicate the size of the buffer that must be passed to
+/usr/include/dlfcn.h:   The `dls_name' member points to space in the buffer passed to `dlinfo'.  */
+/usr/include/dlfcn.h:  size_t dls_size;		/* Size in bytes of the whole buffer.  */
+/usr/include/_G_config.h:#define _G_HAVE_ST_BLKSIZE defined (_STATBUF_ST_BLKSIZE)
+/usr/include/_G_config.h:#define _G_BUFSIZ 8192
+/usr/include/gconv.h:     step.  This helps optimizing the buffer sizes.  */
+/usr/include/gconv.h:  unsigned char *__outbuf;    /* Output buffer for this step.  */
+/usr/include/gconv.h:  unsigned char *__outbufend; /* Address of first byte after the output
+/usr/include/gconv.h:				 buffer.  */
+/usr/include/gconv.h:				  const unsigned char *inbufstart,
+/usr/include/gconv.h:				  const unsigned char **inbufp,
+/usr/include/gconv.h:				  const unsigned char *inbufend,
+/usr/include/gconv.h:				  unsigned char **outbufstart,
+/usr/include/gnumake.h:/* Run $(eval ...) on the provided string BUFFER.  */
+/usr/include/gnumake.h:GMK_EXPORT void gmk_eval (const char *buffer, const gmk_floc *floc);
+/usr/include/gnumake.h:   Returns an allocated buffer that the caller must free with gmk_free().  */
+/usr/include/grp.h:/* Reasonable value for the buffer sized used in the reentrant
+/usr/include/grp.h:#  define NSS_BUFLEN_GROUP	1024
+/usr/include/grp.h:extern int getgrent_r (struct group *__restrict __resultbuf,
+/usr/include/grp.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/grp.h:extern int getgrgid_r (__gid_t __gid, struct group *__restrict __resultbuf,
+/usr/include/grp.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/grp.h:		       struct group *__restrict __resultbuf,
+/usr/include/grp.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/grp.h:			struct group *__restrict __resultbuf,
+/usr/include/grp.h:			char *__restrict __buffer, size_t __buflen,
+/usr/include/gshadow.h:extern int getsgent_r (struct sgrp *__result_buf, char *__buffer,
+/usr/include/gshadow.h:		       size_t __buflen, struct sgrp **__result);
+/usr/include/gshadow.h:extern int getsgnam_r (const char *__name, struct sgrp *__result_buf,
+/usr/include/gshadow.h:		       char *__buffer, size_t __buflen,
+/usr/include/gshadow.h:extern int sgetsgent_r (const char *__string, struct sgrp *__result_buf,
+/usr/include/gshadow.h:			char *__buffer, size_t __buflen,
+/usr/include/gshadow.h:extern int fgetsgent_r (FILE *__stream, struct sgrp *__result_buf,
+/usr/include/gshadow.h:			char *__buffer, size_t __buflen,
+/usr/include/iconv.h:/* Convert at most *INBYTESLEFT bytes from *INBUF according to the
+/usr/include/iconv.h:   *OUTBYTESLEFT bytes in buffer at *OUTBUF.  */
+/usr/include/iconv.h:extern size_t iconv (iconv_t __cd, char **__restrict __inbuf,
+/usr/include/iconv.h:		     char **__restrict __outbuf,
+/usr/include/libio.h:#define _IO_BUFSIZ _G_BUFSIZ
+/usr/include/libio.h:#define _IO_USER_BUF 1 /* User owns buffer; don't delete it on close. */
+/usr/include/libio.h:#define _IO_UNBUFFERED 2
+/usr/include/libio.h:#define _IO_LINKED 0x80 /* Set if linked (using _chain) to streambuf::_list_all.*/
+/usr/include/libio.h:#define _IO_LINE_BUF 0x200
+/usr/include/libio.h:#define _IO_IS_FILEBUF 0x2000
+/usr/include/libio.h:#define _IO_FLAGS2_USER_WBUF 8
+/usr/include/libio.h:#define _IO_UNITBUF 020000
+/usr/include/libio.h:/* A streammarker remembers a position in a buffer. */
+/usr/include/libio.h:  struct _IO_FILE *_sbuf;
+/usr/include/libio.h: it points to _buf->Gbase()+_pos. FIXME comment */
+/usr/include/libio.h:  /* if _pos < 0, it points to _buf->eBptr()+_pos. FIXME comment */
+/usr/include/libio.h:    streammarker(streambuf *sb);
+/usr/include/libio.h:  wchar_t *_IO_buf_base;	/* Start of reserve area. */
+/usr/include/libio.h:  wchar_t *_IO_buf_end;		/* End of reserve area. */
+/usr/include/libio.h:  wchar_t _shortbuf[1];
+/usr/include/libio.h:  /* The following pointers correspond to the C++ streambuf protocol. */
+/usr/include/libio.h:  char* _IO_buf_base;	/* Start of reserve area. */
+/usr/include/libio.h:  char* _IO_buf_end;	/* End of reserve area. */
+/usr/include/libio.h:  char _shortbuf[1];
+/usr/include/libio.h:  void *_freeres_buf;
+/usr/include/libio.h:/* Read NBYTES bytes from COOKIE into a buffer pointed to by BUF.
+/usr/include/libio.h:typedef __ssize_t __io_read_fn (void *__cookie, char *__buf, size_t __nbytes);
+/usr/include/libio.h:/* Write N bytes pointed to by BUF to COOKIE.  Write all N bytes
+/usr/include/libio.h:typedef __ssize_t __io_write_fn (void *__cookie, const char *__buf,
+/usr/include/mntent.h:				   char *__restrict __buffer,
+/usr/include/mntent.h:				   int __bufsize) __THROW;
+/usr/include/netdb.h:   arguments specify a buffer of BUFLEN starting at BUF.  The last
+/usr/include/netdb.h:extern int gethostent_r (struct hostent *__restrict __result_buf,
+/usr/include/netdb.h:			 char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			    struct hostent *__restrict __result_buf,
+/usr/include/netdb.h:			    char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			    struct hostent *__restrict __result_buf,
+/usr/include/netdb.h:			    char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			     struct hostent *__restrict __result_buf,
+/usr/include/netdb.h:			     char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:   arguments specify a buffer of BUFLEN starting at BUF.  The last
+/usr/include/netdb.h:extern int getnetent_r (struct netent *__restrict __result_buf,
+/usr/include/netdb.h:			char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			   struct netent *__restrict __result_buf,
+/usr/include/netdb.h:			   char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			   struct netent *__restrict __result_buf,
+/usr/include/netdb.h:			   char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:   arguments specify a buffer of BUFLEN starting at BUF.
+/usr/include/netdb.h:extern int getservent_r (struct servent *__restrict __result_buf,
+/usr/include/netdb.h:			 char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			    struct servent *__restrict __result_buf,
+/usr/include/netdb.h:			    char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			    struct servent *__restrict __result_buf,
+/usr/include/netdb.h:			    char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:   arguments specify a buffer of BUFLEN starting at BUF.
+/usr/include/netdb.h:extern int getprotoent_r (struct protoent *__restrict __result_buf,
+/usr/include/netdb.h:			  char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			     struct protoent *__restrict __result_buf,
+/usr/include/netdb.h:			     char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:			       struct protoent *__restrict __result_buf,
+/usr/include/netdb.h:			       char *__restrict __buf, size_t __buflen,
+/usr/include/netdb.h:/* Reentrant version of `getnetgrent' where result is placed in BUFFER.
+/usr/include/netdb.h:			  char *__restrict __buffer, size_t __buflen);
+/usr/include/netdb.h:# define EAI_OVERFLOW	  -12	/* Argument buffer overflow.  */
+/usr/include/obstack.h:   buffer, realloc()ating the buffer every time you try to read a symbol
+/usr/include/obstack.h:   that is longer than the buffer.  This is beaut, but you still will
+/usr/include/obstack.h:   want to copy the symbol from the buffer to a more permanent
+/usr/include/pthread.h:/* Cleanup buffers */
+/usr/include/pthread.h:struct _pthread_cleanup_buffer
+/usr/include/pthread.h:  struct _pthread_cleanup_buffer *__prev; /* Chaining of cleanup functions.  */
+/usr/include/pthread.h:extern int pthread_getname_np (pthread_t __target_thread, char *__buf,
+/usr/include/pthread.h:			       size_t __buflen)
+/usr/include/pthread.h:    __jmp_buf __cancel_jmp_buf;
+/usr/include/pthread.h:  } __cancel_jmp_buf[1];
+/usr/include/pthread.h:} __pthread_unwind_buf_t __attribute__ ((__aligned__));
+/usr/include/pthread.h:    __pthread_unwind_buf_t __cancel_buf;				      \
+/usr/include/pthread.h:    int __not_first_call = __sigsetjmp ((struct __jmp_buf_tag *) (void *)     \
+/usr/include/pthread.h:					__cancel_buf.__cancel_jmp_buf, 0);    \
+/usr/include/pthread.h:	__pthread_unwind_next (&__cancel_buf);				      \
+/usr/include/pthread.h:    __pthread_register_cancel (&__cancel_buf);				      \
+/usr/include/pthread.h:extern void __pthread_register_cancel (__pthread_unwind_buf_t *__buf)
+/usr/include/pthread.h:    __pthread_unregister_cancel (&__cancel_buf);			      \
+/usr/include/pthread.h:extern void __pthread_unregister_cancel (__pthread_unwind_buf_t *__buf)
+/usr/include/pthread.h:    __pthread_unwind_buf_t __cancel_buf;				      \
+/usr/include/pthread.h:    int __not_first_call = __sigsetjmp ((struct __jmp_buf_tag *) (void *)     \
+/usr/include/pthread.h:					__cancel_buf.__cancel_jmp_buf, 0);    \
+/usr/include/pthread.h:	__pthread_unwind_next (&__cancel_buf);				      \
+/usr/include/pthread.h:    __pthread_register_cancel_defer (&__cancel_buf);			      \
+/usr/include/pthread.h:extern void __pthread_register_cancel_defer (__pthread_unwind_buf_t *__buf)
+/usr/include/pthread.h:    __pthread_unregister_cancel_restore (&__cancel_buf);		      \
+/usr/include/pthread.h:extern void __pthread_unregister_cancel_restore (__pthread_unwind_buf_t *__buf)
+/usr/include/pthread.h:extern void __pthread_unwind_next (__pthread_unwind_buf_t *__buf)
+/usr/include/pthread.h:struct __jmp_buf_tag;
+/usr/include/pthread.h:extern int __sigsetjmp (struct __jmp_buf_tag *__env, int __savemask) __THROWNL;
+/usr/include/pwd.h:/* Reasonable value for the buffer sized used in the reentrant
+/usr/include/pwd.h:#  define NSS_BUFLEN_PASSWD	1024
+/usr/include/pwd.h:extern int getpwent_r (struct passwd *__restrict __resultbuf,
+/usr/include/pwd.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/pwd.h:		       struct passwd *__restrict __resultbuf,
+/usr/include/pwd.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/pwd.h:		       struct passwd *__restrict __resultbuf,
+/usr/include/pwd.h:		       char *__restrict __buffer, size_t __buflen,
+/usr/include/pwd.h:			struct passwd *__restrict __resultbuf,
+/usr/include/pwd.h:			char *__restrict __buffer, size_t __buflen,
+/usr/include/pwd.h:   in the given buffer.  This knows the format that the caller
+/usr/include/pwd.h:extern int getpw (__uid_t __uid, char *__buffer);
+/usr/include/regex.h:   stored in the pattern buffer, so changing this does not affect
+/usr/include/regex.h:   buffer.  */
+/usr/include/regex.h:   the pattern compiler, the fields `buffer', `allocated', `fastmap',
+/usr/include/regex.h:struct re_pattern_buffer
+/usr/include/regex.h:  unsigned char *__REPB_PREFIX(buffer);
+/usr/include/regex.h:  /* Number of bytes to which `buffer' points.  */
+/usr/include/regex.h:  /* Number of bytes actually used in `buffer'.  */
+/usr/include/regex.h:typedef struct re_pattern_buffer regex_t;
+/usr/include/regex.h:/* If `regs_allocated' is REGS_UNALLOCATED in the pattern buffer,
+/usr/include/regex.h:   and syntax given by the global `re_syntax_options', into the buffer
+/usr/include/regex.h:   BUFFER.  Return NULL if successful, and an error string if not.
+/usr/include/regex.h:   To free the allocated storage, you must call `regfree' on BUFFER.
+/usr/include/regex.h:				       struct re_pattern_buffer *__buffer);
+/usr/include/regex.h:/* Compile a fastmap for the compiled pattern in BUFFER; used to
+/usr/include/regex.h:extern int re_compile_fastmap (struct re_pattern_buffer *__buffer);
+/usr/include/regex.h:   compiled into BUFFER.  Start searching at position START, for RANGE
+/usr/include/regex.h:   information in REGS (if REGS and BUFFER->no_sub are nonzero).  */
+/usr/include/regex.h:extern int re_search (struct re_pattern_buffer *__buffer, const char *__string,
+/usr/include/regex.h:extern int re_search_2 (struct re_pattern_buffer *__buffer,
+/usr/include/regex.h:   in BUFFER matched, starting at position START.  */
+/usr/include/regex.h:extern int re_match (struct re_pattern_buffer *__buffer, const char *__string,
+/usr/include/regex.h:extern int re_match_2 (struct re_pattern_buffer *__buffer,
+/usr/include/regex.h:   ENDS.  Subsequent matches using BUFFER and REGS will use this memory
+/usr/include/regex.h:   PATTERN_BUFFER will allocate its own register data, without
+/usr/include/regex.h:extern void re_set_registers (struct re_pattern_buffer *__buffer,
+/usr/include/regex.h:			char *__restrict __errbuf, size_t __errbuf_size);
+/usr/include/setjmp.h:#include <bits/setjmp.h>		/* Get `__jmp_buf'.  */
+/usr/include/setjmp.h:struct __jmp_buf_tag
+/usr/include/setjmp.h:       assume that a `jmp_buf' begins with a `__jmp_buf' and that
+/usr/include/setjmp.h:    __jmp_buf __jmpbuf;		/* Calling environment.  */
+/usr/include/setjmp.h:typedef struct __jmp_buf_tag jmp_buf[1];
+/usr/include/setjmp.h:extern int setjmp (jmp_buf __env) __THROWNL;
+/usr/include/setjmp.h:extern int __sigsetjmp (struct __jmp_buf_tag __env[1], int __savemask) __THROWNL;
+/usr/include/setjmp.h:extern int _setjmp (struct __jmp_buf_tag __env[1]) __THROWNL;
+/usr/include/setjmp.h:extern void longjmp (struct __jmp_buf_tag __env[1], int __val)
+/usr/include/setjmp.h:extern void _longjmp (struct __jmp_buf_tag __env[1], int __val)
+/usr/include/setjmp.h:/* Use the same type for `jmp_buf' and `sigjmp_buf'.
+/usr/include/setjmp.h:typedef struct __jmp_buf_tag sigjmp_buf[1];
+/usr/include/setjmp.h:extern void siglongjmp (sigjmp_buf __env, int __val)
+/usr/include/shadow.h:extern int getspent_r (struct spwd *__result_buf, char *__buffer,
+/usr/include/shadow.h:		       size_t __buflen, struct spwd **__result);
+/usr/include/shadow.h:extern int getspnam_r (const char *__name, struct spwd *__result_buf,
+/usr/include/shadow.h:		       char *__buffer, size_t __buflen,
+/usr/include/shadow.h:extern int sgetspent_r (const char *__string, struct spwd *__result_buf,
+/usr/include/shadow.h:			char *__buffer, size_t __buflen,
+/usr/include/shadow.h:extern int fgetspent_r (FILE *__stream, struct spwd *__result_buf,
+/usr/include/shadow.h:			char *__buffer, size_t __buflen,
+/usr/include/stdio_ext.h:/* Return the size of the buffer of FP in bytes currently in use by
+/usr/include/stdio_ext.h:extern size_t __fbufsize (FILE *__fp) __THROW;
+/usr/include/stdio_ext.h:/* Return non-zero value iff the stream FP is line-buffered.  */
+/usr/include/stdio_ext.h:/* Discard all pending buffered I/O on the stream FP.  */
+/usr/include/stdio_ext.h:/* Flush all line-buffered files.  */
+/usr/include/stdio.h:/* The possibilities for the third argument to `setvbuf'.  */
+/usr/include/stdio.h:#define _IOFBF 0		/* Fully buffered.  */
+/usr/include/stdio.h:#define _IOLBF 1		/* Line buffered.  */
+/usr/include/stdio.h:#define _IONBF 2		/* No buffering.  */
+/usr/include/stdio.h:/* Default buffer size.  */
+/usr/include/stdio.h:#ifndef BUFSIZ
+/usr/include/stdio.h:# define BUFSIZ _IO_BUFSIZ
+/usr/include/stdio.h:/* Create a new stream that refers to a memory buffer.  */
+/usr/include/stdio.h:/* Open a stream that writes into a malloc'd buffer that is expanded as
+/usr/include/stdio.h:   necessary.  *BUFLOC and *SIZELOC are updated with the buffer's location
+/usr/include/stdio.h:extern FILE *open_memstream (char **__bufloc, size_t *__sizeloc) __THROW __wur;
+/usr/include/stdio.h:/* If BUF is NULL, make STREAM unbuffered.
+/usr/include/stdio.h:   Else make it use buffer BUF, of size BUFSIZ.  */
+/usr/include/stdio.h:extern void setbuf (FILE *__restrict __stream, char *__restrict __buf) __THROW;
+/usr/include/stdio.h:/* Make STREAM use buffering mode MODE.
+/usr/include/stdio.h:   If BUF is not NULL, use N bytes of it for buffering;
+/usr/include/stdio.h:   else allocate an internal buffer N bytes long.  */
+/usr/include/stdio.h:extern int setvbuf (FILE *__restrict __stream, char *__restrict __buf,
+/usr/include/stdio.h:/* If BUF is NULL, make STREAM unbuffered.
+/usr/include/stdio.h:   Else make it use SIZE bytes of BUF for buffering.  */
+/usr/include/stdio.h:extern void setbuffer (FILE *__restrict __stream, char *__restrict __buf,
+/usr/include/stdio.h:/* Make STREAM line-buffered.  */
+/usr/include/stdio.h:extern void setlinebuf (FILE *__stream) __THROW;
+/usr/include/stdio.h:/* Push a character back onto the input buffer of STREAM.
+/usr/include/stdlib.h:/* Initialize the random number generator to use state buffer STATEBUF,
+/usr/include/stdlib.h:extern char *initstate (unsigned int __seed, char *__statebuf,
+/usr/include/stdlib.h:/* Switch the random number generator to state buffer STATEBUF,
+/usr/include/stdlib.h:extern char *setstate (char *__statebuf) __THROW __nonnull ((1));
+/usr/include/stdlib.h:extern int random_r (struct random_data *__restrict __buf,
+/usr/include/stdlib.h:extern int srandom_r (unsigned int __seed, struct random_data *__buf)
+/usr/include/stdlib.h:extern int initstate_r (unsigned int __seed, char *__restrict __statebuf,
+/usr/include/stdlib.h:			struct random_data *__restrict __buf)
+/usr/include/stdlib.h:extern int setstate_r (char *__restrict __statebuf,
+/usr/include/stdlib.h:		       struct random_data *__restrict __buf)
+/usr/include/stdlib.h:extern int drand48_r (struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:		      struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:extern int lrand48_r (struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:		      struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:extern int mrand48_r (struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:		      struct drand48_data *__restrict __buffer,
+/usr/include/stdlib.h:extern int srand48_r (long int __seedval, struct drand48_data *__buffer)
+/usr/include/stdlib.h:		     struct drand48_data *__buffer) __THROW __nonnull ((1, 2));
+/usr/include/stdlib.h:		      struct drand48_data *__buffer)
+/usr/include/stdlib.h:   be written to BUF.  */
+/usr/include/stdlib.h:extern char *gcvt (double __value, int __ndigit, char *__buf)
+/usr/include/stdlib.h:extern char *qgcvt (long double __value, int __ndigit, char *__buf)
+/usr/include/stdlib.h:   buffers.  */
+/usr/include/stdlib.h:		   int *__restrict __sign, char *__restrict __buf,
+/usr/include/stdlib.h:		   int *__restrict __sign, char *__restrict __buf,
+/usr/include/stdlib.h:		    char *__restrict __buf, size_t __len)
+/usr/include/stdlib.h:		    char *__restrict __buf, size_t __len)
+/usr/include/stdlib.h:/* Store at most BUFLEN characters of the pathname of the slave pseudo
+/usr/include/stdlib.h:   terminal associated with the master FD is open on in BUF.
+/usr/include/stdlib.h:extern int ptsname_r (int __fd, char *__buf, size_t __buflen)
+/usr/include/stdlib.h:/* Define some macros helping to catch buffer overflows.  */
+/usr/include/string.h:   and may or may not use the supplied temporary buffer and POSIX one
+/usr/include/string.h:   which fills the string into the buffer.
+/usr/include/string.h:/* Fill BUF with a string describing the meaning of the `errno' code in
+/usr/include/string.h:			   (int __errnum, char *__buf, size_t __buflen),
+/usr/include/string.h:extern int __xpg_strerror_r (int __errnum, char *__buf, size_t __buflen)
+/usr/include/string.h:/* If a temporary buffer is required, at most BUFLEN bytes of BUF will be
+/usr/include/string.h:extern char *strerror_r (int __errnum, char *__buf, size_t __buflen)
+/usr/include/stropts.h:extern int getmsg (int __fildes, struct strbuf *__restrict __ctlptr,
+/usr/include/stropts.h:		   struct strbuf *__restrict __dataptr,
+/usr/include/stropts.h:extern int getpmsg (int __fildes, struct strbuf *__restrict __ctlptr,
+/usr/include/stropts.h:		    struct strbuf *__restrict __dataptr,
+/usr/include/stropts.h:extern int putmsg (int __fildes, const struct strbuf *__ctlptr,
+/usr/include/stropts.h:		   const struct strbuf *__dataptr, int __flags);
+/usr/include/stropts.h:extern int putpmsg (int __fildes, const struct strbuf *__ctlptr,
+/usr/include/stropts.h:		    const struct strbuf *__dataptr, int __band, int __flags);
+/usr/include/sudo_plugin.h: * password sudo will support.  This means that a buffer of size
+/usr/include/sudo_plugin.h:    int (*log_ttyin)(const char *buf, unsigned int len);
+/usr/include/sudo_plugin.h:    int (*log_ttyout)(const char *buf, unsigned int len);
+/usr/include/sudo_plugin.h:    int (*log_stdin)(const char *buf, unsigned int len);
+/usr/include/sudo_plugin.h:    int (*log_stdout)(const char *buf, unsigned int len);
+/usr/include/sudo_plugin.h:    int (*log_stderr)(const char *buf, unsigned int len);
+/usr/include/thread_db.h:} td_eventbuf_t;
+/usr/include/time.h:/* Return in BUF a string of the form "Day Mon dd hh:mm:ss yyyy\n"
+/usr/include/time.h:			char *__restrict __buf) __THROW;
+/usr/include/time.h:/* Equivalent to `asctime_r (localtime_r (timer, *TMP*), buf)'.  */
+/usr/include/time.h:		      char *__restrict __buf) __THROW;
+/usr/include/time.h:   and the static buffer to return the result in, we provide a thread-safe
+/usr/include/time.h:   the buffer pointed to by RESBUFP and in case of an error the return
+/usr/include/time.h:		      struct tm *__restrict __resbufp);
+/usr/include/unistd.h:/* Read NBYTES into BUF from FD.  Return the
+/usr/include/unistd.h:extern ssize_t read (int __fd, void *__buf, size_t __nbytes) __wur;
+/usr/include/unistd.h:/* Write N bytes of BUF to FD.  Return the number written, or -1.
+/usr/include/unistd.h:extern ssize_t write (int __fd, const void *__buf, size_t __n) __wur;
+/usr/include/unistd.h:/* Read NBYTES into BUF from FD at the given position OFFSET without
+/usr/include/unistd.h:extern ssize_t pread (int __fd, void *__buf, size_t __nbytes,
+/usr/include/unistd.h:/* Write N bytes of BUF to FD at the given position OFFSET without
+/usr/include/unistd.h:extern ssize_t pwrite (int __fd, const void *__buf, size_t __n,
+/usr/include/unistd.h:extern ssize_t __REDIRECT (pread, (int __fd, void *__buf, size_t __nbytes,
+/usr/include/unistd.h:extern ssize_t __REDIRECT (pwrite, (int __fd, const void *__buf,
+/usr/include/unistd.h:/* Read NBYTES into BUF from FD at the given position OFFSET without
+/usr/include/unistd.h:extern ssize_t pread64 (int __fd, void *__buf, size_t __nbytes,
+/usr/include/unistd.h:/* Write N bytes of BUF to FD at the given position OFFSET without
+/usr/include/unistd.h:extern ssize_t pwrite64 (int __fd, const void *__buf, size_t __n,
+/usr/include/unistd.h:   and put it in SIZE bytes of BUF.  Returns NULL if the
+/usr/include/unistd.h:   If successful, returns BUF.  In GNU, if BUF is NULL,
+/usr/include/unistd.h:extern char *getcwd (char *__buf, size_t __size) __THROW __wur;
+/usr/include/unistd.h:/* Put the absolute pathname of the current working directory in BUF.
+/usr/include/unistd.h:   If successful, return BUF.  If not, put an error message in
+/usr/include/unistd.h:   BUF and return NULL.  BUF should be at least PATH_MAX bytes long.  */
+/usr/include/unistd.h:extern char *getwd (char *__buf)
+/usr/include/unistd.h:extern size_t confstr (int __name, char *__buf, size_t __len) __THROW;
+/usr/include/unistd.h:/* Store at most BUFLEN characters of the pathname of the terminal FD is
+/usr/include/unistd.h:   open on in BUF.  Return 0 on success, otherwise an error number.  */
+/usr/include/unistd.h:extern int ttyname_r (int __fd, char *__buf, size_t __buflen)
+/usr/include/unistd.h:   LEN bytes of BUF.  The contents are not null-terminated.
+/usr/include/unistd.h:			 char *__restrict __buf, size_t __len)
+/usr/include/unistd.h:			   char *__restrict __buf, size_t __len)
+/usr/include/unistd.h:   SIZE bytes of SAMPLE_BUFFER; every processor clock tick while profiling
+/usr/include/unistd.h:   SAMPLE_BUFFER[((PC - OFFSET) / 2) * SCALE / 65536].  If SCALE is zero,
+/usr/include/unistd.h:extern int profil (unsigned short int *__sample_buffer, size_t __size,
+/usr/include/unistd.h:/* Define some macros helping to catch buffer overflows.  */
+/usr/include/utime.h:struct utimbuf
+/usr/include/utime.h:		  const struct utimbuf *__file_times)
+/usr/include/utmp.h:extern int getutent_r (struct utmp *__buffer, struct utmp **__result) __THROW;
+/usr/include/utmp.h:extern int getutid_r (const struct utmp *__id, struct utmp *__buffer,
+/usr/include/utmp.h:			struct utmp *__buffer, struct utmp **__result) __THROW;
+/usr/include/wchar.h:extern __FILE *open_wmemstream (wchar_t **__bufloc, size_t *__sizeloc) __THROW;
+/usr/include/wchar.h:/* Push a character back onto the input buffer of STREAM.
+/usr/include/wchar.h:/* Define some macros helping to catch buffer overflows.  */

@@ -1,0 +1,135 @@
+/usr/include/argp.h:  /* If non-NULL, this is the name of the argument associated with this
+/usr/include/argp.h:     associated with the option, and ARG is any associated argument (NULL if
+/usr/include/argp.h:  /* If non-NULL, a string containing extra text to be printed before and
+/usr/include/argp.h:     string, which should be malloced, and will be freed by argp, or NULL,
+/usr/include/argp.h:     supplied to argp_parse, or NULL, if argp_help was called directly.  */
+/usr/include/argp.h:					     TEXT is NULL for this key.  */
+/usr/include/argp.h:   FLAGS is one of the ARGP_ flags above.  If ARG_INDEX is non-NULL, the
+/usr/include/argz.h:   existing entry in ARGZ; if BEFORE is NULL, ENTRY is appended to the end.
+/usr/include/argz.h:/* Returns the next entry in ARGZ & ARGZ_LEN after ENTRY, or NULL if there
+/usr/include/argz.h:   are no more.  If entry is NULL, then the first entry is returned.  This
+/usr/include/argz.h:      return __entry >= __argz + __argz_len ? (char *) NULL : (char *) __entry;
+/usr/include/dirent.h:   Return a DIR stream on the directory, or NULL if it could not be opened.
+/usr/include/dirent.h:   dirent' describing the entry, or NULL for EOF or error.  The
+/usr/include/elf.h:#define SHT_NULL	  0		/* Section header table entry unused */
+/usr/include/elf.h:#define	PT_NULL		0		/* Program header table entry unused */
+/usr/include/elf.h:#define DT_NULL		0		/* Marks end of dynamic section */
+/usr/include/elf.h:#define ODK_NULL	0	/* Undefined.  */
+/usr/include/envz.h:   NULL, then the new entry will a special null one, for which envz_get will
+/usr/include/envz.h:   return NULL, although envz_entry will still return an entry; this is handy
+/usr/include/error.h:/* If NULL, error will flush stdout, then print on stderr the program
+/usr/include/fmtmsg.h:#define MM_NULLLBL	((char *) 0)
+/usr/include/fmtmsg.h:#define MM_NULLSEV	0
+/usr/include/fmtmsg.h:#define MM_NULLMC	((long int) 0)
+/usr/include/fmtmsg.h:#define MM_NULLTXT	((char *) 0)
+/usr/include/fmtmsg.h:#define MM_NULLACT	((char *) 0)
+/usr/include/fmtmsg.h:#define MM_NULLTAG	((char *) 0)
+/usr/include/_G_config.h:#define __need_NULL
+/usr/include/getopt.h:   If the field `flag' is not NULL, it points to a variable that is set
+/usr/include/gettext-po.h:     PREFIX is non-NULL.  */
+/usr/include/gettext-po.h:     If FILENAME is NULL, FILENAME and LINENO and COLUMN should be ignored.
+/usr/include/gettext-po.h:   Return its contents.  Upon failure, return NULL and set errno.  */
+/usr/include/gettext-po.h:   Upon failure, return NULL and set errno.  */
+/usr/include/gettext-po.h:   The domain NULL denotes the default domain.
+/usr/include/gettext-po.h:   Return NULL if there is no header entry.  */
+/usr/include/gettext-po.h:   caller, or NULL.  */
+/usr/include/gettext-po.h:   The domain NULL denotes the default domain.  */
+/usr/include/gettext-po.h:   Return NULL at the end of the message list.  */
+/usr/include/gettext-po.h:/* Return the context of a message, or NULL for a message not restricted to a
+/usr/include/gettext-po.h:/* Change the context of a message. NULL means a message not restricted to a
+/usr/include/gettext-po.h:   or NULL for a message without plural.  */
+/usr/include/gettext-po.h:   NULL means a message without plural.  */
+/usr/include/gettext-po.h:   NULL when the index is out of range or for a message without plural.  */
+/usr/include/gettext-po.h:   Use a NULL value at the end to reduce the number of plural forms.  */
+/usr/include/gettext-po.h:/* Return the i-th file position for a message, or NULL if i is out of
+/usr/include/gettext-po.h:/* Return the previous context of a message, or NULL for none.  */
+/usr/include/gettext-po.h:/* Change the previous context of a message.  NULL is allowed.  */
+/usr/include/gettext-po.h:   NULL for none.  */
+/usr/include/gettext-po.h:   NULL is allowed.  */
+/usr/include/gettext-po.h:   message, or NULL for none.  */
+/usr/include/gettext-po.h:   message.  NULL is allowed.  */
+/usr/include/gettext-po.h:/* Return a NULL terminated array of the supported format types.  */
+/usr/include/gettext-po.h:   Return NULL if the argument is not a supported format type.  */
+/usr/include/glob.h:#define	GLOB_DOOFFS	(1 << 3)/* Insert PGLOB->gl_offs NULLs.  */
+/usr/include/gnumake.h:   The return value of FUNC must be either NULL, in which case it expands to
+/usr/include/libintl.h:/* We need NULL for `gettext'.  */
+/usr/include/libintl.h:# define __need_NULL
+/usr/include/libintl.h:# define gettext(msgid) dgettext (NULL, msgid)
+/usr/include/libintl.h:# define ngettext(msgid1, msgid2, n) dngettext (NULL, msgid1, msgid2, n)
+/usr/include/libio.h:#ifndef NULL
+/usr/include/libio.h:#  define NULL (__null)
+/usr/include/libio.h:#   define NULL ((void*)0)
+/usr/include/libio.h:#   define NULL (0)
+/usr/include/libio.h:  (_IO_BE ((_fp)->_wide_data == NULL					\
+/usr/include/libio.h:  (_IO_BE ((_fp)->_wide_data == NULL					\
+/usr/include/libio.h:  (__builtin_expect (&_IO_stdin_used == NULL, 0))
+/usr/include/link.h:     for (dyn = _DYNAMIC; dyn->d_tag != DT_NULL; ++dyn)
+/usr/include/locale.h:#define __need_NULL
+/usr/include/mqueue.h:   attributes.  If the fourth argument is NULL, default attributes are
+/usr/include/mqueue.h:   not NULL also query its old attributes.  */
+/usr/include/obstack.h:  struct _obstack_chunk *prev;  /* address of prior chunk or NULL */
+/usr/include/paths.h:#define	_PATH_DEVNULL	"/dev/null"
+/usr/include/pthread.h:   is not NULL.
+/usr/include/pthread.h:   the thread in *THREAD_RETURN, if THREAD_RETURN is not NULL.  */
+/usr/include/pthread.h:   *THREAD_RETURN, if THREAD_RETURN is not NULL.
+/usr/include/pthread.h:   state in *OLDSTATE if OLDSTATE is not NULL.  */
+/usr/include/pthread.h:   type in *OLDTYPE if OLDTYPE is not NULL.  */
+/usr/include/pthread.h:    (void) pthread_setcanceltype (__clframe.__cancel_type, NULL);	      \
+/usr/include/pthread.h:   the default values if later is NULL.  */
+/usr/include/pthread.h:   the default values if later is NULL.  */
+/usr/include/pthread.h:   area.  DESTR_FUNCTION, if non-NULL, is called with the value
+/usr/include/pthread.h:   DESTR_FUNCTION is not called if the value associated is NULL when
+/usr/include/pthread.h:   handlers can be NULL, meaning that no handler needs to be called at that
+/usr/include/regex.h:# define RE_DOT_NOT_NULL (RE_DOT_NEWLINE << 1)
+/usr/include/regex.h:# define RE_HAT_LISTS_NOT_NEWLINE (RE_DOT_NOT_NULL << 1)
+/usr/include/regex.h:  (RE_BACKSLASH_ESCAPE_IN_LISTS   | RE_DOT_NOT_NULL			\
+/usr/include/regex.h:   & ~(RE_DOT_NOT_NULL | RE_CONTEXT_INDEP_OPS				\
+/usr/include/regex.h:  (RE_CHAR_CLASSES | RE_DOT_NEWLINE      | RE_DOT_NOT_NULL		\
+/usr/include/regex.h:   BUFFER.  Return NULL if successful, and an error string if not.
+/usr/include/regex.h:   `regcomp', with a malloc'ed value, or set to NULL before calling
+/usr/include/search.h:   NULL.  If ACTION is `ENTER' replace existing data (if any) with
+/usr/include/search.h:   by *ROOTP.  If no matching entry is available return NULL.  */
+/usr/include/signal.h:/* Run signals handlers on the stack specified by SS (if not NULL).
+/usr/include/signal.h:   If OSS is not NULL, it is filled in with the old signal stack status.
+/usr/include/stdio.h:# define __need_NULL
+/usr/include/stdio.h:   that it does not allow S to be NULL.  */
+/usr/include/stdio.h:   if it is not NULL.  The directory to put this file in is searched for
+/usr/include/stdio.h:   If not and if DIR is not NULL, that value is checked.  If that fails,
+/usr/include/stdio.h:/* Flush STREAM, or all streams if STREAM is NULL.
+/usr/include/stdio.h:/* If BUF is NULL, make STREAM unbuffered.
+/usr/include/stdio.h:   If BUF is not NULL, use N bytes of it for buffering;
+/usr/include/stdio.h:/* If BUF is NULL, make STREAM unbuffered.
+/usr/include/stdio.h:   NULL), pointing to *N characters of space.  It is realloc'd as
+/usr/include/stdlib.h:/* Get size_t, wchar_t and NULL from <stddef.h>.  */
+/usr/include/stdlib.h:# define	__need_NULL
+/usr/include/stdlib.h:  return (int) strtol (__nptr, (char **) NULL, 10);
+/usr/include/stdlib.h:  return strtol (__nptr, (char **) NULL, 10);
+/usr/include/stdlib.h:  return strtoll (__nptr, (char **) NULL, 10);
+/usr/include/stdlib.h:/* Return the value of envariable NAME, or NULL if it doesn't exist.  */
+/usr/include/stdlib.h:/* This function is similar to the above but returns NULL if the
+/usr/include/stdlib.h:   the master FD is open on, or NULL on errors.
+/usr/include/string.h:/* Get size_t and NULL from <stddef.h>.  */
+/usr/include/string.h:#define	__need_NULL
+/usr/include/string.h:   or NULL if C was not found in the first N bytes of SRC.  */
+/usr/include/sudo_plugin.h: *                note that pwd may be NULL if the user is not in passwd.
+/usr/include/thread_db.h:#define TD_SIGNO_MASK		NULL
+/usr/include/time.h:/* Get size_t and NULL from <stddef.h>.  */
+/usr/include/time.h:# define __need_NULL
+/usr/include/time.h:/* Return the current time and put it in *TIMER if TIMER is not NULL.  */
+/usr/include/unistd.h:#define __need_NULL
+/usr/include/unistd.h:   and put it in SIZE bytes of BUF.  Returns NULL if the
+/usr/include/unistd.h:   If successful, returns BUF.  In GNU, if BUF is NULL,
+/usr/include/unistd.h:   BUF and return NULL.  BUF should be at least PATH_MAX bytes long.  */
+/usr/include/unistd.h:/* NULL-terminated array of "NAME=VALUE" environment variables.  */
+/usr/include/unistd.h:   environment ENVP.  ARGV and ENVP are terminated by NULL pointers.  */
+/usr/include/unistd.h:/* Execute PATH with all arguments after PATH until a NULL pointer,
+/usr/include/unistd.h:   a NULL pointer and environment from `environ'.  */
+/usr/include/unistd.h:   NULL pointer and environment from `environ'.  */
+/usr/include/unistd.h:/* Return the pathname of the terminal FD is open on, or NULL on errors.
+/usr/include/unistd.h:   a record for each process as it terminates, to this file.  If NAME is NULL,
+/usr/include/utime.h:   *FILE_TIMES.  If FILE_TIMES is NULL, set them to the current time.  */
+/usr/include/wchar.h:/* Get size_t, wchar_t, wint_t and NULL from <stddef.h>.  */
+/usr/include/wchar.h:# define __need_NULL
+/usr/include/wchar.h:{ return (__ps != NULL
+/usr/include/wchar.h:	  ? mbrtowc (NULL, __s, __n, __ps) : __mbrlen (__s, __n, NULL)); }
+/usr/include/wordexp.h:    WRDE_DOOFFS = (1 << 0),	/* Insert PWORDEXP->we_offs NULLs.  */

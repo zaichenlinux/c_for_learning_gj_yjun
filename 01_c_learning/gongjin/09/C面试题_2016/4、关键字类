@@ -1,0 +1,419 @@
+
+================================= sizeof ====================================
+
+1、请问下面的程序输出什么？
+#include <stdio.h>
+int main()  
+{
+    int i = 10;
+    printf("i : %d\n",i);
+    printf("sizeof(i++) is: %d\n",sizeof(i++));
+    printf("i : %d\n",i);
+    return 0;
+}
+
+
+
+2、考查sizeof和自加操作
+main()
+{ 
+	int i=3; 
+	int j; 
+	//double k;
+	//j = sizeof(++i + ++k); 
+	j = sizeof(++i + ++i); 
+	printf("i=%d j=%d", i ,j);
+}
+
+这段程序的输出是:
+(a) i=4 j=2
+(b) i=3 j=2
+(c) i=3 j=4
+(d) i=3 j=6
+
+
+
+2_1、下面表达式的结果是什么？
+//??????
+main ()
+{
+	int m = 10, n = 5;
+	printf("result = %d\n", sizeof(m > n ? m : n+0.1));
+}
+
+
+3、某32位系统下, C程序，请计算sizeof 的值。
+	char str[] = "hello.c/";   
+	char c = 'a';
+	char *p = str ;
+	int n = 10;
+请计算
+		sizeof (str ) = ？（1）
+		sizeof ( p ) = ？（2）
+		sizeof ( n ) = ？（3）
+		void Foo (char str[100]){
+			sizeof( str ) = ？（4）
+		}
+		void *p = malloc( 100 );
+		sizeof ( p ) = ？（5）
+
+
+
+4、有以下定义：
+char *pmsg = “A”;
+char msg[] = “A”;
+char ch = ‘A’;
+问：
+sizeof(pmsg) = ?  
+sizeof(msg) = ?   
+sizeof(“A”) = ?   
+sizeof(ch) = ?    
+sizeof(‘A’) = ? （在C++中等于多少？）  
+void f(char param[100]) {
+	sizeof(param) = ?  
+}
+
+
+
+5、
+static void test()
+{
+	char a[3][20] = {0};
+	strcpy(a[0], "hello"); 
+	strcpy(a[1], "world"); 
+
+	printf("%d\n", sizeof(&a));   
+	printf("%d\n", sizeof(a)); 
+	printf("%d\n", sizeof(*a)); 
+	printf("%c\n", *(*a + 1));  
+	printf("%s\n", *(a + 1)); 
+	printf("%d\n", sizeof('s')); 
+}
+
+
+6、
+static void test()
+{
+	char d[20] = "hello";
+	char a[3][20] = {"hello", "world", "linux"};
+	char (*b)[20] = (char (*)[20])"hello";  
+	char (*b1)[20] = a+1;
+	char *c[20] = {"hello", "world", "linux"};
+	printf("a[3][20]=%d, c[20]=%d\n", sizeof(a), sizeof(c));
+	printf("a=%d\n", strlen(a[0]));	
+	printf("a=%d\n", strlen(a[0] + 1));	
+}
+
+
+
+7、下面程序运行的结果为什么可能不等于10？
+int main(void)
+{
+	char aa[10];
+	printf("%d",strlen(aa));
+}
+
+
+
+
+8、若有如下代码段，输出结果是什么？  
+	char ch[] = {"abc\x12"}, *p = ch; 
+	printf("sizeof(ch) = %d\n", sizeof(ch));
+	printf("strlen(ch) = %d\n", strlen(ch));
+	printf("size = %d\n", sizeof("he\0llo")); 
+	printf("size = %d\n", strlen("he\\0llo"));
+	printf("size = %d\n", strlen("he\\\0llo"));
+	printf("%c\n", *p+4);  
+
+
+
+
+9、以下代码中的两个sizeof用法有问题吗？
+void UpperCase( char str[] ) 
+{
+    for( size_t i=0; i<sizeof(str)/sizeof(str[0]); ++i )
+        if( 'a'<=str[i] && str[i]<='z' )
+            str[i] -= ('a'-'A' );                     
+}
+int main()
+{
+	char str[] = "aBcDe";
+	cout << "str数组字符个数为: " << sizeof(str)/sizeof(str[0]) << endl;
+	UpperCase( str );
+	printf("%s\n", str);
+	return 0;
+}
+
+
+
+=================================== const ====================================
+
+1、关键字const是什么含意？ 如果应试者能正确回答这个问题，我将问他一个附加的问题：下面的声明都是什么意思？
+const int a; 
+int const a; 
+const int *a; //int const *a; 
+int * const a; 
+//int * a const; 
+int const * const a ;
+
+
+
+2、请说出const与#define 相比，有何优点？
+
+
+
+3、有以下表达式：
+	int a=248, b=4;
+	int const c=21;
+	const int *d=&a; 
+	int *const e=&b;
+	int const * const f = &a;
+请问下列表达式哪些会被编译器禁止？为什么？
+	*c = 32;
+	d = &b; 
+	*d = 43;
+	e = 34; 
+	e = &a;
+	f = 0x321f;
+	
+
+====================================== 宏 ====================================
+
+1、为什么要使用宏呢？
+
+
+2、宏有一些难以避免的问题，怎么解决呢？
+
+
+3、已知一个数组table，用一个宏定义，求出数组的元素个数。
+
+
+4、用宏定义写出swap(x，y)  
+
+
+5、写一个“标准”宏MIN，这个宏输入两个参数并返回较小的一个。
+
+
+
+6、在16位系统下，用预处理指令#define 声明一个常数，用以表明1年中有多少秒（忽略闰年问题）
+
+
+7、#define N 2
+	#define M N+1
+	#define NUM (M+1)*M/2     	
+	int i, n;
+	for(i=1,n=0; i<=NUM; i++) 
+		n++;	
+问这个循环执行了几次？	
+(2+1+1)*2+1/2
+
+3.1415
+31415*10e4
+
+
+
+
+8、assert()宏是干什么用的？
+
+
+9、
+#ifdef NDEBUG
+#define TRACE(S)
+#else
+#define TRACE(S) printf("%s\n", #S)
+#endif
+问：以上TRACE()宏的作用是什么？
+
+
+
+10、以下是求一个数的平方的程序,请找出错误:
+#define SQUARE(a) ((a)*(a))
+int a=5;
+int b;
+b=SQUARE(a++);
+
+int x = 2;
+int y = ++x * ++x; 
+
+/*
+问 a+=1  a=a+1 是否在任何情况下相同？
+
+int a = 3, c;
+c = (++a) + (a = 2);
+
+int a[] = {1,2};
+i = 0;
+a[i++] = a[i++] + 2;
+a[i++] += 2;
+
+a[++i] = a[++i] + 2;
+a[++i] += 2;
+*/
+
+
+================================== static ====================================	
+	
+1、关键字static的作用是什么？
+
+
+
+2、请说出static关键字的3种用处。
+
+	
+
+3、	static全局变量与普通的全局变量有什么区别？
+	static局部变量和普通局部变量有什么区别？
+	static函数与普通函数有什么区别？
+	
+	
+
+4、intel：A.c 和B.c两个c文件中使用了两个相同名字的static全局变量,编译的时候会不会有问题?这两个static变量会保存到哪里（栈还是堆或者其他的）?
+
+
+5、考查静态变量的知识
+static int foo_counter(int i)
+{
+	static int count = 0;
+	count += i;
+	return count;
+}
+static void test15()
+{
+	int i = 0;
+	int j = 0;
+
+	for (i = 0; i < 3; i++)
+		j = foo_counter(i);
+
+	printf("%d\n", j);
+}
+本程序输出j的值是？ 
+
+
+	
+6、写出程序运行结果
+int sum(int a)
+{
+	 int c = 0;
+	static int b=3;
+	c+=1; 
+	b+=2; 
+	return (a+b+c); 
+}
+void main()
+{
+	int i;
+    int a = 2;
+    for(int i = 0; i < 5; i++) {
+		printf("%d,", sum(a));  
+	}
+}
+
+
+=============================== volatile ====================================
+
+1. 请解释volatile的含义？
+
+
+2、关键字volatile有什么含意，并给出三个不同的例子。使用时会对编译器有什么暗示。
+	答：
+	需要加volatile的例子：
+	1）多线程程序都可以访问的一个变量，在其中一个线程中已经被改变了，另一个线程可能优化为只取当前线程内的值。
+	2）中断程序中，并行寄存器
+	3）对一个变量多次赋值，编译器可能优化为最后一次对其所赋的值
+	4）setjump、longjump 实现函数间跳转，需要使用volatile
+
+
+3、嵌入式系统裸板程序中经常具有要求程序员去访问某特定的内存位置的特点。在某工程中，要求设置一绝对地址为0x67a9的整型变量的值为0xaa55。编译器是一个纯粹的ANSI编译器。写代码去完成这一任务。// *((volatile int *)0x67a9) = 0xaa55;
+
+
+
+=================================== typedef ====================================	
+
+
+1、考查typedef类型定义,函数指针
+typedef int (*tmp)(float * , float *); 
+tmp 的类型是
+(a) 函数的指针，该函数以两个指向浮点数的指针作为参数(Pointer to function of having two arguments that is pointer to float)
+(b) 整型
+(c) 函数的指针，该函数以两个指向浮点数的指针作为参数,并且函数的返回值类型是整型(Pointer to function having two argument that is pointer to float and return int)
+(d) 以上都不是
+
+
+
+2、typedef在C语言中频繁用以声明一个已经存在的数据类型的同义字。也可以用预处理器做类似的事。例如，思考一下下面的例子：
+#define dPS struct s * 
+typedef struct s * tPS; 
+以上两种情况的意图都是要定义dPS 和 tPS 作为一个指向结构s的指针。如果可以的话，哪种方法更好呢？为什么？ 
+
+dPS a, b;	struct s * a, b
+tPS a, b;   struct s *a, *b
+
+=============================== extern ====================================
+
+1、代码作用域是一件很诡异的事，下面这个函数返回值是什么？
+int x = 5;
+int f() 
+{
+	int x = 3;
+	{
+	  	extern int x;
+	  	return x;
+	}
+}
+
+
+================================ ##和# ====================================
+
+1、下面这段程序的输出结果是：
+#include <stdio.h>
+#define f(a,b) a##b   
+#define g(a)   #a    
+#define h(a)   g(a)
+
+int main()
+{   
+    printf("%s\n", h(f(1,2)));  //g(12) 12 
+    printf("%s\n", g(f(1,2)));  
+
+    return 0;
+}
+
+
+
+2、输出结果
+#define INIT_OBJ(name, data) \
+	struct foo foo_##name = { \
+		.id = "fo_"#name"", \
+		.num = data, \
+	};
+struct foo {
+	char id[12];
+	int num;
+};
+static void test23()
+{
+	INIT_OBJ(FOO, 'a');
+	printf("%s, %d\n", foo_FOO.id, foo_FOO.num); 
+}
+
+
+
+3、请问下面的程序输出是什么？（绝对不是10）
+#include <stdio.h>
+#define PrintInt(expr) printf("%s : %d\n",#expr,(expr))
+//i+++b  i++ + ++b
+int main()  
+{
+    int y = 100;
+    int *p;
+    p = malloc(sizeof(int));
+    *p = 10;
+    y = y/*p; /*dividing y by *p */;
+	
+  //  PrintInt(y);
+	printf("y = %d\n", y);
+    return 0;
+}
+
+

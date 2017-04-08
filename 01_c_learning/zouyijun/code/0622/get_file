@@ -1,0 +1,4 @@
+extern char *fgets (char *__restrict __s, int __n, FILE *__restrict __stream)
+extern char *gets (char *__s) __wur __attribute_deprecated__;
+/* This function does the same as `fgets' but does not lock the stream.
+extern char *fgets_unlocked (char *__restrict __s, int __n,

@@ -1,0 +1,107 @@
+1
+int foo (int x , int n)　
+{ 
+    int val=1; 
+    if (n>0) { 
+        if (n%2 == 1)  
+            val = val * x;  
+        val = val * foo(x*x , n/2); 
+									
+    }   
+    return val;
+} 
+这段代码对x和n完成什么样的功能(操作)?
+(a) x^n (x的n次幂) 
+(b) x*n (x与n的乘积) 
+(c) n^x (n的x次幂) 
+(d) 以上均不是
+
+
+
+2.
+static int foo_counter(int i)
+{
+    static int count = 0; //静态局部变量
+    count += i;
+    return count;
+}
+static void test15()
+{
+    int i = 0;
+    int j = 0;
+
+    for (i = 0; i < 3; i++)
+        j = foo_counter(i);
+
+    printf("%d\n", j); 
+}
+本程序输出j的值是？//3
+
+
+
+3.
+1、考查typedef类型定义,函数指针
+typedef int (*tmp)(float * , float *);
+tmp 是？
+
+
+
+4.输出的结果
+struct foo {
+    int data;
+    char *str;
+    char par[];//零长数组
+};
+static void test19()
+{
+    struct foo s[3] = { {1, "hello"}, {.str = "world"} };
+    char str[] = "\x11\x22\x33\x44kernel"; 
+    memcpy(s, str, sizeof(str));
+    printf("size=%d\n", sizeof(struct foo));//8 
+    printf("%x\n", s[0].data);//44332211 
+    printf("%s\n", s[0].par); //el
+    printf("%s\n", s[1].str);//world 
+    memset(s+2, 0, sizeof(struct foo));//地址清零
+    printf("%p\n", s[2].str);
+    struct foo *foo = calloc(1, sizeof(struct foo));
+    printf("%p\n", foo->str);
+}
+
+
+ 
+
+5.输出的结果5
+#include <stdlib.h>
+#include <stdio.h>
+int main(void)
+{
+    static int i = 5;
+    if(--i){
+         main();
+         printf("%d",i);
+    }   
+    return 1;
+}
+
+//0000
+7.下面程序应该输出多少？
+char *c[] = { "ENTER", "NEW", "POINT", "FIRST" };
+char **cp[] = { c+3, c+2, c+1, c };
+char ***cpp = cp;
+
+int main(void)
+{
+    printf("%s", **++cpp); 
+    printf("%s", *--*++cpp+3); 
+    printf("%s", *cpp[-2]+3); 
+    printf("%s\n", cpp[-1][-1]+1);
+    return 0;
+}
+
+
+
+
+
+
+
+

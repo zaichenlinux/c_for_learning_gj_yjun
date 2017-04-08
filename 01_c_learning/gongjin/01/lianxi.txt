@@ -1,0 +1,60 @@
+1.下列各个错误中，哪一个不属于编译错误
+A.改变 x 原值 3 为 5 ，写作“ x==5; ”  
+B.花括号不配对  
+C.复合语句中的最后一条语句后未加分号 
+D.变量有引用、无定义  
+
+
+2.如果有“int a=5, b=3”，则在执行“!a&&b++”后，a和b的值分别是多少？
+
+
+3.
+int main()
+{ 
+    int i=3; 
+    int j;  
+    j = sizeof(++i + ++i); 
+    printf("i=%d j=%d", i ,j);
+}
+运算的结果？
+
+4.
+int main()
+{
+    int a = 1, b = 2, c = 3;
+    
+    b < a ? (a = 5) : (c = 5); 
+    
+    printf("a = %d, c= %d\n", a, c); 
+
+}
+运算的结果
+
+5
+int main ()
+{
+    int m = 10, n = 5;
+    printf("result = %d\n", sizeof(m > n ? m : n+0.1));
+}
+运行的结果？//result = 8 //long unsigned int 
+
+6.
+局部变量
+int a = 10;
+printf("%d, %d, %d, %d, %d\n", a++, ++a, a, a++, ++a);
+
+
+
+7,y输出多少
+int main()  
+{
+    int y = 100;
+    int *p; 
+    p = malloc(sizeof(int));
+    *p = 10; 
+    y = y/*p; // /*起到注释的作用
+    printf("y = %d\n", y); 
+    return 0;
+}
+
+

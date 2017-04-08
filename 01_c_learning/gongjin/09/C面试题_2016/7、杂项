@@ -1,0 +1,539 @@
+
+
+1、不能做switch()的参数类型是：
+
+
+
+2、下列各个错误中，哪一个不属于编译错误
+A.改变 x 原值 3 为 5 ，写作“ x==5;”
+B.花括号不配对
+C.复合语句中的最后一条语句后未加分号
+D.变量有引用、无定义 
+
+
+
+3、下面是C语言中两种if语句判断方式。请问哪种写法更好？为什么？
+ int n;
+ if (n == 10) // 第一种判断方式
+ if (10 == n) // 第二种判断方式
+
+
+
+4、We have piece of code, which one do yo prefer, and tell why. （美国某著名计算机嵌入式公司2005年10月面试题）
+写法1： 
+for(i=0;i<8;i++) { 
+	X = i+Y+J*7; 
+	printf("%d",x); 
+} 
+写法2： 
+S=Y+J*7; 
+for(i=0;i<8;i++) { 
+	printf("%d",i+S); 
+}
+
+
+
+5、下面两段程序有区别吗？运行结果一样吗？ 
+【1】
+main()
+{
+	int loop=1;
+	int arr[10];
+	int i = 0;
+	while(loop<5) {
+		for(;i<=10;i++){
+		   arr[i]=1;
+		}
+		loop++;
+	}
+}
+【2】
+main()
+{
+	int loop=1;
+	int arr[10];
+	int i = 0;
+	while(loop<5) {
+		for(i = 0;i<=10;i++) {
+		   arr[i]=1;
+		}
+		loop++;
+	}
+}
+
+
+
+6、设有语句int a=3;则执行语句a+=a*a；后，变量a的值是（）  
+A．3 
+B．9 
+C．12 
+D．18
+
+
+
+7、下列程序段运行后， x 的值是( )
+int a=1, b=2, x=0;
+if(!(--a)) 
+	x-- ;
+
+if(!b) x=7;
+else  ++x;
+A.0
+B.3
+C.6
+D.7
+
+
+
+8、有如下代码段，
+	x=3.0;
+	y=4;
+	则	1/2*x + 20%3*(x=y)/16  的结果是什么？
+	
+
+
+
+9、逗号表达式
+main()
+{ 
+	int a, b, c, d; 
+	a=3; 
+	b=5; 
+	c=a,b;
+	d=(a,b); 
+	printf("c=%d" ,c); 
+	printf("d=%d" ,d); 
+}
+这段程序的输出是:
+(a) c=3 d=3
+(b) c=5 d=3
+(c) c=3 d=5
+(d) c=5 d=5
+
+
+
+10、下面的程序看起来是正常的，使用了一个逗号表达式来做初始化。可惜这段程序是有问题的。你知道为什么吗？
+#include <stdio.h>
+int main()
+{
+    int a = 1,2; 
+    printf("a : %d\n",a);
+    return 0;
+}
+
+
+
+11、如果有“int a=5, b=3”，则在执行“!a&&b++”后，a和b的值分别是多少？【中国某著名综合软件公司2005年面试题】
+
+
+
+
+12、下面的输出是什么？
+#include <stdio.h>
+int main()  
+{
+    int i = 6;
+    if( (++i < 7) && ( i++/6) || (++i <= 9))
+        ;
+
+    printf("%d\n",i);
+    return 0;
+}
+
+
+
+
+13、What will be the output of the following C code? （中国台湾某著名CPU生产公司2005年面试题） 
+
+#include <stdio.h> 
+#define product(x) (x*x) 
+int main(void) 
+{ 
+	int i = 3, j, k; 
+	j = product(i++);   
+	k = product(++i); 
+	printf("j=%d,k=%d\n",j,k); 
+	return 0; 
+} 
+
+
+
+
+14、C语言同意一些令人震惊的结构,下面的结构是合法的吗,如果是,它做些什么？
+int a = 5, b = 7, c;
+c = a+++b;
+
+另补充题目：
+（1） 
+	int i = 0; 
+	i = (i++)++;  
+	i = (++i)++; 
+（2）
+	int i=4;
+	i=i++ + ++i;
+	j=i++ + ++i;
+	问：最终i=?, j=? 
+（3）
+	c= a++++b;
+	c= a+++++b;  怎么分解？ 
+
+
+
+15、 x=x+1, x+=1, x++,  哪个效率最高？为什么？
+
+
+
+16、请说出下面的程序输出是多少？并解释为什么？（注意，该程序并不会输出 "b is 20"）
+
+#include <stdio.h>
+int main()  
+{      
+    int a=1;      
+	int b;
+    switch(a)      
+    {   
+        int b=20;          
+        case 1: 
+//            int c;
+			printf("b is %d\n",b);
+            break;
+        default:
+            printf("b is %d\n",b);
+            break;
+    }
+    return 0;
+}
+
+
+
+17、
+int func(int a)
+{
+    int b;
+    switch(a)
+    {
+        case 1: b=30;
+        case 2: b=20;
+        case 3: b=16;
+        default: b=0;
+    }
+    return b;
+}
+则func(1)=?
+
+
+
+	
+18、分别给出bool，int，float，指针变量 与“零值”(注意：不是0)比较的 if 语句（假设变量名为var）
+bool b; if (b) {}  if (b != 0)  if (p) if (p != NULL) (p!=0)
+if ((f >= -0.000001) && (f <= 0.000001)) {
+
+}
+
+
+
+19、下面这段程序的输出是什么？
+#include <stdio.h>
+ 
+int main()
+{
+    float f= 0.0f;
+    int i;
+ 
+    for(i=0;i<10;i++)
+        f = f + 0.1f;
+ 
+    if(f == 1.0f)
+        printf("f is 1.0 \n");
+    else
+        printf("f is NOT 1.0\n");
+ 
+    return 0;
+}
+
+
+
+20、 求下列程序的输出结果。【美国某著名计算机公司面试题】
+#include <stdio.h>
+int main(void)
+{
+	printf("%f\n",5);
+	printf("%d\n",5.01);
+
+	return 0;
+}
+
+
+
+
+21、下面的程序会输出什么？
+#include <stdio.h>
+int main()  
+{
+    float a = 12.5;
+    printf("%d\n", a);
+    printf("%d\n", (int)a);
+    printf("%d\n", *(int *)&a);
+    return 0;  
+}
+
+
+
+
+22、 下面语句的输出是什么？
+char a=256;
+int d=a;
+printf("%d\n", d+1);
+
+
+
+
+23、下面程序的运行结果是什么？
+int main()
+{
+	char chr = 127; 
+	int sum = 200;
+	chr += 1;
+	printf("chr = %d\n", chr); 
+	sum +=chr;
+	printf("sum = %d\n",sum);
+	return(0);
+}
+A: 327     B:328    C:99    D:72
+
+
+
+
+24、 下面的代码输出是什么，为什么？ （中国台湾某著名CPU生产公司2005年面试题）
+void foo(void)
+{
+	unsigned int a = 6;
+	int b = -20;
+	(a+b > 6) ? printf("> 6") : printf("<= 6");
+}
+ 
+
+
+
+25、SimCom的一道面试题, 问输出什么?
+int main(void)
+{
+	int a  =  -8;
+	unsigned int b = 8;
+
+	int c = a+b;
+
+	if ( c>0 ) {
+		printf(">\n");
+	} else {
+	   printf("<=\n");
+	}
+	return 0;
+}
+
+
+
+
+
+26、此段程序的作者希望输出数组中的所有元素，但是他却没有得到他想要的结果，是什么让程序员和计算机产生歧义？
+#include<stdio.h>
+#define TOTAL_ELEMENTS (sizeof(array) / sizeof(array[0]))
+int array[] = {23,34,12,17,204,99,16};
+int main()
+{
+    int d;
+ 
+    for(d=-1;d <= (TOTAL_ELEMENTS-2);d++)
+        printf("%d\n",array[d+1]);
+ 
+    return 0;
+}
+
+
+27、
+#define Max_CB 500
+void LmiQueryCSmd()
+{
+	unsigned char ucCmdNum;
+
+	for(ucCmdNum=0; ucCmdNum < Max_CB; ucCmdNum++)
+	{
+		printf("ok\n");
+	}
+}
+
+
+
+28、请问下面的程序的输出值是什么？
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZEOF(arr) (sizeof(arr)/sizeof(arr[0]))
+#define PrintInt(expr) printf("%s:%d\n",#expr,(expr))
+
+int main()
+{
+    int pot[] = {
+                    0001,
+                    0010,
+                    0100,
+                    1000
+                };
+    int i;
+    for(i=0;i<SIZEOF(pot);i++)
+        PrintInt(pot[i]);
+        
+    return 0;
+}
+
+
+
+
+29、下列 while 语句表示字符串遍历,请写出用for 语句的等效代码
+ void test(char * str)
+{
+   char * p = str;
+   while(*p)
+   {
+     printf("%c",*p);
+     p++;
+	}
+}
+
+
+
+
+30、嵌入式系统中经常要用到无限循环（死循环），你怎么样用C编写死循环呢？
+
+
+
+31、请列举一个软件中时间换空间或者空间换时间的例子。 
+
+
+
+32、编译器自动对齐的原因什么？
+
+
+
+33、请问下面的程序输出什么？（假设：输入 Hello, World）
+#include <stdio.h>
+int main()  
+{ 
+    char dummy[80];
+    printf("Enter a string:\n");
+    scanf("%[^r]",dummy);
+    printf("%s\n",dummy);
+    return 0;
+}
+
+
+
+34、看上去非常完美的程序，是什么导致了编译程序不通过？
+#include<stdio.h>
+void OS_Solaris_print(){
+    printf("Solaris - Sun Microsystems\n");}
+void OS_Windows_print(){
+    printf("Windows - Microsoft\n");}
+void OS_HP-UX_print(){
+    printf("HP-UX - Hewlett Packard\n");}
+ 
+int main()
+{
+    int num;
+    printf("Enter the number (1-3):\n");
+    scanf("%d",&num);
+    switch(num){
+    case 1:
+        OS_Solaris_print();break;
+    case 2:
+        OS_Windows_print();break;
+    case 3:
+        OS_HP-UX_print();break;
+    default:
+        printf("Hmm! only 1-3 :-)\n");break;
+    }
+ 
+    return 0;
+}
+
+
+
+
+35、下面这段程序的输出是什么
+#include <stdio.h>
+int main()
+{
+     int a=10;
+     switch(a)
+    {
+        case '1':
+            printf(”ONE\n”);
+            break;
+        case '2':
+            printf(”TWO\n”);
+            break;
+        defau1t:
+             printf("NONE\n");
+    ｝
+    return 0;
+}
+
+
+
+
+36、为什么下面的代码会返回0？
+	int x;
+    return x == (1 && x);
+
+
+
+37、为什么下面的代码会返回0而不是-1？
+	return ((1 - sizeof(int)) >> 32);
+
+
+38、下面的这个函数返回值是什么？
+    unsigned long foo() {
+    	return (unsigned long) - 1 / 8;
+		//1000....0001
+		//0111....1110
+		//+1
+		//0111....1111
+    }
+
+
+
+39、如何判断一段程序是由C编译器编译的还是由C++ 编译器编译的？（美国某著名网络开发公司2005年面试题） 
+#ifndef __cplusplus
+
+#else
+
+#endif
+
+
+40、int a,b,c 请写函数实现c=a+b ,不可以改变数据类型,如将c改为long int,关键是如何处理溢出问题
+
+
+
+41、有两个变量a和b，不用"if"、"?:"、"switch"或其他判断语句，找出两个数中比较大的。【美国某著名网络公司2005年面试题】
+
+
+
+42、c语言不使用判断语句, 实现?:运算符
+
+	If you're familiar with the ? operator x ? y : z
+	you want to implement that in a function: 
+		int cond(int x, int y, int z); 
+	
+	using only ~, !, ^, &, +, |, <<, >> 
+	no if statements, or loops or anything else, just those operators, and the function should correctly return y or z based on the value of x. 
+	You may use constants, but only 8 bit constants. You can cast all you want. You're not supposed to use extra variables, but in the end, it won't really matter, using vars just makes things cleaner. You should be able to reduce your solution to a single line in the end though that requires no extra vars.
+
+
+
+43、有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这个火柴棍式的程序面试题吧。下面是一个C程序，其想要输出20个减号，不过，粗心的程序员把代码写错了，你需要把下面的代码修改正确，不过，你只能增加或是修改其中的一个字符，请你给出三种答案。	
+int n = 20;
+for(int i = 0; i < n; i--){
+    printf("-");
+}
+
+
+

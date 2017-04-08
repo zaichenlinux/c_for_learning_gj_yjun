@@ -1,0 +1,292 @@
+
+================================= 结构体 ========================================
+
+1、现有结构体  
+struct A {
+	int id;      //4 
+	char name[9]; //9+1 
+	short class;    //2
+	char sex;    //1+3
+	unsigned long value;//4 
+}; 
+struct B {
+	char name[8];   //8
+	char sex;       //1+3
+	unsigned long value;//4 
+	int id;        //4    
+	short class;    //2+2   
+} ; 
+
+struct C {
+	char c[0];
+};
+
+则：sizeof(struct A)=?
+	sizeof(struct B)=?
+	sizeof(struct C)=? 
+	
+
+
+2、
+struct name1
+{
+	char  str; 
+	short x;   
+	int   num; 
+}
+
+struct name2
+{
+	char  str;  
+	int   num;   
+	short x;   
+}
+sizeof(struct name1)=？
+sizeof(struct name2)=？
+
+
+
+
+3、输出结果
+//32
+struct foo {
+	int data;
+	char *str;
+};
+static void test18()
+{
+	struct foo s[3] = { {1, "hello"}, {.str = "world"} };
+     //  11 22  33 44 'k' 'e' 'r' 'n' 'e' 'l' '\0'
+ 	char str[] = "\x11\x22\x33\x44kernel";
+	memcpy(s, str, sizeof(str));
+	printf("size=%d\n", sizeof(struct foo)); 
+	printf("%x\n", s[0].data); 
+	printf("%s\n", s[1].str); 
+	printf("%p\n", s[2].str); 
+}
+
+
+
+4、
+struct foo {
+	int data;
+	char *str;
+	char par[];//零长数组,
+};
+static void test19()
+{
+	struct foo s[3] = { {1, "hello"}, {.str = "world"} };
+	char str[] = "\x11\x22\x33\x44kernel";	
+	memcpy(s, str, sizeof(str));
+	printf("size=%d\n", sizeof(struct foo));
+	printf("%x\n", s[0].data);
+	printf("%s\n", s[0].par);
+	printf("%s\n", s[1].str);
+}
+
+
+5、
+struct foo {
+	int a;
+	int b;
+	char c[10];
+};
+static void test20()
+{
+	struct foo s1 = {
+		.a = 10,
+		.b = 30,
+	};
+	struct foo s2 = s1; 	
+	char s[15] = {0};
+	printf("%d, %d, %d, %d, %d, %d\n", sizeof("hello"), sizeof("hello" + 1), 
+		sizeof(s), sizeof(s + 1), sizeof(s1), s2.b); 
+}
+
+
+
+6、下面这个示例是C语言的痛，main函数返回值是什么？
+typedef struct {
+	char *key;
+	char *value;
+} T1;
+typedef struct {
+	long type;
+	char *value;
+} T3;
+T1 a[] = {
+	{ "", ((char *)&((T3) { 1, (char *)1 })) }
+};
+int main() 
+{
+	T3 *pt3 = (T3*)a[0].value;
+	return pt3->value;
+}
+
+
+
+
+7、初始化可能是ISO C中最难的部分了。无论是MSVC 还是GCC 都没有完全实现。GCC 可能更接近标准。在下面的代码中，i.nested.y 和i.nested.z的最终值是什么？
+struct {
+	int x;
+	struct {
+		int y, z;
+	} nested;
+} i = { .nested.y = 5, 6, .x = 1, 2 };
+
+
+
+
+8、定义一个宏，求出给定结构中给定成员的偏移量
+#define container_of(ptr, type, member)
+((type *)((size_t)ptr - (sizet_t)(&(type *)0->member)))
+
+
+9、结构与联合有何区别？
+
+
+10、根据下面的定义,能打印出字母M的语句是____。
+struct person 
+{  
+    char name[9]; 
+    int age; 
+}; 
+struct person linkman[10] =  
+{ 
+	"JHON",17, 
+	"PAUL",19, 
+	"MARY",18, 
+	"ADAM",16 
+}; 
+ 
+a. printf("%c\n", linkman[3].name); 
+b. printf("%c\n", linkman[3].name[1]); 
+c. printf("%c\n", linkman[2].name[1]); 
+d. printf("%c\n", linkman[2].name[0]);
+
+
+
+11、对于以下的变量定义，表达式______符合C语言语法。符合语法的各代表什么意思
+struct node
+{ 
+        int len; 
+ 		char *pk;    
+}x = {2, "right"}, *p = &x;
+a. p->pk       b. *p.pk        c. *p->pk       d. *x.pk
+.  ->
+foo.a pfoo->a   (&foo)->a   (*pfoo).a
+struct foo  , struct *pfoo
+
+12、对于结构
+struct XY {
+　　int x;
+　　int *y;
+} *p;
+p是指向结构XY的指针, 问：
+　　*(*p).y，
+　　*p->y，
+　　&(*p).x，
+　　&p->x，
+分别表示什么？
+
+
+================================= 联合体 ========================================
+
+1、考共用体(联合体)一道基本功的题目，输出是什么？
+#include <stdio.h>
+int main(void)
+{
+	union
+	{
+		char i[2];
+		short int k;
+	}r;
+	r.i[0]=0; 
+	r.i[1]=2; 
+	printf("%d\n",r.k);  
+
+	return 0; 
+}
+
+
+2、下面关于“联合”的题目的输出？
+a)
+＃include <stdio.h>
+union
+{
+	int i;
+	char x[2];
+}a;
+int main()
+{
+	a.x[0] = 10;  
+	a.x[1] = 1;   
+	printf("%d\n",a.i); 
+
+	return 0;
+}
+
+b)
+main()
+{
+	union{
+		int i;
+		struct{
+			char first;
+			char second;
+		} half;
+	} number;
+	number.i = 0x4241; 
+	printf("%c%c\n", number.half.first, number.half.second);
+	number.half.first = 'a'; 		
+	number.half.second = 'b'; 
+	printf("%x\n", number.i); 
+}
+
+
+
+3、请用联合体实现，写一个C函数，若处理器是Big_endian的，则返回0；若是Little_endian的，则返回1
+
+
+
+===================================== 枚举 ========================================
+
+1、输出结果
+enum {
+	FALSE,
+	TRUE,
+};
+
+static void test22()
+{
+	enum {
+		A = '\0', B = 10, C = 20,
+	} foo;
+	
+	foo = 100; 
+	foo = A;
+	printf("%d, %d, %d\n", foo, C, sizeof(foo)); 
+}
+
+
+2、下面这段程序会输出什么，为什么？
+enum {false,true};
+int main()
+{
+    int i=1;
+ 
+    do
+    {
+        printf("%d\n",i);
+        i++;
+        if(i < 15)
+            continue;
+            
+        printf("ok\n");
+    } while(false);
+ 
+    return 0;
+}
+
+
+

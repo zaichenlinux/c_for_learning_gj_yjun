@@ -1,0 +1,15 @@
+
+1.实现printf库函数, 
+函数类型int my_print(const char *format, ...);
+要求: 
+1.不准调用库函数
+2.只能调用系统调用
+    int putchar(int c); 
+3.实现printf中%d, %c, %s
+4.函数的返回值是打印到标准输出具体输出的字节数
+
+提示：
+printf("d = %d, c = %c, s = %s\n", 10, 'c', "hello");
+
+
+1234--> "1234" //int 

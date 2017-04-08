@@ -1,0 +1,829 @@
+
+1、写出下列程序片段的输出结果
+
+static void test1()
+{
+	struct node {
+		int a;  //4  
+		char b;  //1
+		char c;	//1 +2
+		int d;  //4
+		int e;  //4
+	};
+	struct node s = { 3, 4, 5, 6, 7 };
+	struct node *p = &s;
+
+	printf("%d\n", *((int*)p + 3)); 
+	printf("%d\n", ((int*)p + 4)[-1]);
+}
+//========================
+
+
+static void test2()
+{
+	int a[] = { 1, 2, 3, 4, 5 }; 
+	int *p = (int*)(&a + 1); 
+
+	printf("%d %d\n", *(a + 1), *(p - 1)); 
+}
+
+//===========================
+
+static void foo(int b[][3]) 
+{
+	b++;
+	b[1][1] = 100;
+}
+
+static void test3()
+{
+	int a[][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
+
+	foo(a);
+	printf("%d\n", a[2][1]); 
+}
+//===============================
+
+static void test4()
+{
+	
+	int a[][3] = {1, 2, 3, 4, 5, 6};
+	int (*p)[3] = a;
+
+	printf("%d %d\n", (*p)[1], (*p)[2]); 
+	p++;
+	printf("%d %d\n", (*p)[1], (*p)[2]);  
+}
+
+//==============================
+static void foo1(int *p, int *q){	
+	int tmp = *p;	*p = *q;	*q = tmp;
+}
+static void foo2(int *p, int *q){	
+	int *tmp = p;	p = q;	q = tmp;
+}
+static void test5()
+{
+	int a = 3, b = 5;
+	void (*p[2])(int*, int*);
+	p[0] = foo1;
+	p[1] = foo2;
+	p[0](&a, &b);
+	printf("%d %d\n", a, b);
+	p[1](&a, &b);
+	printf("%d %d\n", a, b);
+}
+
+static void test6()
+{
+	int a = 3, b = 5;
+	void (*s[2])(int*, int*);
+	void (*(*p)[2])(int*, int*) = &s;
+
+	s[0] = foo1;
+	s[1] = foo2;
+
+	s[0](&a, &b);
+	printf("%d %d\n", a, b);
+
+	(*p)[1](&a, &b); 
+	printf("%d %d\n", a, b);
+}
+//============================
+
+void f1(int *, int);
+void f2(int , int *);
+static void test7()
+{
+	int a;  int b;
+	a=3;  b=5;  
+	f1(&a , b); 
+	printf("%d\t %d\t", a ,b);
+	
+	a=3; b=5;
+	f2(a, &b);
+	printf("%d\t %d\t", a ,b);
+}
+void f1( int* p , int q) {
+  	int tmp; tmp = *p; *p = q; q = tmp; 
+}
+void f2( int p , int *q){
+  	int tmp; tmp = p; p = *q; *q = tmp;
+} 
+
+这段程序的输出是？
+
+//============================
+static void test8()
+{
+	unsigned char buf[15] = {1, 2, 3, 4, 5, 6, 7, 8};
+	
+	unsigned char c;
+
+	c = (buf + 1)[5];
+	printf("%d\n", c); 
+	printf("%d\n", (int)c); 
+	printf("%x\n", *(int*)(buf + 1));  
+}
+//=============================
+
+static void foo(char **p)
+{
+	char *t = 0;
+	t = (p += sizeof(int))[-1]; 
+	printf("%s\n", t);
+}
+
+static void test9()
+{
+	char *argv[] = { "ab", "cd", "ef", "gh", "ij", "kl" };
+	foo(argv); 
+	printf("%d\n", sizeof(argv)); 
+}
+
+/=============================
+
+static void test10()
+{
+	char a[3][2] = {0};
+	strcpy((char *)a, "01234"); 
+
+	printf("%s\n", (char *)(a[0] + 1)); 
+	printf("%s\n", (char *)(a + 1)); 
+	
+	char *p = (char*)malloc(10);
+	strcpy(p, "012345678");
+	
+	printf("%s\n", (char *)( (typeof(&a))p + 1 ) ); 
+	free(p);
+}
+//=============================
+
+static void test11()
+{
+	char a[3][2] = { "ab", 'e', ('c', 'd'), {'g', 'h'}};
+
+	printf("%c\n", a[0][1]); 
+	printf("%c\n", a[0][2]); 
+	printf("%c\n", a[1][1]); 
+	printf("%c\n", a[2][1]); 
+}
+//============================= 
+=============================================================================================
+
+2、简述数组与指针的区别？
+	
+	
+3、请说出数组名的含义。
+
+
+4、写出下面代码片段的输出结果：
+int arr[] = {6,7,8,9,10}; 
+int *ptr = arr; 
+*(ptr++)+=123; 
+printf("%d %d\n", *ptr, *(++ptr)); 
+
+
+
+5、定义 int **a[3][4], 则变量占有的内存空间为：_____
+
+
+6、
+char a[2][2][3]={{{1,6,3},{5,4,15}},{{3,5,33},{23,12,7}}};
+int i = 0;
+for(;i<12;i++)
+	printf("%d ",______);
+*(**a+i)
+
+在空格处填上合适的语句，顺序打印出a中各元素(不得使用强转，不得使用[])
+
+
+
+7、写出下面程序段输出结果：
+int main()
+{
+	unsigned char *p1;
+	unsigned long *p2;
+	p1=(unsigned char *)0x801000;
+	p2=(unsigned long *)0x810000;
+
+	printf("%p\n", p1+5);  
+	printf("%p\n", p2+5);  
+	return 0;
+}
+
+
+8、输出？
+void g(int**p)
+{
+	(**p)++;  
+	(*p)++; 
+}
+int main()
+{
+	int line[10],i;
+	int *p=line;   
+	for (i=0;i<10;i++) {
+		*p=i;
+		g(&p);
+	}
+	for(i=0;i<10;i++)
+		printf("%d\n",line[i]);
+	return 0;
+}
+
+
+
+
+9、读程序,写出结果
+int main()
+{
+    int a[3];
+    a[0] = 0;
+    a[1] = 1;
+    a[2] = 2;
+    int *p, *q;
+    p = a;
+    q = &a[2]; 
+    int c = a[q - p]; 
+    printf("value c = %d\n", c++);
+    printf("value c = %d\n", c);
+    return 0;
+}
+
+
+
+
+10、西艾：X86结构下，下面代码输出结果是什么？
+	char str[20]="Good night";
+	int* p=(int*)str;
+	p[0]=0x61626364;
+	p[1]=0x31323334; 
+	p[2]=0x41424344;  
+	printf("%s\n", str);
+97 = 'a'   49 = '1'  65 = 'A'
+ 
+
+11、内存访问
+有以下代码：
+void fn()
+{
+	int a[100] = {1,2};
+	int *p;
+	p = (int *)((size_t)a + 1);
+	printf("p=0x%x\n", *p);
+}
+
+01
+00
+00
+00
+02
+00
+00
+00
+输出结果
+
+
+12、仕兰微面试题目
+A）  
+void testf(int *p)
+{
+	*p += 1;
+}
+
+int main(void)
+{
+	int *n, m[2];
+	n = m;
+	m[0] = 1;
+	m[1] = 8;
+	testf(n);
+	printf("%d\n", *n);
+
+	return 0;
+}  
+------------------------------   
+B)   
+void testf(int **p)
+{
+	*p += 1;
+}
+
+int main(void)
+{
+	int *n, m[2];
+	n = m;
+	m[0] = 1;
+	m[1] = 8;
+	testf(&n);
+	printf("%d\n", *n);
+
+	return 0;
+}  
+下面的结果是程序A还是程序B的？   
+Data value is 8   
+那么另一段程序的结果是什么？   
+
+
+
+13、要对绝对地址0x100000赋值0x1234,如何赋值？;那么要是想让程序跳转到绝对地址是0x100000去执行，应该怎么做？
+  *(volatile unsigned int *)0x10000  = 0x1234
+
+   (void (*)())0x10000();
+
+
+
+14、写出下列代码的输出内容
+#include<stdio.h>
+typedef int(*FUNC1)(int);
+typedef int(*FUNC2)(int*,int*,int*);
+
+int foo(int a)
+{ return(++a);}
+
+int multi(int*a,int*b,int*c){
+    return(*c=*a**b);
+}
+void show(FUNC2 fun, int arg1, int*arg2){
+    FUNC1 p= &foo;
+    int temp = p(arg1);  //11
+    fun(&temp, &arg1, arg2); //arg2 = 11 * 10
+    printf("%d\n",*arg2); //110
+}
+int main(){
+    int a;
+    show(multi,10,&a);
+
+	return 0;
+}
+
+
+
+15、解释下列输出结果
+char str1[] = "abc";
+char str2[] = "abc";
+
+const char str3[] = "abc";
+const char str4[] = "abc";
+
+const char *str5 = "abc";
+const char *str6 = "abc";
+
+char *str7 = "abc";
+char *str8 = "abc";
+
+cout << ( str1 == str2 ) << endl;
+cout << ( str3 == str4 ) << endl;
+cout << ( str5 == str6 ) << endl;
+cout << ( str7 == str8 ) << endl;
+
+
+
+16、下面的C程序是合法的吗？如果是，那么输出是什么？
+#include <stdio.h>
+int main()  
+{ 
+    int a=3, b=5;
+    printf(&a["Ya!Hello! what is this? %s\n"], &b["junk/super"]);
+    printf(&a["WHAT%c%c%c  %c%c  %c !\n"], 1["this"],
+        2["beauty"],0["tool"],0["is"],3["sensitive"],4["CCCCCC"]);
+        
+    return 0;  
+}
+a[5]  5[a]
+
+
+17、下面的程序运行时哪里会出现错误：
+//32
+struct S
+{
+    int i;
+    int * p;
+};
+ 
+int main()
+{
+    struct S s;
+    int * p = &s.i;
+    p[0] = 4;
+    p[1] = 3;
+    s.p = p;
+    s.p[1] = 1;   p --> 1
+    s.p[0] = 2;
+	*s.p = 2;
+ 
+    return 0;
+}
+ p->    int i    4      4
+		int *p   1      int i
+		
+
+
+
+18、下面的数据声明都代表什么？【美国某著名计算机嵌入式公司2005年9月面试题】
+(1)float(**f)[10];   
+(2)double*(*f)[10];  
+(3)double(*f[10])(); 
+(4)int*((*f)[10]); //int *(*f)[10];
+					int (*(*f)[10])
+					int (**f)[10]
+					int (**f[10])
+					int **(f[10])
+					int **f[10]
+					int *(*f[10])
+(5)long(*f)(int);     
+(6)int(*(*f)(int,int))(int);  
+//数组元素的类型不能是：函数类型
+//函数返回值的类型不能是：数组类型
+
+
+
+19、复杂类型的声明和定义
+给定以下类型的变量的定义式：
+a) An integer  
+int a;
+b) A pointer to an integer      	
+int *p
+c) A pointer to a pointer to an integer
+int **p;
+d) An array of 10 integers 
+int arr[10];
+e) An array of 10 pointers to integers 
+int  *arr[10]
+f) A pointer to an array of 10 integers
+int (*arr)[10]
+g) A pointer to a function that takes an integer as an argument and returns an integer
+int (*p)(int )
+h) An array of ten pointers to functions that take an integer argument and return an integer
+int (*arr[10])(int )
+
+
+
+20、有如下表达式，请用文字描述x是什么？ 
+	char (*(*x())[3])(); 
+x是一个函数,返回值是指针,该指针指向有三个元素的数组,数组的每个元素是函数指针类型
+
+
+
+21、下面这个就更变态了。在GCC的文档中，这个语法是合法的。下面的代码返回什么？
+	return ((int []){1,2,3,4})[1]; //符合字面量
+
+=============================================
+22、执行下述程序的输出结果是什么？
+char b[]="ABCDEF";
+main()
+{
+	char *bp;
+	for (bp=b;*bp;bp+=2)
+		printf("%s",bp);
+	printf("\n");
+}
+
+
+
+23、有以下程序：
+main()
+{
+	char *s[]={"one","two","three"},  *p;
+	p=s[1];
+	printf("%c,%s",*(p+1),s[0]);
+}
+执行后输出结果是（）。
+A．w,one 
+B．n,two 
+C．t,one 
+D．o,two
+
+
+24、int a[4][3]={1,2,3,4,5,6,7,8,9,10,11,12};
+int (*ptr)[3]=a, *p=a[0];
+*(*(prt+1)+2)   *(p+5)   *(*(a+1)+2)
+则下列能正确表示数组元素a[1][2]的表达式是（）。
+A．*((*ptr+1)[2]) 
+B．*(*(p+5))
+C．(*ptr+1)+2  
+D．*(*(a+1)+2)
+
+
+25、
+int i,a[5],*p=a;
+for (i=0;i<5;i++) { 
+	p++;
+	*p=i;
+}
+问错误是什么？
+
+
+void * ptr; //0x1234
+26、(void *)ptr 和 *((void**)&ptr) 的结果是否相同？其中ptr为同一个指针
+
+
+27、下面一道面试题，看一下指针与数组的区别。
+char ch[12] = {1, 2, 3, 4, 5, 6, 7, 8};
+char *p1, *p2;
+char **pp;
+p1 = ch;
+pp = &ch; 
+p2 = *pp; 
+问p1和p2是否相同,找出其中的不妥之处。
+
+
+
+
+
+28、函数和函数指针可以相互转换。下面的语句哪些是合法的？
+	int (*pf)(void);
+	int f(void)
+	{
+		pf = &f;     // 没问题
+ 		pf = ***f;   // 取址？
+		pf();        // 函数指针可以调用？
+		(****pf)();  // 这又是什么？
+		(***************f)(); // 这个够变态了吧？
+	}
+
+
+
+
+29、下面的程序的输出结果是什么？会出现何种问题吗？【美国某著名计算机软件公司面试题  32位】
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+	char s[] = "123456789";
+	char d[] = "123";
+	strcpy(d, s);
+	printf("%s,	%s\n",d,s);
+	
+	return 0;
+}
+
+
+
+30、请运行下面的代码，观察结果，有人说怎么是死循环，你同意吗？为什么？
+#include <stdio.h>
+int main()
+{
+  int i = 0;
+  int name[5] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  for (i = 0; i <= 5; i++)
+  {
+    name[i] = 0;
+    printf("ok\n");
+  }
+  return 0;
+}
+
+
+
+31、越界问题
+1)下面这个程序执行后会有什么错误或者效果:
+#define MAX 255
+int main()
+{
+	unsigned char A[MAX],i; //i被定义为unsigned char
+	for (i=0;i<=MAX;i++)
+		A[i]=i;
+}
+
+
+2)、请问以下代码有什么问题：
+int  main()
+{
+	char a;
+	char *str=&a;
+	strcpy(str,"hello"); 
+	printf( "%s\n", str );
+	return 0;
+}
+
+
+3)、
+char* s="AAA";
+printf("%s",s);
+s[0]='B';
+printf("%s",s);
+有什么错？
+
+
+
+4)、请问下面的程序会有什么潜在的危险？
+#include <stdio.h>
+int main()  
+{      
+    char str[5];
+    printf("Enter the string:");
+    scanf("%s",str);
+    printf("You entered:%s\n",str);
+    return 0;
+}
+
+
+32、改错：
+#include <stdio.h>
+int main(void) 
+{
+	int **p;      //int **
+	int arr[100]; //int [100]
+	p = &arr; 
+	return 0;
+}
+
+
+
+
+33、找出错误！！
+#include <string.h>
+main(void)
+{   
+	char *src="hello,world";
+    char *dest=NULL;
+    dest = (char *)malloc(strlen(src));
+    int len=strlen(src);
+    char *d=dest;
+    char *s=src[len];
+    while(len--!=0)
+		d++=s--;
+    printf("%s",dest);
+}
+
+
+
+34、下面的程序运行结果是one two吗？请你分析一下。
+static const char *msg[] = {"one","two","three","four","five"};
+char *get(int i)
+{
+	static char buf[20];
+	strcpy(buf, msg[i]);
+	return buf;
+}	
+int main()
+{
+	printf("%s %s\n", get(0), get(1));
+}
+/*
+	char *s1 = get(0);
+	char *s2 = get(1);
+	printf("%s %s\n", s1, s2);
+*/
+
+/*
+	char *s1 = get(0);
+	printf("%s\n", s1);
+	char *s2 = get(1);
+	printf("%s\n", s2);
+*/
+	return 0;	
+}
+
+
+———————————
+
+35、关于void
+/*
+void* 参数疑问
+  关于void*在函数中传递，哪些需要强转，哪些不需要强转，疑问较多，不知如何总结void*。 问题如下：
+1. http://bytes.com/topic/c/answers/919595-void-0-what-cast 
+上面是关于解释void*的，由于是英文，能看懂一点点，不知最佳答案说的和我理解的是不是一样，麻烦能解释一遍他的void*优缺点么？
+
+2.怎么解释    (*(void(*)())0)();
+
+3.void function(void *a) {
+    int tmp ;     /1
+    float tmp1;   /2
+    tmp = a;      /3
+    a = tmp1;     /4
+}
+关于上面这个函数有可能是错的，可以总结的问题如下：
+1).在function内部，哪些需要强转，哪些会进行隐式转换？为啥
+2).在调用function时，传进的实参是否需要进行强转？
+
+4.我在什么情况下是用void* 作为函数形参，这个优缺点是啥？
+
+*/
+
+#include <stdio.h>
+
+//该函数的调用方式，可以解释你的第2个问题
+void foo(void)
+{
+	printf("hello!\n");
+}
+
+
+//该函数内的代码说明，可以解释你的第3个问题
+void f(void *p)
+{
+	printf("p = %p\n", p);
+	int a = p; //这个会有警告，因为=号左的类型是整型，=号右边是指针类型，编译器无法进行隐式转换，虽然我们可以将指针的值（就是一个16进制的无符号地址值）取出来，但从语法的角度来说，不符合规范，所以有警告。但其实也仅仅只是警告，下面一行是可以打印出来的（因为p放在=号右边，是右值，用的是p里面保存的地址值，类似0x1000之类的一个值，是可以按整型来理解的，这在前面也说过）。如果真的需要将警告也消除掉，那么按照它的警告信息，我们在p的前面用(int)来进行强制类型转换就可以消除警告了。
+	printf("a = %#x\n", a);
+	
+	float b = 1.0;
+	//p = b; //=号左右类型不兼容（什么是类型兼容，例如：int *类型和void *类型，都是指针类型，所以是兼容的；而int类型和int*类型就是无法兼容的类型）。p是指针类型，只能接收指针类型的变量的值，也就是说只能接收某类型变量的地址类型的值。如果想要p保存b变量的地址，可以按下一行的方式进行
+	p = (void *)&b;
+}
+
+
+int main(void)
+{
+	int *p1;
+	f(p1); //第3题的第2小问，此时传递的是可以同形式参数void*类型兼容的类型，是不需要进行强制类型转换的
+
+	int a;
+	f(a); //而如果传递实际参数无法和形式参数兼容，就会有警告，如果要消除警告，需要强转，这和上面f函数里的是一样的，无需赘述。
+
+	//foo(); //foo函数调用方式1
+	//((void (*)())0x80483d4)(); //foo函数调用方式2
+	//(*((void (*)())0x80483d4))(); //foo函数调用方式3
+
+	return 0;
+}
+
+//第1个问题，关于翻译英文的，这个你应该自己解决。看不懂的英文，可以星际译王或百度。以后你会经常碰到英文的资料，这是需要你不断积累的。
+//我可以告诉你大致的意思：1、可以防止直接访问结构内部成员；2、确保在对象内部和对象之间访问的一致性；3、在调用和返回时，都必须强转；4、造成命名空间污染
+
+//第4个问题：只要实现函数的人无法知道将来使用该函数的人会传递什么类型的数据，那么都应该将函数的形式参数声明为void*
+
+========================================================
+//函数参数是值传递
+void test25(int *p)
+{
+    p = (int *)malloc(10);
+}
+
+int main()
+{
+    int *p; //野指针
+    test25(p);
+    *p = 10;  
+    printf("p = %d\n", *p);
+    return 0;
+}
+
+问：1.此时指针p会造成段错误么？
+    2.如何改正？
+
+
+===================================================================
+该函数通过定义一个通用类型的指针p，只能通过该指针实现参数的打印。
+已知
+a = 0x7fff9e4a1b7c
+c = 0x7fff9e4a1b70
+b = 0x7fff9e4a1b78
+f = 0x7fff9e4a1b6c
+int test(int a, char *c, char b, float f)
+{
+	void *p = &a;
+	printf("a = %d\n", [1]);
+	printf("c = %s\n", [2]);
+	printf("b = %c\n", [3]);
+	printf("f = %f\n", [4]);
+}
+int main()
+{
+	test(10, "hello", 'c', 1.2);
+}
+
+===============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+char name[20] =    "student"; 
+char company[20] = "hello, mike";
+const char *p1 = name;
+const char *px= &name[0];
+cout<<"--------:"<<*(px++)<<":-------"<<endl;
+cout<<"--"<<*px<<"-"<<endl;
+name[1] = 'o';    
+p1[1] = 'o';
+
+=====================================
+
+
+
+
+

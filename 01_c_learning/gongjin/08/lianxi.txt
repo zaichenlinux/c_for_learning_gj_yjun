@@ -1,0 +1,73 @@
+#define MAX(a, b)    \
+((a)>(b) ? (a):(b))
+
+#define MAX_GNU(a, b)  \
+({int m = (a), n = (b);m>n ? m:n;})
+
+
+
+1,写一个宏，求出数组的元素个数.
+#define ARRAY(arry)  ({sizeof((array))/sizeof((array)[0])})
+
+2.用宏定义写出swap(x，y)
+#define SWAP(x,y) ({int a,b,c;int a=(x),b=(y);c=a;a=b;b=c;})//用do while进行封装
+
+3.
+	#define N 2 
+    #define M N+1
+    #define NUM (M+1)*M/2  
+    int i, n;
+    for(i=1,n=0; i<=NUM; i++) //NUM = 
+        n++;    
+问这个循环执行了几次？//NUM=#define B(a)  A(a)   //嵌套宏
+//嵌套宏展开的时候，内部的参数的宏也是一同展开//(N+2)*(N+1)/2=6//
+
+4.
+以下是求一个数的平方的程序,请找出错误:
+#define SQUARE(a) ((a)*(a))
+int a=5;
+int b;
+b=SQUARE(a++); //b=((a++)*(a++))=30;//5*6 a=7
+
+
+
+5
+下面这段程序的输出结果是：
+#include <stdio.h>
+#define f(a,b) a##b   
+#define g(a)   #a    
+#define h(a)   g(a)
+
+int main()
+{
+    printf("%s\n", h(f(1,2)));//h(12)//12//嵌套宏的展开：
+    printf("%s\n", g(f(1,2))); //#f(1,2) ""12"" //f(1,2)
+
+    return 0;
+}
+
+
+6.输出结果
+#define INIT_OBJ(name, data) \
+    struct foo foo_##name = { \
+        .id = "fo_"#name"", \
+        .num = data, \
+    };
+struct foo {
+    char id[12];
+    int num;
+};
+static void test23()
+{
+    INIT_OBJ(FOO, 'a');
+    printf("%s, %d\n", foo_FOO.id, foo_FOO.num);
+}
+
+
+
+
+
+
+
+
+

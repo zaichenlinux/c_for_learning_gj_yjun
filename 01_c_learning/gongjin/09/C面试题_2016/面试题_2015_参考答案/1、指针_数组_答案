@@ -1,0 +1,996 @@
+
+1、写出下列程序片段的输出结果
+
+static void test1()
+{
+	struct node {
+		int a; 
+		char b;
+		char c;		
+		int d;  
+		int e;  
+	};
+	struct node s = { 3, 4, 5, 6, 7 };
+	struct node *p = &s;
+
+	printf("%d\n", *((int*)p + 3)); 
+	printf("%d\n", ((int*)p + 4)[-1]); 
+} 
+//========================
+
+static void test2()
+{
+	int a[] = { 1, 2, 3, 4, 5 };
+	int *p = (int*)(&a + 1); //&a的类型是int (*)[5], &a指向的类型是int [5]
+
+	printf("%d %d\n", *(a + 1), *(p - 1)); //2 5
+}
+
+//===========================
+
+static void foo(int b[][3]) //int (*)[3]
+{
+	b++;
+	b[1][1] = 100;
+}
+
+static void test3()
+{
+	int a[][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
+
+	foo(a);
+	printf("%d\n", a[2][1]); //100
+}
+//===============================
+
+static void test4()
+{
+	int a[][3] = {1, 2, 3, 4, 5, 6};
+	int (*p)[3] = a;
+
+	printf("%d %d\n", (*p)[1], (*p)[2]); 
+	//*(*p + 1) //2 3
+	p++;
+	printf("%d %d\n", (*p)[1], (*p)[2]);  //5 6
+}
+
+//==============================
+
+static void foo1(int *p, int *q){	
+	int tmp = *p;	*p = *q;	*q = tmp;
+}
+static void foo2(int *p, int *q){	
+	int *tmp = p;	p = q;	q = tmp;
+}
+static void test5()
+{
+	int a = 3; 	int b = 5;
+	void (*p[2])(int*, int*);
+	p[0] = foo1;	p[1] = foo2;
+	p[0](&a, &b);
+	printf("%d %d\n", a, b); //5 3
+	p[1](&a, &b);
+	printf("%d %d\n", a, b); //5 3
+}
+
+static void test6()
+{
+	int a = 3;
+	int b = 5;
+	void (*s[2])(int*, int*);
+	void (*(*p)[2])(int*, int*) = &s;
+
+	s[0] = foo1;
+	s[1] = foo2;
+	s[0](&a, &b);
+	printf("%d %d\n", a, b); //5 3
+
+	(*p)[1](&a, &b);
+	printf("%d %d\n", a, b); //5 3
+}
+//============================
+
+void f1(int *, int);
+void f2(int *, int);
+void (*p[2])(int *, int);
+static void test7()
+{
+	int a;  int b;  p[0] = f1;  p[1] = f2;
+	a=3;  b=5;  
+	p[0](&a , b); printf("%d\t %d\t", a ,b); //5 5
+	p[1](&a , b); printf("%d\t %d\t", a ,b); //5 5
+}
+
+void f1( int* p , int q) {
+  	int tmp; tmp = *p; *p = q; q = tmp;
+}
+
+void f2( int* p , int q){
+  	int tmp; tmp =*p; *p = q; q= tmp;
+} 
+
+这段程序的输出是:	5 5 5 5
+
+f1交换*p和q的值，f1执行完后, *p和q的值的确交换了, 但q的改变不会影响到b的改变, *p实际上就是a, 所以执行f1后,  a=b=5
+这道题考查的知识范围很广,包括函数指针,指针数组
+void(*p[2])(int *, int);
+定义了一个函数指针的数组p, p有两个指针元素.  元素是函数的指针，函数指针指向的函数是一个带2个参数,不返回任何类型值的函数，所带的两个参数分别是指向整型的指针，和整型
+p[0] = f1; p[1] = f2 contain address of function .function name without parenthesis represent address of function Value and address of variable is passed to function only argument that is effected is a (address is passed). Because of call by value f1, f2 can not effect b
+
+//============================
+static void test8()
+{
+	//unsigned char buf[15] = {1, 2, 3, 4, 5, 6, 7, 8};
+	unsigned char buf[15] = {'1', '2', '3', '4', '5', '6', '7', '8'};
+	unsigned char c;
+
+	c = (buf + 1)[5]; 
+	printf("%d\n", c); //7 55
+	printf("%d\n", (int)c); //7 55
+	printf("%x\n", *(int*)(buf + 1)); //5040302 35343332
+}
+//=============================
+
+static void foo(char **p)
+{
+	char *t = 0; //define NULL (void *)0
+	t = (p += sizeof(int))[-1];
+	printf("%s\n", t);
+}
+
+static void test9()
+{
+	char *argv[] = { "ab", "cd", "ef", "gh", "ij", "kl" };
+	foo(argv);
+	printf("%d\n", sizeof(argv)); //4*6,argv的类型是char *[6]
+}
+
+//sizeof(int)的值是4,所以p+=sizeof(int) 指向 argv[4],这点估计大家都没有什么疑问;
+//(p+=sizeof(int))[-1] 指向 argv[3], 因为(p+=sizeof(int))[-1]  就相当于(p+=4)[-1] ,也就是(p+4-1)
+
+//=============================
+
+static void test10()
+{
+	char a[3][2] = {0}; //a充当右值时自动转化为指向首元素的指针，类型是char (*)[2]; //a充当左值，它的类型是数组类型：char [3][2]
+	strcpy((char *)a, "01234");
+
+	printf("%d\n", sizeof(a[0]));
+
+	printf("%s\n", (char *)(a[0] + 1)); //1234
+	printf("%s\n", (char *)(a + 1)); //234
+	char *p = (char*)malloc(10);
+	strcpy(p, "012345678");
+	
+	printf("%s\n", (char *)( (typeof(&a))p + 1 ) ); //678
+	free(p);
+}
+//=============================
+
+static void test11()
+{
+	char s[2] = "ab";
+	char a[3][2] = { "ab", 'e', ('c', 'd'), {'g', 'h'} };
+	//char a[3][2] = { {"ab"}, {'e', ('c', 'd')}, {'g', 'h'} };
+
+	printf("%c\n", a[0][1]); 
+	printf("%c\n", a[0][2]); 
+	printf("%c\n", a[1][1]); 
+	printf("%c\n", a[2][1]); 
+}
+//============================= 
+=============================================================================================
+
+2、简述数组与指针的区别？
+数组要么在静态存储区被创建（如全局数组），要么在栈上被创建。指针可以随时指向任意类型的内存块。
+	(1)修改内容上的差别
+char a[] = “hello”;
+a[0] = ‘X’;
+char *p = “world”; // 注意p 指向常量字符串
+p[0] = ‘X’; // 编译器不能发现该错误，运行时错误
+	(2) 用运算符sizeof 可以计算出数组的容量（字节数）。
+sizeof(p),p为指针得到的是一个指针变量的字节数，而不是p所指的内存容量。C/C++ 语言没有办法知道指针所指的内存容量，除非在申请内存时记住它。注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针。
+char a[] = "hello world";
+char *p = a;
+cout<< sizeof(a) << endl; // 12 字节
+cout<< sizeof(p) << endl; // 4 字节
+计算数组和指针的内存容量
+void Func(char a[100]) //<==> char a[] <==> char *a
+{
+	cout << sizeof(a) << endl; // 4 字节而不是100 字节
+}
+
+
+
+3、请说出数组名的含义：
+(1) 数组名指代一种数据结构，这种数据结构就是数组；
+	例如：
+	char str[10];
+	printf("%d\n", sizeof(str)); //输出结果为10，str指代数据结构char[10]。
+(2) 数组名可以转换为指向其指代实体的指针，而且是一个指针常量，不能作自增、自减等操作，不能被修改；
+	char str[10];
+	str++; //编译出错
+(3) 数组名作为函数形参时，在函数体内，数组名失去了本身的内涵，沦为普通指针；在失去其内涵的同时，还失去了其常量特性，可以作自增、自减等操作，可以被修改。
+
+
+
+4、写出下面代码片段的输出结果：
+int arr[] = {6,7,8,9,10}; 
+int *ptr = arr; 
+//*(ptr++)+=123;  //*ptr++ += 123; 
+*(++ptr)+=123; 
+printf("%d %d\n", *(ptr++), *ptr);
+
+答案：8 8 
+过程：对于*(ptr++)+=123; 先做加法6+123，然后++，指针指向7；
+对于printf("%d %d", *ptr, *(++ptr)); 从后往前执行，指针先++，指向8，然后输出8，紧接着再输出8 
+
+
+
+5、定义 int **a[3][4], 则变量占有的内存空间为：_____
+答：此处定义的是指向指针的指针数组，对于32位系统，指针占内存空间4字节，因此总空间为3×4×4＝48。
+
+
+
+6、
+char a[2][2][3]={{{1,6,3},{5,4,15}},{{3,5,33},{23,12,7}}};
+int i = 0;
+for(;i<12;i++)
+	printf("%d ",_______);
+在空格处填上合适的语句，顺序打印出a中各元素
+答案：printf("%d ",*(**a+i));
+
+
+
+7、写出下面程序段输出结果：
+int main()
+{
+	unsigned char *p1;
+	unsigned long *p2;
+	p1=(unsigned char *)0x801000;
+	p2=(unsigned long *)0x810000;
+
+	printf("%p\n", p1+5);
+	printf("%p\n", p2+5);
+	return 0;
+}
+答案:0x801005(相当于加上5位) 0x810014(相当于加上20位)
+
+
+
+8、输出？
+void g(int**p){
+	(**p)++;  //line数组中的元素的值加1
+	(*p)++;   //指针移动
+}
+int main(){
+	int line[10],i;
+	int *p=line;   
+	for (i=0;i<10;i++) {
+		*p=i;
+		g(&p);   
+	}
+	for(i=0;i<10;i++)
+		printf("%d ",line[i]);
+	printf("\n");
+	return 0;
+}
+
+答案：
+1 2 3 4 5 6 7 8 9 10
+
+这道题目不是很好理解，我们可以把题目g函数改为
+void g(int**s)
+{
+	(**s)++;
+	(*s)++;
+}
+这样不容易看混淆s就是一个形式参数，g(&p)输入的就是p的地址，这样有如下指向：*p－>p－>line调用函数时候，**s对应*p即数组中的数,*s对应p即数组数字的地址，这样就可以知道了(**s)++是line中的内容增加；(*s)++是地址增加。
+
+
+
+9、读程序,写出结果
+int main()
+{
+    int a[3];
+    a[0] = 0;
+    a[1] = 1;
+    a[2] = 2;
+    int *p, *q;
+    p = a;
+    q = &a[2];
+    int c = a[q - p];
+    printf("value c = %d\n", c++);
+    printf("value c = %d\n", c);
+    return 0;
+}
+答：2 3
+p=a;
+q=&a[2];
+则a[q-p]=a[2]=2
+指针一次移动一个int,但计数为1，p＝a；q＝a＋2。这题是要告诉我们指针的运算特点
+
+
+
+10、西艾：X86结构下，下面代码输出结果是什么？
+	char str[20]="Good morning";
+	int* p=(int*)str;
+	p[0]=0x61626364;   //61 = 6*16+1 = 97 = 'a'
+	p[1]=0x31323334;   //31 = 3*16+1 = 49 = '1'
+	p[2]=0x41424344;   //41 = 4*16+1 = 65 = 'A'
+	printf("%s\n", str); //dcba4321DCBA
+
+解题：考察知识点：
+   1. int的内存大小：32bit=4byte；char的内存大小：8bit=1byte；
+   2. 常用字符的ASCII 码，'a'=97;'A'=65;'0'=48；
+   3. 十六进制转换，0x61=97；
+   4. 大小端模式：所谓的小端模式，是指数据的低位保存在内存的低地址中，而数据的高位保存在内存的高地址中，这种存储模式将地址的高低和数据位权有效地结合起来，高地址部分权值高，低地址部分权值低，和我们的逻辑方法一致。所谓的大端模式，是指数据的低位（就是权值较小的后面那几位）保存在内存的高地址中，而数据的高位，保存在内存的低地址中，这样的存储模式有点儿类似于把数据当作字符串顺序处理：地址由小向大增加，而数据从高位往低位放；
+	而X86结构为小端模式，所以
+	p[0]=0x61626364;//97,98,99,100对应a,b,c,d,小端存在字符串str则为dcba 
+	p[1]=0x31323334;//同理4321 
+	p[2]=0x41424344;//同理DCBA
+	代码输出：dcba4321DCBA
+
+
+
+11、内存访问
+有以下代码：
+void fn()
+{
+	int a[100];
+	int *p;
+	p = (int *)((unsigned int)a + 1);
+	printf(“p=0x%x\n”, *p);
+}
+试评论以上代码。
+
+p = (int *)((unsigned int)a + 1);
+代码的意图是想使p指向数组的第二个元素，但通常的写法是：p=a+1。这里存在这样的问题：a是个常量地址，a+1指向下一个数组元素，而((unsigned int)a + 1)指向下一个内存地址。如果地址是字节计数的，则p指向的是数组第一个元素的第二个字节。还有一个效果就是：在RISC上该printf语句会出异常，因为不允许非对齐访问(mis-aligned access)。对齐访问就是访问2字节变量的地址要能被2整除，4字节变量的地址要能被4整除。
+
+
+
+12、仕兰微面试题目
+A）  
+void testf(int *p) {
+	*p += 1;
+}
+int main(void) {
+	int *n, m[2];
+	n = m;
+	m[0] = 1;
+	m[1] = 8;
+	testf(n);
+	printf("%d\n", *n);
+	return 0;
+}  
+------------------------------   
+B)   
+void testf(int **p)
+{
+	*p += 1;
+}
+int main(void)
+{
+	int *n, m[2];
+	n = m;
+	m[0] = 1;
+	m[1] = 8;
+	testf(&n);
+	printf("%d\n", *n);
+	return 0;
+}  
+下面的结果是程序A还是程序B的？   
+Data value is 8   
+那么另一段程序的结果是什么？   
+
+答案： 8是B程序的结果
+
+
+13、要对绝对地址0x100000赋值，我们可以用*(unsigned int*)0x100000 = 1234;那么要是想让程序跳转到绝对地址是0x100000去执行，应该怎么做？
+答：
+	((void (*)())0x100000)();
+	
+	首先要将0x100000强制转换成函数指针,即:
+	(void (*)())0x100000
+	然后再调用它:
+	((void (*)())0x100000)();
+	
+	用typedef可以看得更直观些:
+	typedef void (*voidFuncPtr)();
+	((voidFuncPtr)0x100000)();
+
+
+
+14、写出下列代码的输出内容
+#include<stdio.h>
+typedef int(*FUNC1)(int);
+typedef int(*FUNC2)(int*,int*,int*);
+int foo(int a){ return(++a); }
+int multi(int*a,int*b,int*c){
+    return(*c=*a**b);}
+void show(FUNC2 fun, int arg1, int*arg2){
+    FUNC1 p= &foo;
+    int temp = p(arg1); //11
+    fun(&temp, &arg1, arg2); 
+    printf("%d\n",*arg2);}
+int main(){
+    int a;
+    show(multi,10,&a);
+	return 0;}
+答: 110
+
+
+
+15、解释下列输出结果
+char str1[] = "abc";
+char str2[] = "abc";
+const char str3[] = "abc";
+const char str4[] = "abc";
+const char *str5 = "abc";
+const char *str6 = "abc";
+char *str7 = "abc";
+char *str8 = "abc";
+cout << ( str1 == str2 ) << endl;
+cout << ( str3 == str4 ) << endl;
+cout << ( str5 == str6 ) << endl;
+cout << ( str7 == str8 ) << endl;
+
+结果是：0 0 1 1
+解答：
+str1,str2,str3,str4是数组变量，它们有各自的内存空间；此时的数组名，实际上是两个分别指向数组起始元素的指针。
+而str5,str6,str7,str8是指针，它们指向相同的常量区域。
+
+
+
+16、下面的C程序是合法的吗？如果是，那么输出是什么？
+#include <stdio.h>
+int main()  
+{ 
+    int a=3, b=5;
+    
+    //printf("hello %s", world);
+    
+    printf(&a["Ya!Hello! what is this? %s\n"], 
+    	&b["junk/super"]);  //&("junk/super"[b])
+    printf(&a["WHAT%c%c%c  %c%c  %c !\n"], 
+	  1["this"],2["beauty"],0["tool"],0["is"],3["sensitive"],4["CCCCCC"]);
+        
+    return 0;  
+}
+参考答案：本例是合法的，输出如下：
+    Hello! what is this? super 
+    That  is  C !
+本例主要展示了一种另类的用法。下面的两种用法是相同的：
+    "hello"[2]    2["hello"]
+如果你知道：a[i] 其实就是 *(a+i)也就是 *(i+a)，所以如果写成 i[a] 应该也不难理解了。
+
+
+
+
+17、下面的程序运行时哪里会出现错误：
+struct S {
+    int i;
+    int * p;
+};
+int main()
+{
+    struct S s;
+    int * p = &s.i;
+    p[0] = 4;
+    p[1] = 3;
+    s.p = p;
+    s.p[1] = 1;
+    s.p[0] = 2;
+ 
+    return 0;
+}
+
+【题目解析】
+这道题考的是对结构体内存使用情况的理解。在32位的操作系统中，int和指针类型的变量占用空间都是4个字节。在本题中 &s.i的值实际就是 &s的值，所以“int * p = &s.i”也就相当于把p指向了结构体s的地址的起始位置。如图1所示。
+	----------
+	|    p   |---> ---------    ---
+	----------	   |  s.i  |     |
+	               ---------     s
+	               |  s.p  |     |
+				   ---------    ---
+				图1
+假设 &s的值为0x12300,则p的值也是0x12300，p[0]指的是从0x12300开始的连续4个字节的空间，p[1]指的是从0x12304（注意！不是0x12301）开始的连续4个字节的空间。这样，p[0]也就相当于s.i，p[1]也就相当于s.p，分析到这一步，可以确定程序运行到“s.p=p;”这里不会出错。继续往下看。
+在进行了“s.p=p;”的赋值之后，s.p指向的是s的首地址，此时s.p[0]相当于s.i，s.p[1]相当于s.p。
+下一句“s.p[1]=1”执行过之后，此时s.p的值为1，也就是指向内存的0x1处，隐患出现了。在执行“s.p[0]=2”的时候，实际上是向内存0x1起始的连续四个字节写入0x2，而那块内存不属于这个程序，会出现访问非法内存的错误。
+
+
+
+
+18、下面的数据声明都代表什么？【美国某著名计算机嵌入式公司2005年9月面试题】
+(1)float(**f)[10];   //f是一个二级指针，它指向的是一个一维数组的指针，数组的元素是float。
+(2)double*(*f)[10];  //f是一个指针，它指向一个一维数组，数组元素都是double*。
+(3)double(*f[10])(); //f是一个数组，有10个元素，元素都是函数的指针，指向的函数是没有参数且返回double的函数。
+(4)int*((*f)[10]);  //和int*(*f)[10]是一样的，f是一维数组的指针。
+(5)long(*f)(int);     //f是指向函数的指针，这个指针返回值是long,所带的参数是int。
+(6)int(*(*f)(int,int))(int);  //f是一个指向函数的指针，它指向这样一种函数，该函数参数为两个，都是int型，返回值是一个指针，返回的这个指针指向的是另外一个函数（参数只有一个，类型是int, 且返回值类型为int的函数）。
+
+/*
+int fun(int ,char);
+int (*pf)(int, char) = fun;
+pf(2, 'c');
+fun(2,'c');
+(*pf)(2, 'c'); //同14行
+*/
+答案：函数指针的问题
+就像数组名是指向数组第一个元素的常指针一样，函数名也是指向函数的常指针。可以声明一个指向函数的指针变量，并且用这个指针来调用其他函数--只要这个函数和你的函数指针在返回值、参数类型个数都一致即可。
+
+
+
+19、复杂类型的声明和定义
+给定以下类型的变量的定义式：
+a) An integer                   				//int a;
+b) A pointer to an integer      				//int *p;
+c) A pointer to a pointer to an integer       	//int **q; 
+d) An array of 10 integers                    	// int b1[10];
+e) An array of 10 pointers to integers        	// int *b2[10];
+f) A pointer to an array of 10 integers       	// int (*pp)[10];
+g) A pointer to a function that takes an integer as an argument and returns an integer
+	// int (*pf)(int);
+h) An array of ten pointers to functions that take an integer argument and return an integer
+	// int (*ppf[10])(int);
+
+
+
+20、有如下表达式，请用文字描述x是什么？ 
+	char (*(*x(void))[])(); 
+答：x是一个函数，该函数不带参数，函数的返回值是一个指针，指针指向一个数组，数组的元素是指针，每个指针指向一个函数，该函数参数不确定，并且返回值是char.
+
+解析：
+char (*(*x())[])();
+这道题来自”The C Programming Language”中的一个例子。
+首先，确定标识符：x
+x是一个函数，没有参数：x()
+返回值是一个指针：*x()
+这个指针指向一个数组：(*x())[]
+数组中的每个元素是指针：*(*x())[]
+指向一个不带参数的函数：(*(*x())[])()
+函数的返回值是char：char (*(*x())[])()
+这里，要知道*、()和[]的优先级。
+
+
+
+21、下面这个例就更变态了。在GCC的文档中，这个语法是合法的，但是不知道为什么GCC并没有实现。下面的代码返回什么？
+	return ((int []){1,2,3,4})[1];
+	答案：返回2
+
+
+
+22、执行下述程序的输出结果是  ABCDEFCDEFEF  。
+char b[]="ABCDEF";
+main()
+{
+	char *bp;
+	for (bp=b;*bp;bp+=2)
+		printf("%s",bp);
+	printf("\n");
+}
+
+
+
+
+23、有以下程序：
+main()
+{
+	char *s[]={"one","two","three"},*p;
+	p=s[1];
+	printf("%c,%s",*(p+1),s[0]);
+}
+执行后输出结果是（ A）。
+A．w,one B．n,two C．t,one D．o,two
+
+
+
+
+24、int a[4][3]={1,2,3,4,5,6,7,8,9,10,11,12};
+int (*ptr)[3]=a,*p=a[0];
+则下列能正确表示数组元素a[1][2]的表达式是（D ）。
+A．*((*ptr+1)[2]) B．*(*(p+5))
+C．(*ptr+1)+2 D．*(*(a+1)+2)
+
+
+
+25、
+int i,a[5],*p=a;
+for (i=0;i<5;i++) { 
+	p++;
+	*p=i;
+}
+问错误是什么？
+第一个成员没有赋值
+
+
+
+26、(void *)ptr 和 (*(void**))ptr的结果是否相同？其中ptr为同一个指针
+(void *)ptr 和 (*(void**))ptr值是相同的
+
+
+
+27、下面一道面试题，看一下指针与数组的区别。
+char *p1, *p2;
+char ch[12];
+char **pp;
+p1 = ch;
+pp = &ch;
+p2 = *pp;
+问p1和p2是否相同,找出其中的不妥之处。
+
+ 
+    首先，数组ch是没有初始化的。其次，一个比较隐含的地方是，数组名可以代表数组第一个元素的首地址，这个没有问题，但是，数组名并非一个变量，数组分配完成后，数组名就是固定的，地址也是固定的。这样导致的结果就是绝对不能把数组名当作变量来进行处理。上述题目中，pp=&ch，显然是把数组名当作指针变量来使用了，这样肯定出问题。
+
+    这个题目存在的两个问题，第一个问题比较简单，可以认为是粗心大意。但是第二个问题就是相当复杂了，扩展开来，那就是C语言中的精华中的指针和数组的联系与区别问题了。
+
+    下面分为两步，首先看一下指针和数组的区别方法，然后提出对上述程序的修改方案。
+
+1> 指针和数组的区别
+
+（1）指针和数组的分配
+    数组是开辟一块连续的内存空间，数组本身的标识符（也就是通常所说的数组名）代表整个数组，可以使用sizeof来获得数组所占据内存空间的大小（注意，不是数组元素的个数，而是数组占据内存空间的大小，这是以字节为单位的）。举例如下：
+ 
+
+#include <stdio.h>
+
+int main(void)
+{
+        char a[] = "hello";
+        int b[] = {1, 2, 3, 4, 5};
+
+        printf("a: %d/n", sizeof(a));
+        printf("b memory size: %d bytes/n", sizeof(b));
+        printf("b elements: %d/n", sizeof(b)/sizeof(int));
+
+        return 0;
+}
+ 
+    数组a为字符型，后面的字符串实际上占据6个字节空间（注意最后有一个\0标识字符串的结束）。从后面sizeof(b)就可以看出如何获得数组占据的内存空间，如何获得数组的元素数目。至于int数据类型分配内存空间的多少，则是编译器相关的。gcc默认为int类型分配4个字节的内存空间。
+ 
+（2）空间的分配
+
+    这里又分为两种情况。
+
+    第一，如果是全局的和静态的
+    char *p = “hello”;
+    这是定义了一个指针，指向rodata section里面的“hello”，可以被编译器放到字符串池。在汇编里面的关键字为.ltorg。意思就是在字符串池里的字符串是可以共享的，这也是编译器优化的一个措施。
+    char a[] = “hello”;
+    这是定义了一个数组，分配在可写数据块，不会被放到字符串池。
+
+    第二，如果是局部的
+    char *p = “hello”;
+    这是定义了一个指针，指向rodata section里面的“hello”，可以被编译器放到字符串池。在汇编里面的关键字为.ltorg。意思就是在字符串池里的字符串是可以共享的，这也是编译器优化的一个措施。另外，在函数中可以返回它的地址，也就是说，指针是局部变量，但是它指向的内容是全局的。
+    char a[] = “hello”;
+    这是定义了一个数组，分配在堆栈上，初始化由编译器进行。（短的时候直接用指令填充，长的时候就从全局字符串表拷贝），不会被放到字符串池（同样如前，可能会从字符串池中拷贝过来）。注意不应该返回它的地址。
+
+（3）使用方法
+    如果是全局指针，用于不需要修改内容，但是可能会修改指针的情况。
+    如果是全局数组，用于不需要修改地址，但是却需要修改内容的情况。
+    如果既需要修改指针，又需要修改内容，那么就定义一个数组，再定义一个指针指向它就可以了。
+
+2> 我编写的修改方案
+
+#include <stdio.h>
+/*
+ * define a macro which is used to debug array mode and pointer mode.
+ * if 1, debug array mode; else debug pointer mode.
+ * You can change it according to your decision.
+ */
+#define ARRAY_OR_POINTER 0
+
+int main(void)
+{
+        char *p1;
+        char *p2;
+        char **pp;
+
+        //test1
+
+        #if ARRAY_OR_POINTER
+                char ch[] = "hello, world!\n";
+                printf("%d, %d, %d, %d/n", sizeof(p1), sizeof(p2),
+                                           sizeof(pp), sizeof(ch));
+        #else
+                char *ch = "hello, world!\n";
+                printf("%d, %d, %d, %d\n", sizeof(p1), sizeof(p2),
+                                           sizeof(pp), sizeof(ch));
+        #endif
+
+        //test2
+
+        p1 = ch;
+
+        #if ARRAY_OR_POINTER
+                pp = &p1;
+        #else
+                pp = &ch;
+        #endif
+
+        p2 = *pp;
+
+        if (p1 == p2) {
+                printf("p1 equals to p2/n");
+        } else {
+                printf("p1 doesn't equal to p2/n");
+        }
+
+        return 0;
+}
+ 
+    执行结果如下：
+    
+// ARRAY_OR_POINTER为0时
+[armlinux@lqm pointer]$ ./test
+4, 4, 4, 4
+p1 equals to p2
+
+// ARRAY_OR_POINTER为1时
+[armlinux@lqm pointer]$ ./test
+4, 4, 4, 15
+p1 equals to p2
+ 
+如果使用了数组定义方式，而又使用pp=&ch，那么就会出现类似下面的错误：
+[armlinux@lqm pointer]$ make
+gcc -Wall -g -O2 -c -o pointer.o pointer.c
+pointer.c: In function `main':
+pointer.c:44: warning: assignment from incompatible pointer type
+gcc -Wall -g -O2 pointer.o -o test
+[armlinux@lqm pointer]$ ./test
+4, 4, 4, 15
+p1 doesn't equal to p2
+
+关于指针，推荐看一下csdn飞天御剑流的《再再论指针》
+
+
+
+
+28、函数和函数指针可以相互转换。下面的语句哪些是合法的？
+	int (*pf)(void);
+	int f(void)
+	{
+		pf = &f;     // 没问题
+ 		pf = ***f;   // 取址？
+		pf();        // 函数指针可以调用？
+		(****pf)();  // 这又是什么？
+		(***************f)(); // 这个够变态了吧？
+	}
+    答案：全部合法。
+    
+
+
+
+29、下面的程序的输出结果是什么？会出现何种问题吗？【美国某著名计算机软件公司面试题】
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+	char s[] = "123456789";
+	char d[] = "123";
+	strcpy(d, s);
+	printf("%s,	%s\n",d,s);
+	//printf("&s=%p, &d=%p\n", s, d);
+	
+	return 0;
+}
+
+答：
+输出结果为： 123456789，	56789
+原因是：如果当打印出地址时，看到，d地址之后的4个字节处分配了s的地址。那么就是该答案。如果不是，那么就会出现栈内存溢出。
+见《程序员面试宝典》p206页。
+
+
+
+30、请运行下面的代码，观察结果，有人说怎么是死循环，你同意吗？为什么？
+#include <stdio.h>
+int main()
+{
+  int i = 0;
+  int name[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  for (i = 0; i <= 10; i++)
+  {
+    name[i] = 0;
+    printf("ok\n");
+  }
+  return 0;
+}
+
+答案：
+看到该题第一反应是i<=10写错了，应该是i<10。那么为什么写成i<=10就会死循环呢？
+	由于编译器先分配变量i的空间，然后紧接着分配数组name[10]的空间，两者栈空间是紧邻的。因此name[0]~name[9]是name的空间，name[10]的地址其实就是i的地址，只不过它们名字不同罢了（memory alias）。循环至i=10时，name[i] = 0这条语句其实是将i值改为了0。此时i为0，循环结束时判断i<=10显然条件满足，于是循环又回到i=0继续执行。如此往复便成了死循环。
+
+
+
+31、越界问题
+1)、下面这个程序执行后会有什么错误或者效果:
+#define MAX 255
+int main()
+{
+	unsigned char A[MAX],i; //i被定义为unsigned char
+	for (i=0;i<=MAX;i++)
+		A[i]=i;
+}
+
+答案：死循环加数组越界访问（C/C++不进行数组越界检查）
+MAX=255 
+数组A的下标范围为:0..MAX-1,这是其一;
+其二.当i循环到255时,循环内执行: A[255]=255;这句本身没有问题..但是返回for (i=0;i<=MAX;i++)语句时,由于unsigned char的取值范围在(0..255),i++以后i又为0了..无限循环下去.
+注：char类型为一个字节，取值范围是[-128，127]，unsigned char[0 ,255]
+
+
+2)、请问以下代码有什么问题：
+int  main()
+{
+	char a;
+	char *str;
+	str = &a;
+	strcpy(str,"hello");
+	printf( "%s\n", str );
+	return 0;
+}
+
+答：没有为str分配内存空间，将会发生异常。问题出在将一个字符串复制进一个字符变量指针所指地址。虽然可以正确输出结果，但因为越界进行内存读写而导致程序崩溃。
+
+
+3）、
+char *s="AAA";
+printf("%s",s);
+s[0]='B';
+printf("%s",s);
+有什么错？
+
+答: "AAA"是字符串常量。s是指针，指向这个字符串常量，所以声明s的时候就有问题。
+可改为 const char *s="AAA";  因为是常量，所以对s[0]的赋值操作是不合法的。
+
+
+4)、请问下面的程序会有什么潜在的危险？
+#include <stdio.h>
+int main()  
+{      
+    char str[5];
+    printf("Enter the string:");
+    scanf("%s",str);
+    printf("You entered:%s\n",str);
+    return 0;
+}
+
+参考答案：本题很简单了。这个程序的潜在问题是，如果用户输入了超过5个长度的字符，那么就会有数组越界的问题了，你的程序很有可能会crash了。
+
+
+
+32、改错：
+#include <stdio.h>
+int main(void) 
+{
+	int **p;
+	int arr[100];
+	p = &arr;   //类型不匹配，右边int (*)[100]
+	return 0;
+}
+
+答案：
+指针类型不同,
+int **p; //二级指针
+&arr; //得到的是指向第一维为100的数组的指针
+应该这样写
+#include <stdio.h>
+int main(void) 
+{
+	int **p, *q;
+	int arr[100];
+	q = arr;
+	p = &q;
+	return 0;
+}
+
+
+
+33、找出错误！！
+#include <string.h>
+main(void)
+{   
+	char *src="hello,world";
+    char *dest=NULL;
+    dest = (char *)malloc(strlen(src) + 1);
+    int len=strlen(src);
+    char *d=dest;
+    char *s=&src[len];
+    while(len--!=0)
+		*d++=*s--;
+	*d = '\0';
+    printf("%s",dest);
+}
+答案：
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+main(void)
+{   
+	char *src="hello,world";
+    char *dest=NULL;
+    dest = (char *)malloc(sizeof(char)*(strlen(src)+1));
+    int len=strlen(src);
+    char *d=dest;
+    char *s=src+len-1; //&src[len - 1]
+    while(len--!=0)
+		*d++=*s--;
+	*d='\0';
+    printf("%s",dest);
+}
+
+
+
+34、下面的程序运行结果是one two吗？请你分析一下。
+static const char *msg[] = {"one","two","three","four","five"};
+char *get(int i)
+{
+	static char buf[20];
+	strcpy(buf, msg[i]);
+	return buf;
+}	
+int main()
+{
+	char *s1 = get(0);
+	char *s2 = get(1);
+	//printf("%s %s\n", get(0), get(1));
+	printf("%s %s\n", s1, s2);
+	return 0;	
+}
+答案：one one
+
+//什么不能作为左值：常量，表达式
+//什么可以左值：变量
+
+=======================================
+//函数参数是值传递
+void test25(int **p) 
+{
+    *p = (int *)malloc(10);
+}
+
+int main()
+{
+    int *p; //野指针
+    my_malloc(&p);
+    *p = 10;  
+    printf("p = %d\n", *p);
+    return 0;
+}
+
+问：1.此时指针p会造成段错误么？
+    2.如何改正？
+
+1.会造成段错误，此时仍然是函数的值传递，只不过传递的是指针而已，但其本质仍然是值传递
+2.改成二级指针
+
+=======================================================
+
+#include <stdio.h>
+
+int test(int a, char *c, char b, float f)
+{
+    void *p = &a; 
+    printf("a = %d\n", *(int *)p);
+    printf("c = %s\n", *(char **)((size_t)p - 0xc));
+    printf("a = %c\n",*(char *)((size_t)p - 0x4));
+    printf("f = %f\n",*(float *)((size_t)p - 0x10));
+    
+}
+
+
+int main()
+{
+    test(10, "candle", 'f', 1.8);
+}
+
+
+
+
+
+
+
+
+
+

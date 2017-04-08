@@ -1,0 +1,103 @@
+
+1、 斐波拉契数列递归实现的方法如下： 
+int Fun( int n ) 
+{ 
+	if(n==0) return 1; 
+	if(n==1) return 1; 
+	retrurn Funct(n-1) + Funct(n-2); 
+} 
+鉴于该问题使用递归解决，实在无效率可言。请问，如何不使用递归，来实现上述函数？ 
+
+解答：
+int Fun( unsigned int n ) // n 为非负整数 
+{ 
+	int a=1, b=1, i, c; 
+	if(n == 0 || n == 1) c=1; 
+	else 
+		for(i=2;i<=n;i++)  
+		{ 
+			c=a+b; 
+			a=b; 
+			b=c; 
+		} 
+	return c; 
+} 
+
+
+
+2、考查递归调用
+int foo ( int x , int n)　
+{ 
+	int val=1; 
+	if (n>0) { 
+		if (n%2 == 1) 
+			val = val *x; 
+		val = val * foo(x*x , n/2); 
+	} 
+	return val;
+} 
+这段代码对x和n完成什么样的功能(操作)?
+(a) x^n (x的n次幂)
+(b) x*n(x与n的乘积)
+(c) n^x(n的x次幂)
+(d) 以上均不是
+
+答案 (a)
+这个程序的非递归版本   
+int  what ( int x , int  n)
+{
+  int val， product=1;
+  val =x;
+
+  while(n>0)
+  {
+	if (n%2 == 1) 
+		product = product*val;   /*如果是奇数次幂, val要先乘上一次; 偶数次幂,最后返回时才会到这里乘以1*/
+	val = val * val;                 
+    n = n/2;
+  }
+  return product;
+}
+
+/* 算法描述： */  
+(while n>0) 
+{
+  if  next most significant binary digit of  n( power)  is one
+  then multiply accumulated product by current val,
+  reduce n(power)  sequence by a factor of two using integer division .
+  get next val by multiply current value of itself                  
+}
+
+
+3、考查递归
+void e(int );  
+int main(void)
+{
+  int a = 3;
+  e(a);
+  printf("\n");
+  return 0;
+}
+void e(int n)
+{
+  if(n>0) {
+    e(--n);
+    printf("%d " , n);
+    //e(--n);
+  }
+}
+
+这段程序的输出是: 0 1 2 0
+(a) 0 1 2 0
+(b) 0 1 2 1
+(c) 1 2 0 1
+(d) 0 2 1 1
+
+答案 (a)
+考查--操作和递归调用,仔细分析一下就可以了
+
+
+
+常见递归面试题 答案见“ 5digui ”
+
+

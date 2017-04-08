@@ -1,0 +1,366 @@
+
+================================= 结构体 ========================================
+
+1、现有结构体  
+struct A {
+	int id;    //4
+	char name[8];  //8
+	short class;   //2
+	char sex;      //1+1
+	unsigned long value;  //4
+}; //20
+struct B {
+	char name[8];   //8
+	char sex;       //1+3
+	unsigned long value; //4
+	int id;            //4
+	short class;       //2+2
+} ; //24   linux+gcc平台下对齐规则2：最后一个成员保证接下来的地址是 min(cpu字长， 结构体中最大成员) 的整数倍
+
+struct C {
+	char c[];
+};
+
+则：sizeof(struct A)=?
+	sizeof(struct B)=?
+	sizeof(struct C)=? //0 1
+	
+答案： 20， 24,  0 （字节对齐的问题）
+对于C++代码，对一个结构体而言，就算是空的，编译器仍然要为它分配空间，分配1个字节的空间；对于gcc下C代码，它是0；对于VC下C代码，也是1. 所以因编译器不同而有所不同。
+
+
+2、
+struct name1
+{
+	char  str;  //1
+	short x;    //2
+	int   num;  //4
+}
+
+struct name2
+{
+	char str;  //1
+	int num;   //4
+	short x;   //2
+}
+sizeof(struct name1)=？
+sizeof(struct name2)=？
+
+答案：
+sizeof(struct name1)=8,sizeof(struct name2)=12
+在第二个结构中，为保证num按四个字节对齐，char后必须留出3字节的空间；同时为保证整个结构的自然对齐（这里是4字节对齐），在x后还要补齐2个字节，这样就是12字节。
+
+
+
+3、输出结果
+struct foo {
+	int data;
+	char *str;
+};
+static void test18()
+{
+	struct foo s[3] = { {1, "hello"}, {.str = "world"} };
+
+	char str[] = "\x11\x22\x33\x44kernel"; // \在字符串中表示转义字符。 \x11 表示十六进的11 0x11
+//大家可以打印出str这个数组的长度为  11  0x11 0x22 0x33 0x44 k e r n e l '\0'
+	memcpy(s, str, sizeof(str));
+	printf("size=%d\n", sizeof(struct foo)); //8
+	printf("%x\n", s[0].data); //44332211
+	printf("%s\n", s[1].str); //world
+	printf("%p\n", s[2].str); //nil
+}
+
+
+
+4、
+struct foo {
+	int data;
+	char *str;
+	char par[]; //零长数组，不占空间大小，仅仅表示指向下一个元素的首地址
+};
+static void test19()
+{
+	struct foo s[3] = { {1, "hello"}, {.str = "world"} };
+	char str[] = "\x11\x22\x33\x44kernel";	
+	memcpy(s, str, sizeof(str));
+	printf("size=%d\n", sizeof(struct foo)); //8
+	printf("%x\n", s[0].data); //44332211
+	printf("%s\n", s[0].par);  //el
+	printf("%s\n", s[1].str);  //world
+
+	memset(s+2, 0, sizeof(struct foo));
+	printf("%p\n", s[2].str); //nil
+	struct foo *foo = calloc(1, sizeof(struct foo)); //calloc 申请空间会清零
+	printf("%p\n", foo->str); //nil	
+}
+
+
+5、
+struct foo {
+	int a;
+	int b;
+	char c[10];
+};
+static void test20()
+{
+	struct foo s1 = {
+		.a = 10,
+		.b = 30,
+	};
+	struct foo s2 = s1; 
+	char s[15] = {0};
+	printf("%d, %d, %d, %d, %d, %d\n", sizeof("hello"), sizeof("hello" + 1), 
+		sizeof(s), sizeof(s + 1), sizeof(s1), s2.b); 
+
+	//sizeof("hello") h e l l o \0
+	//sizeof("hello" + 1)  地址的长度
+	//sizeof(s)同理
+	
+} //6 4 15 4 20 30
+
+
+
+6、下面这个示例是C语言的痛，main函数返回值是什么？
+typedef struct {
+	char *key;
+	char *value;
+} T1;
+typedef struct {
+	long type;
+	char *value;
+} T3;
+T1 a[] = {
+	//秀语法，秀语法的行为
+	//  
+	{ "", ((char *)&((T3) { 1, (char *)1 })) }
+	//key 的值为 “”的首地址，   value的值为1
+};
+int main() 
+{
+	T3 *pt3 = (T3*)a[0].value;
+	return pt3->value;
+}
+
+答案：1（你知道为什么吗？）
+
+
+
+7、初始化可能是ISO C中最难的部分了。无论是MSVC 还是GCC 都没有完全实现。GCC 可能更接近标准。在下面的代码中，i.nested.y 和i.nested.z的最终值是什么？
+struct {
+	int x;
+	struct {
+		int y, z;
+	} nested;
+} i = { .nested.y = 5, 6, .x = 1, 2 };
+//.x=1, 2  首先对x赋值1  然后会对后面的值 覆盖 y=2
+//如果换成这样，i = { .nested.y = (5, 6), .x = (1, 2) }; 结果又是多少？ //6 0
+答案：2和6
+
+
+
+8、定义一个宏，求出给定结构中给定成员的偏移量
+#define OFFSETOF(type, member) \
+	((size_t)(&(((type*)0)->member)))
+
+
+9、结构与联合有何区别？
+	1. 结构和联合都是由多个不同或相同的数据类型成员组成, 但在任一时刻, 联合中只存放了一个被选中的成员（所有成员共用一块地址空间）, 而结构的所有成员都存在（不同成员的存放地址不同）。 
+ 	2. 对于联合的不同成员赋值, 将会对其它成员重写, 原来成员的值就不存在了, 而对于结构的不同成员赋值是互不影响的。
+
+
+10、根据下面的定义,能打印出字母M的语句是____。
+struct person 
+{  
+    char name[9]; 
+    int age; 
+}; 
+struct person linkman[10] =  
+{ 
+	"JHON",17, 
+	"PAUL",19, 
+	"MARY",18, 
+	"ADAM",16 
+}; 
+ 
+a. printf("%c\n", linkman[3].name); 
+b. printf("%c\n", linkman[3].name[1]); 
+c. printf("%c\n", linkman[2].name[1]); 
+d. printf("%c\n", linkman[2].name[0]);
+d
+
+
+11、对于以下的变量定义，表达式______符合C语言语法。
+struct node
+    { 
+        int len; 
+ 		char *pk;
+    }x = {2, "right"}, *p = &x;
+a. p->pk       b. *p.pk        c. *p->pk       d. *x.pk
+acd
+    printf("%s\n",  p->pk);  right
+    //printf("%s\n", *p.pk);
+    printf("%c\n", *p->pk); r
+    printf("%c\n", *x.pk); r
+
+
+
+
+12、对于结构
+struct XY {
+　　	int x;
+　　int *y;
+} *p;
+p是指向结构XY的指针, 问：
+　　*(*p).y，
+　　*p->y，
+　　&(*p).x，
+　　&p->x，
+分别表示什么？
+
+答：
+　　*(*p).y 或 *p->y 是表示 y 所指的内容
+　　&(*p).x 或 &p->x 是表示 x 的地址
+
+
+================================= 联合体 ========================================
+
+1、考共用体(联合体)一道基本功的题目
+#include <stdio.h>
+int main(void)
+{
+	union
+	{
+		char i[2];
+		short int k;
+	}r;
+	r.i[0]=0;
+	r.i[1]=2;
+	printf("%d\n",r.k);     //  0000 0010 0000 0000 = 512
+
+	return 0; 
+}
+//0x12345678
+//小端： 低地址：0x78, 高地址：0x12
+//大端： 低地址：0x12, 高地址：0x78
+
+
+
+2、下面关于“联合”的题目的输出？
+a)
+＃include <stdio.h>
+union
+{
+	int i;
+	char x[2];
+}a;
+int main()
+{
+	a.x[0] = 10; //0x0a
+	a.x[1] = 1;  //0x01
+	printf("%d\n",a.i); //1*16^2 + 10 = 266
+
+	return 0;
+}
+
+答案：266 (低位低地址，高位高地址，内存占用情况是Ox010A）
+
+b)
+main()
+{
+	union{
+		int i;
+		struct{
+			char first;
+			char second;
+		} half;
+	} number;
+	number.i = 0x4241; 		//4*16+2 = 66('B')  65('A')
+	printf("%c%c\n", number.half.first, number.half.second);
+	number.half.first = 'a'; 		//97 / 16 = 6...1
+	number.half.second = 'b';  		//98 / 16 = 6...2
+	printf("%x\n", number.i);
+}
+答案： 
+AB (0x41对应'A',是低位；Ox42对应'B',是高位）
+6261 (number.i和number.half共用一块地址空间）
+
+
+
+3、请用联合体实现，写一个C函数，若处理器是Big_endian的，则返回0；若是Little_endian的，则返回1
+解答：
+int checkCPU()
+{
+　　union w
+　　{ 
+　　　int a;
+　　　char b;
+　　} c;
+　　c.a = 1;
+　　return (c.b == 1);
+}
+
+剖析：
+　　嵌入式系统开发者应该对Little-endian和Big-endian模式非常了解。采用Little-endian模式的CPU对操作数的存放方式是从低字节到高字节，而Big-endian模式对操作数的存放方式是从高字节到低字节。例如，
+  16bit宽的数0x1234在Little-endian模式CPU内存中的存放方式（假设从地址0x4000开始存放）为：
+内存地址   0x4000   0x4001
+存放内容   0x34     0x12
+
+　　而在Big-endian模式CPU内存中的存放方式则为：
+内存地址   0x4000   0x4001
+存放内容   0x12     0x34
+
+  32bit宽的数0x12345678在Little-endian模式CPU内存中的存放方式（假设从地址0x4000开始存放）为：
+内存地址   0x4000    0x4001    0x4002    0x4003
+存放内容   0x78      0x56      0x34      0x12
+
+　　而在Big-endian模式CPU内存中的存放方式则为：
+内存地址   0x4000    0x4001    0x4002    0x4003
+存放内容   0x12      0x34      0x56      0x78
+
+　　联合体union的存放顺序是所有成员都从低地址开始存放，这样就可获得CPU对内存采用的模式：是Little-endian还是Big-endian模式的读写。
+
+
+
+===================================== 枚举 ========================================
+
+1、输出结果
+enum {
+	FALSE,
+	TRUE,
+};
+
+static void test22()
+{
+	enum {
+		A = '\0', B = 10, C = 20,
+	} foo;
+	
+	foo = 100; //在C中可以，但在C++中不允许
+	foo = A;
+	printf("%d, %d, %d\n", foo, C, sizeof(foo)); //0 20 4
+}
+//sizeof（编译期间）、enum（编译期间）、#（预处理）
+//VLA(运行期间)
+
+2、下面这段程序会输出什么，为什么？
+enum {false,true};
+int main()
+{
+    int i=1;
+ 
+    do
+    {
+        printf("%d\n",i);
+        i++;
+        if(i < 15)
+            continue;
+            
+        printf("ok\n");
+    } while(false);
+ 
+    return 0;
+}
+解答：
+1到14？不对，结果是1，因为continue的含义是不执行循环体之后语句，而直接到循环的判断条件。明显while(false)为假，不会再次执行循环。导致这段程序的歧义就是：程序员没有完全理解计算机语言中continue的含义。
+
+

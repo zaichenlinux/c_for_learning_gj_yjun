@@ -1,0 +1,101 @@
+1.函数foo((a1,a2,a3),(a4,a5)); 的参数个数是____。
+a. 2         
+b. 5             
+c. 1             
+d. 调用方式不合法
+
+
+
+2.
+size_t a = 'B';
+static void test25()
+{
+    printf("a=%c\n", a);
+    size_t a = 10;
+
+    {
+        char a = 'A';
+        printf("%c\n", a);
+    }
+
+    printf("%d\n", a);
+}
+
+
+3、下面是C语言中两种if语句判断方式。请问哪种写法更好？为什么？
+ int n;
+ if (n == 10) // 第一种判断方式
+ if (10 == n) // 第二种判断方式
+
+
+
+4、We have piece of code, which one do yo prefer, and tell why. （意法半导体 2005年10月面试题）
+写法1：
+for(i=0;i<8;i++) {
+    X = i+Y+J*7; //
+    printf("%d",x); //
+}
+写法2：
+S=Y+J*7;
+for(i=0;i<8;i++) {
+    printf("%d",i+S);
+}
+
+
+5、有如下代码段，
+    x=3.0;
+    y=4;
+    则  1/2*x + 20%3*(x=y)/16  的结果是什么？
+
+
+6.
+main()
+{
+    int a, b, c, d;
+    a=3;
+    b=5;
+    c=a,b;
+    d=(a,b);
+    printf("c=%d" ,c);
+    printf("d=%d" ,d);
+}
+这段程序的输出是:
+(a) c=3 d=3
+(b) c=5 d=3
+(c) c=3 d=5
+(d) c=5 d=5
+
+
+7
+#include <stdio.h>
+int main()
+{
+    int i = 6;
+    if( (++i < 7) && ( i++/6) || (++i <= 9))
+        ;
+
+    printf("%d\n",i);
+    return 0;
+}
+
+
+8.下面的代码的执行结果
+#include <stdio.h>
+int main()
+{
+    int a=1;
+    int b;
+    switch(a)
+    {
+        int b=20;
+        case 1:
+            printf("b is %d\n",b);
+            break;
+        default:
+            printf("b is %d\n",b);
+            break;
+    }
+    return 0;
+}
+
+
